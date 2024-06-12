@@ -18,6 +18,7 @@ Components：
 ![命名規則](src/imgs/read-me1.png)
 所以要怎麼放呢？
 就會像這樣：
+```python
 └── src
     ├── App.css
     ├── App.js
@@ -27,6 +28,7 @@ Components：
     │   └── Component3.js
     └── pages
         └── GithubPage.js
+```
 而GithubPage.js裡面會長這樣：
 
 ```react
@@ -51,6 +53,7 @@ export default GithubPage
 ```
 
 ## 目前的tree
+```python
 ├── package-lock.json
 ├── package.json
 ├── public
@@ -104,3 +107,4 @@ export default GithubPage
                 ├── StoreOrderPage.js
                 ├── StoreProductPage.js
                 └── StoreRegisterPage.js# senior-project
+```
