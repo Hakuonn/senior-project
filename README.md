@@ -1,70 +1,106 @@
-# Getting Started with Create React App
+# 四時煮食食｜剩食x健康食譜
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 純凈版
 
-## Available Scripts
+pages分成兩大類：食譜recipe & 剩食訂購uberEat。需要添加功能請依照資料夾放。
+Components：
+* nav_and_footer
+放置所有navBar跟footer的
+* uberEat_C_C(剩食訂購_compnent_Customer)
+* uberEat_C_S(剩食訂購_compnent_Store)
+* recipe_C(食譜_Component)
 
-In the project directory, you can run:
+## 命名規則
 
-### `npm start`
+如果是頁面，請在檔名後面加page並且放置在pages相對應的資料夾，ex:StoreOrderPage.js
+如果是component，則不用加並放置在components相對應的資料夾，ex:ProductItem.js
+### 例如
+![命名規則](src/imgs/read-me1.png)
+所以要怎麼放呢？
+就會像這樣：
+└── src
+    ├── App.css
+    ├── App.js
+    ├── components
+    │   ├── Component1.js
+    │   ├── Component2.js
+    │   └── Component3.js
+    └── pages
+        └── GithubPage.js
+而GithubPage.js裡面會長這樣：
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```react
+import React from 'react'
+import Component1 from '../components/Component1'
+import Component2 from '../components/Component2'
+import Component3 from '../components/Component3'
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+function GithubPage() {
+  return (
+    <>
+        <Component1/>
+        <Component2/>
+        <Component3/>
+    </>
+  )
+}
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+export default GithubPage
 
-### `npm run build`
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 目前的tree
+├── package-lock.json
+├── package.json
+├── public
+│   ├── favicon.ico
+│   ├── index.html
+│   ├── logo192.png
+│   ├── logo512.png
+│   ├── manifest.json
+│   └── robots.txt
+└── src
+    ├── App.css
+    ├── App.js
+    ├── HomePage.js
+    ├── components
+    │   ├── Axios.js
+    │   ├── nav_and_footer
+    │   │   ├── Footer.js
+    │   │   └── StoreKanBan.js
+    │   ├── recipe_C
+    │   ├── uberEat_C_C
+    │   │   ├── LogIn.js
+    │   │   ├── LoginCard.js
+    │   │   └── SimpleSlider.js
+    │   └── uberEat_C_S
+    │       ├── EmptyState.js
+    │       ├── ProductItem.js
+    │       ├── StatusButton.js
+    │       └── StoreCancelOrder.js
+    ├── imgs
+    │   ├── gps.png
+    │   ├── hold300x300.jpg
+    │   ├── lee1.png
+    │   ├── logo.png
+    │   ├── map.png
+    │   ├── storelog.png
+    │   └── userlog.png
+    ├── index.css
+    ├── index.js
+    └── pages
+        ├── NotFoundPage.js
+        ├── recipe
+        └── uberEat
+            ├── customer
+            └── store
+                ├── StoreAddNewMealPage.js
+                ├── StoreCustomerFeedbackPage.js
+                ├── StoreIndexPage.js
+                ├── StoreLoginPage.js
+                ├── StoreMealEdit.js
+                ├── StoreOrderHistoryPage.js
+                ├── StoreOrderPage.js
+                ├── StoreProductPage.js
+                └── StoreRegisterPage.js# senior-project
