@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import StoreKanBan from '../../../components/nav_and_footer/StoreKanBan'
-import { Button, Col, Container, Form, Row } from 'react-bootstrap'
+import { Button, Col, Form, Row, Container } from 'react-bootstrap'
 import * as formik from 'formik';
 import * as yup from 'yup';
 import Axios from '../../../components/Axios';
+import '../../../css/uberEat_store.css'
 
 
 /*** 
@@ -50,9 +51,12 @@ function StoreAddNewMealPage() {
   return (
     <>
     <StoreKanBan/>
-    <div className='store-add-new-product'>
-    <Container fluid>
-        <h1>新增產品</h1>
+    <Container className='store-add-new-product'>
+        <Row>
+            <Col>
+                <h1>新增產品</h1>
+            </Col>
+        </Row>
         <Row>
             <Col>
             <Formik
@@ -201,7 +205,6 @@ function StoreAddNewMealPage() {
             </Col>
         </Row>
     </Container>
-    </div>
     </>
   )
 }

@@ -86,8 +86,7 @@ function StoreIndexPage() {
   return (
     <>
     <StoreKanBan/>
-    <div className='storeIndex'>
-      <Container fulid>
+    <Container>
         <Row>
           <Col xs={12} sm={6} md={6}>
             <Image src={'null'} alt={name} rounded className='storeImg'/> 
@@ -130,8 +129,7 @@ function StoreIndexPage() {
             </Form>
           </Col>
         </Row>
-      </Container>
-    </div>
+    </Container>
     </>
   )
 }

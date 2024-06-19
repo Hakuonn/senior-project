@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Button, Container, Row, Col } from 'react-bootstrap'
+import { Card, Button, Row, Col } from 'react-bootstrap'
 import userLog from '../../imgs/userlog.png'
 import storeLog from '../../imgs/storelog.png'
 import Axios from '../Axios'
@@ -56,7 +56,6 @@ function LoginCard({isConsumer}) {
           <Card.Img variant="top" src={storeLog} />
           <Card.Body>
             <Card.Title className='login-card-title'>商家登入/註冊</Card.Title>
-            <Container fulid>
               <Row>
                 <Col>
                   <div className="d-grid gap-2">
@@ -69,7 +68,6 @@ function LoginCard({isConsumer}) {
                   </div>
                 </Col>
               </Row>
-            </Container>
           </Card.Body>
         </>
       )

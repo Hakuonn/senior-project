@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Form, Button, Image, Row, Col } from 'react-bootstrap'
+import { Form, Button, Image, Row, Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import StoreKanBan from '../../../components/nav_and_footer/StoreKanBan'
 
@@ -8,7 +8,6 @@ function StoreLoginPage() {
     <>
     <StoreKanBan/>
     <div className='login-page'>
-        <Container fulid>
             <Row>
                 <Col xs={12} sm={6} md={6}>
                     <Image src="https://i.imgur.com/qYd62C9.png" rounded className='login-pic'/>
@@ -40,9 +39,6 @@ function StoreLoginPage() {
                     </div>
                 </Col>
             </Row>
-
-        </Container>
-
     </div>
     </>
   )

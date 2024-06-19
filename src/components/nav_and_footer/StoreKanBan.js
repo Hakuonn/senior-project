@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Nav, Navbar } from 'react-bootstrap';
+import {  Nav, Navbar, Container } from 'react-bootstrap';
 import { BiStoreAlt } from 'react-icons/bi';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -13,7 +13,6 @@ function StoreKanBan() {
   }
 
   return (
-    <div>
       <Navbar expand="lg" className="bg-body-tertiary" bg="light" data-bs-theme="light" fixed='top'>
         <Container>
           <Navbar.Brand as={Link} to="/StoreIndex" className='nav-brand'>
@@ -43,8 +42,6 @@ function StoreKanBan() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <div className='store-navbar-div'></div>
-    </div>
   );
 }
 

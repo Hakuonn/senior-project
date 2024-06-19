@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import StoreKanBan from '../../../components/nav_and_footer/StoreKanBan'
-import { Container, Card } from 'react-bootstrap'
+import { Card } from 'react-bootstrap'
 import { Table, Tabs } from 'antd';
 import Axios from '../../../components/Axios';
 
@@ -96,7 +96,6 @@ function StoreOrderHistoryPage() {
     <>
     <StoreKanBan/>
     <div className='storeIndex'>
-      <Container fulid>
         <h1>歷史訂單</h1>
         <div className='order-div'>
             {dataSource && dataSource !== '會員未建立任何訂單紀錄'?
@@ -127,7 +126,6 @@ function StoreOrderHistoryPage() {
             </Card>
             }
         </div>
-      </Container>
     </div>
     </>
   )

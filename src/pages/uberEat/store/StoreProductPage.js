@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Col, Container, Row, Spinner } from 'react-bootstrap';
+import { Row, Spinner, Container, Col } from 'react-bootstrap';
 import StoreMealEdit from './StoreMealEdit';
 import Axios from '../../../components/Axios';
 import StoreKanBan from '../../../components/nav_and_footer/StoreKanBan';
 import EmptyState from '../../../components/uberEat_C_S/EmptyState';
 import ProductItem from '../../../components/uberEat_C_S/ProductItem';
+import EmptyImg from '../../../imgs/ZHJ8C7j.png';
 
-function StoreProduct() {
+function StoreProductPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [modalShow, setModalShow] = useState(null);
   const [data, setData] = useState(null);
@@ -16,42 +17,36 @@ function StoreProduct() {
   const goEditHandler = (item) => {
     setModalShow(true);
     setItemData(item);
-  }
+  };
 
   const availableHandler = (gid) => {
-    Axios().post('/store_data/goods/available/', JSON.stringify({
-      gid: gid,
-    }))
+    Axios().post('/store_data/goods/available/', JSON.stringify({ gid }))
     .then((res) => {
       console.log(res);
       alert('上架成功！');
       setStatus(false);
-      window.location.reload()
+      window.location.reload();
     })
     .catch((err) => {
       console.log('failure');
     });
-  }
+  };
 
   const unavailableHandler = (gid) => {
-    Axios().post('/store_data/goods/unavailable/', JSON.stringify({
-      gid: gid,
-    }))
+    Axios().post('/store_data/goods/unavailable/', JSON.stringify({ gid }))
     .then((res) => {
       console.log(res);
       alert('下架成功！');
       setStatus(true);
-      window.location.reload()
+      window.location.reload();
     })
     .catch((err) => {
       console.log('failure');
     });
-  }
+  };
 
   const deleteHandler = (gid) => {
-    Axios().post('/store_data/goods/delete/', JSON.stringify({
-      gid: gid,
-    }))
+    Axios().post('/store_data/goods/delete/', JSON.stringify({ gid }))
     .then((res) => {
       console.log(res);
       alert('刪除成功！');
@@ -60,7 +55,7 @@ function StoreProduct() {
     .catch((err) => {
       console.log('failure');
     });
-  }
+  };
 
   const getBack = () => {
     Axios().get('/store_data/food/')
@@ -74,38 +69,37 @@ function StoreProduct() {
       console.log(err);
     })
     .finally(() => {
-      setIsLoading(false); //data加載完成
-    })
-  }
-
+      setIsLoading(false);
+    });
+  };
 
   useEffect(() => {
     setIsLoading(true);
     getBack();
   }, []);
 
-  return(
+  return (
     <>
       <StoreKanBan />
-      <div className='storeIndex'>
-        <Container>
-          <Row>
-            <Col>
-              <h1>商品管理</h1>
-              <hr />
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <div className='store-product-div'>
-                <Container fulid>
-                  {isLoading ?
-                    <Spinner animation="border" role="status">
-                      <span className="visually-hidden">Loading...</span>
-                    </Spinner>
-                  :
+      <Container>
+        <Row>
+          <Col>
+            <h1>商品管理</h1>
+            <hr />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+          <div className='store-product-div'>
+              {isLoading ? (
+                <Spinner animation="border" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </Spinner>
+              ) : (
+                <div>
+                  {data && data.length ? (
                     <Row xs={1} md={4} className="g-4">
-                      {data && data.length ? data.map((item) => (
+                      {data.map((item) => (
                         <ProductItem
                           key={item.gid}
                           item={item}
@@ -114,21 +108,28 @@ function StoreProduct() {
                           onUnavailable={unavailableHandler}
                           onDelete={deleteHandler}
                         />
-                      )) : (
-                        <EmptyState src={'https://i.imgur.com/ZHJ8C7j.png'} />
-                      )}
-                      <StoreMealEdit show={modalShow} onHide={() => setModalShow(false)} data={itemData} />
+                      ))}
                     </Row>
-                  }
-                  
-                </Container>
-              </div>
-            </Col>
-          </Row>
-        </Container>
-      </div>
+                  ) : (
+                    <Row className="g-4">
+                        <EmptyState src={EmptyImg} />
+                    </Row>
+                  )}
+                </div>
+              )}
+            </div>
+          </Col>
+        </Row>
+        {modalShow && (
+          <StoreMealEdit
+            show={modalShow}
+            onHide={() => setModalShow(false)}
+            data={itemData}
+          />
+        )}
+      </Container>
     </>
   );
 }
 
-export default StoreProduct;
+export default StoreProductPage;

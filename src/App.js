@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
-import HomePage from './HomePage';
+import HomePage from './pages/HomePage';
+import AboutMePage from './pages/uberEat/customer/AboutMePage';
 import StoreIndexPage from './pages/uberEat/store/StoreIndexPage';
 import StoreLoginPage from './pages/uberEat/store/StoreLoginPage';
 import StoreRegisterPage from './pages/uberEat/store/StoreRegisterPage';
@@ -13,6 +14,7 @@ import NotFound from './pages/NotFoundPage';
 import Footer from './components/nav_and_footer/Footer'
 
 
+
 function App() {
   return (
 <div className='App'>
@@ -20,19 +22,18 @@ function App() {
         <Routes>
           <Route path='/' element={<HomePage/>} exact />
           {/* uberEat - customer */}
-
-          {/* <Route path='/LoginPage' element={<LoginPage/>} />
-          <Route path='/Register' element={<Register/>} />
-          <Route path='/About' element={<About/>} />
-          <Route path='/Activity' element={<Activity/>} />
-          <Route path='/CommonQA' element={<CommonQA/>} />
-          <Route path='/Menu' element={<Menu/>} />
-          <Route path='/store/:sid' element={<Store/>} />
-          <Route path='/cart' element={<Cart/>} />
-          <Route path='/UserProfile' element={<UserProfile/>} />
-          <Route path='/orders' element={<UserOrder/>} />
-          <Route path='/checkout' element={<CheckOutPage/>}/>
-          <Route path='/activity/:actid' element={<ActivityPage/>}/> */}
+          {/* <Route path='/LoginPage' element={<LoginPage/>} /> */}
+          {/* <Route path='/Register' element={<Register/>} /> */}
+          <Route path='/About' element={<AboutMePage/>} />
+          {/* <Route path='/Activity' element={<Activity/>} /> */}
+          {/* <Route path='/CommonQA' element={<CommonQA/>} /> */}
+          {/* <Route path='/Menu' element={<Menu/>} /> */}
+          {/* <Route path='/store/:sid' element={<Store/>} /> */}
+          {/* <Route path='/cart' element={<Cart/>} /> */}
+          {/* <Route path='/UserProfile' element={<UserProfile/>} /> */}
+          {/* <Route path='/orders' element={<UserOrder/>} /> */}
+          {/* <Route path='/checkout' element={<CheckOutPage/>}/> */}
+          {/* <Route path='/activity/:actid' element={<ActivityPage/>}/> */}
           {/* uberEat - store */}
           <Route path='/StoreIndex' element={<StoreIndexPage/>} />
           <Route path='/StoreLogin' element={<StoreLoginPage/>} />
@@ -42,9 +43,13 @@ function App() {
           <Route path='/StoreOrder' element={<StoreOrderPage/>} />
           <Route path='/StoreOrderHistory' element={<StoreOrderHistoryPage/>} />
           <Route path='/StoreCustomerFeedback' element={<StoreCustomerFeedbackPage/>} />
+
+          {/* 健康食譜 */}
+
           {/* 404 */}
           <Route path='*' element={<NotFound/>}/>
         </Routes>
+        
       <Footer/>
       </BrowserRouter>
     </div>

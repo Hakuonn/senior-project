@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, Button, Form, Container, Row, Col, Image } from 'react-bootstrap'
+import { Modal, Button, Form, Row, Col, Image } from 'react-bootstrap'
 import Axios from '../../../components/Axios'
 
 /*** 
@@ -67,7 +67,6 @@ function StoreMealEdit(props) {
             <Form>
                 <Modal.Header closeButton />
                 <Modal.Body>
-                    <Container>
                         <Row>
                             <Col>
                                 <Image src={`${pic}`} alt={pic} className='store-meal-edit-card-img'/>
@@ -125,7 +124,6 @@ function StoreMealEdit(props) {
                                 </Form>
                             </Col>
                         </Row>
-                    </Container>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button type='button' onClick={()=>submitHandler()}>儲存</Button>

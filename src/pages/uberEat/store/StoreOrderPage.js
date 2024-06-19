@@ -1,7 +1,7 @@
 // StoreOrder.js
 import React, { useEffect, useState } from 'react';
 import StoreKanBan from '../../../components/nav_and_footer/StoreKanBan';
-import { Container, Card } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import { Space, Button, Table } from 'antd';
 import Axios from '../../../components/Axios';
 import StoreCancelOrder from '../../../components/uberEat_C_S/StoreCancelOrder';
@@ -187,7 +187,6 @@ function StoreOrderPage() {
     <>
       <StoreKanBan />
       <div className='storeIndex'>
-        <Container fulid>
           <h1>待處理訂單</h1>
           <div className='order-div'>
             {dataSource ?
@@ -200,7 +199,6 @@ function StoreOrderPage() {
               </Card>
             }
           </div>
-        </Container>
       </div>
       <StoreCancelOrder
         visible={!!selectedOrderId}

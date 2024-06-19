@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import { CardGroup, Container } from 'react-bootstrap'
 import LoginCard from './LoginCard'
 
@@ -8,9 +8,8 @@ import LoginCard from './LoginCard'
 function LogIn() {
 
   return (
-    <div className='login-div'>
-      <Container fulid>
-        <h1 className='home-login-title'>讓我們即刻開始吧！</h1>
+    <Container className='login-div mb-4'>
+        <h1 className='home-login-title' style={{textAlign:'center'}}>讓我們即刻開始吧！</h1>
         <CardGroup>
             {/* 使用者登入註冊 */}
             <LoginCard isConsumer={true}/>
@@ -18,8 +17,7 @@ function LogIn() {
             {/* 商家登入註冊 */}
             <LoginCard isConsumer={false}/>
         </CardGroup>
-      </Container>
-    </div>
+    </Container>
   )
 }
 

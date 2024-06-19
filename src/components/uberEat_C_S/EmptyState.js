@@ -1,12 +1,10 @@
 import React from 'react'
-import { Image, Col } from 'react-bootstrap'
-
+import { Image } from 'react-bootstrap'
+import '../../css/uberEat_store.css'
 
 function EmptyState({src}) {
   return (
-    <Col xs={12} md={12}>
-    <Image src={src} rounded fluid/>
-    </Col>
+    <Image src={src} className="full-page-image" rounded fluid/>
   )
 }
 
