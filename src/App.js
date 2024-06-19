@@ -1,7 +1,12 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import HomePage from './pages/HomePage';
+
+// uberEat - Customer
 import AboutMePage from './pages/uberEat/customer/AboutMePage';
+import CommonQAPage from './pages/uberEat/customer/CommonQAPage';
+
+// uberEat - Store
 import StoreIndexPage from './pages/uberEat/store/StoreIndexPage';
 import StoreLoginPage from './pages/uberEat/store/StoreLoginPage';
 import StoreRegisterPage from './pages/uberEat/store/StoreRegisterPage';
@@ -10,8 +15,13 @@ import StoreAddNewMealPage from './pages/uberEat/store/StoreAddNewMealPage';
 import StoreOrderPage from './pages/uberEat/store/StoreOrderPage';
 import StoreOrderHistoryPage from './pages/uberEat/store/StoreOrderHistoryPage';
 import StoreCustomerFeedbackPage from './pages/uberEat/store/StoreCustomerFeedbackPage';
+
+
 import NotFound from './pages/NotFoundPage';
 import Footer from './components/nav_and_footer/Footer'
+import LoginPage from './pages/uberEat/customer/LoginPage';
+import RegisterPage from './pages/uberEat/customer/RegisterPage';
+import MenuPage from './pages/uberEat/customer/MenuPage';
 
 
 
@@ -22,12 +32,12 @@ function App() {
         <Routes>
           <Route path='/' element={<HomePage/>} exact />
           {/* uberEat - customer */}
-          {/* <Route path='/LoginPage' element={<LoginPage/>} /> */}
-          {/* <Route path='/Register' element={<Register/>} /> */}
+          <Route path='/LoginPage' element={<LoginPage/>} />
+          <Route path='/Register' element={<RegisterPage/>} />
           <Route path='/About' element={<AboutMePage/>} />
           {/* <Route path='/Activity' element={<Activity/>} /> */}
-          {/* <Route path='/CommonQA' element={<CommonQA/>} /> */}
-          {/* <Route path='/Menu' element={<Menu/>} /> */}
+          <Route path='/CommonQA' element={<CommonQAPage/>} />
+          <Route path='/Menu' element={<MenuPage/>} />
           {/* <Route path='/store/:sid' element={<Store/>} /> */}
           {/* <Route path='/cart' element={<Cart/>} /> */}
           {/* <Route path='/UserProfile' element={<UserProfile/>} /> */}
