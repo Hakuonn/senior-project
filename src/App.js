@@ -44,6 +44,7 @@ function App() {
           {/* <Route path='/orders' element={<UserOrder/>} /> */}
           {/* <Route path='/checkout' element={<CheckOutPage/>}/> */}
           {/* <Route path='/activity/:actid' element={<ActivityPage/>}/> */}
+
           {/* uberEat - store */}
           <Route path='/StoreIndex' element={<StoreIndexPage/>} />
           <Route path='/StoreLogin' element={<StoreLoginPage/>} />

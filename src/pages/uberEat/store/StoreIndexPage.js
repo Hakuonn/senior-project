@@ -86,7 +86,7 @@ function StoreIndexPage() {
   return (
     <>
     <StoreKanBan/>
-    <Container>
+    <Container style={{marginBottom: '10vh'}}>
         <Row>
           <Col xs={12} sm={6} md={6}>
             <Image src={'null'} alt={name} rounded className='storeImg'/> 

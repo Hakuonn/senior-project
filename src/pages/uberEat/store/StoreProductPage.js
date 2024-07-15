@@ -9,7 +9,7 @@ import EmptyImg from '../../../imgs/ZHJ8C7j.png';
 
 function StoreProductPage() {
   const [isLoading, setIsLoading] = useState(true);
-  const [modalShow, setModalShow] = useState(null);
+  const [modalShow, setModalShow] = useState(false);
   const [data, setData] = useState(null);
   const [status, setStatus] = useState(null);
   const [itemData, setItemData] = useState(null);
@@ -78,10 +78,16 @@ function StoreProductPage() {
     getBack();
   }, []);
 
+  const handleSave = () => {
+    alert('已成功修改');
+    setModalShow(false);
+    window.location.reload();
+  };
+
   return (
     <>
       <StoreKanBan />
-      <Container>
+      <Container style={{ marginBottom:'15vh' }}>
         <Row>
           <Col>
             <h1>商品管理</h1>
@@ -90,7 +96,7 @@ function StoreProductPage() {
         </Row>
         <Row>
           <Col>
-          <div className='store-product-div'>
+            <div className='store-product-div'>
               {isLoading ? (
                 <Spinner animation="border" role="status">
                   <span className="visually-hidden">Loading...</span>
@@ -112,7 +118,7 @@ function StoreProductPage() {
                     </Row>
                   ) : (
                     <Row className="g-4">
-                        <EmptyState src={EmptyImg} />
+                      <EmptyState src={EmptyImg} />
                     </Row>
                   )}
                 </div>
@@ -124,6 +130,7 @@ function StoreProductPage() {
           <StoreMealEdit
             show={modalShow}
             onHide={() => setModalShow(false)}
+            onSave={handleSave}
             data={itemData}
           />
         )}

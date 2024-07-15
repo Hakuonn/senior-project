@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Card, Col, Form, Row, Button, Image } from 'react-bootstrap'
+import { Card, Col, Form, Row, Button, Image, Container } from 'react-bootstrap'
 import logo from '../../../imgs/logo.png'
 import StoreKanBan from '../../../components/nav_and_footer/StoreKanBan'
 import * as formik from 'formik';
@@ -60,6 +60,7 @@ function StoreRegister() {
   return (
     <>
     <StoreKanBan/>
+    <Container>
         <Card className='store-signIn-card'>
             <Row className='signIn-row'>
                 <Col xs={12} sm={6} md={6}>
@@ -184,6 +185,7 @@ function StoreRegister() {
                 </Col>
             </Row>
         </Card>
+    </Container>
     </>
   )
 }

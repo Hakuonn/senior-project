@@ -1,4 +1,3 @@
-// StoreOrder.js
 import React, { useEffect, useState } from 'react';
 import StoreKanBan from '../../../components/nav_and_footer/StoreKanBan';
 import { Card } from 'react-bootstrap';
@@ -63,16 +62,9 @@ function StoreOrderPage() {
   };
 
   const removeCancelledOrder = (orderId) => {
-    const updatedDataSource = dataSource.map((item) => {
-      if (item.oid === orderId && item.status === '未取餐') {
-        setTimeout(() => {
-          const updatedData = dataSource.filter((item) => item.oid !== orderId);
-          setDataSource(updatedData);
-        }, 2000);
-      }
-      return item;
-    });
+    const updatedDataSource = dataSource.filter((item) => item.oid !== orderId);
     setDataSource(updatedDataSource);
+    setSelectedOrderId(null);
   };
 
   useEffect(() => {
@@ -187,18 +179,18 @@ function StoreOrderPage() {
     <>
       <StoreKanBan />
       <div className='storeIndex'>
-          <h1>待處理訂單</h1>
-          <div className='order-div'>
-            {dataSource ?
-             <Table dataSource={dataSource} columns={columns} />
-             :
-             <Card>
-                <Card.Body>
-                    <Card.Title>目前無任何訂單喔～</Card.Title>
-                </Card.Body>
-              </Card>
-            }
-          </div>
+        <h1>待處理訂單</h1>
+        <div className='order-div'>
+          {dataSource ?
+            <Table dataSource={dataSource} columns={columns} rowKey="oid" />
+            :
+            <Card>
+              <Card.Body>
+                <Card.Title>目前無任何訂單喔～</Card.Title>
+              </Card.Body>
+            </Card>
+          }
+        </div>
       </div>
       <StoreCancelOrder
         visible={!!selectedOrderId}
