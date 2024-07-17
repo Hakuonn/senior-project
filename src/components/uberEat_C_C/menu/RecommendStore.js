@@ -9,7 +9,7 @@ import Axios from '../../Axios'
 /**
  * Axios接收資料error，圖片
  */
-function RecommendStore() {
+function RecommendStore({ baseUrl }) {
     const [data, setData] = useState(null)
     // url
     useEffect(() => {
@@ -52,7 +52,7 @@ function RecommendStore() {
                      data.map((item)=>(
                         <div className='select-type' key={item.upid} onClick={handlerOnclick}>
                           <div className='type-content'>
-                            <Image src={`${item.pic}`} alt={item.name} className='type-img' rounded/>
+                            <Image src={`${baseUrl}${item.pic}`} alt={item.name} className='type-img' rounded/>
                             <span className='food-type-name'>{item.name}</span>
                           </div>
                         </div>

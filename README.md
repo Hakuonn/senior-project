@@ -1,5 +1,29 @@
 # 四時煮食食｜剩食x健康食譜
 
+## 版本更新｜0717
+我已經將img的網址更新了，當Axios Server有變更時記得除了Axios.js外也要去App.js修改。
+更新如下（範例）：
+當你的頁面需要用到後端儲存的圖片網址：
+```react
+APP.js
+原：
+<Route path='/Menu' element={<MenuPage} />
+修改成：
+<Route path='/Menu' element={<MenuPage baseUrl={baseUrl}/>} />
+```
+```react
+MenuPage.js
+原：
+最一開始的地方 function MenuPage() 
+修改成：
+function MenuPage({ baseUrl }) 
+
+
+在需要圖片的地方修改成：
+<Card.Img variant="top" src={`${baseUrl}${pic}`} />
+```
+
+
 ## 純凈版
 
 pages分成兩大類：食譜recipe & 剩食訂購uberEat。需要添加功能請依照資料夾放。

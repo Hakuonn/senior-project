@@ -9,7 +9,7 @@ import MenuStoreList from '../../../components/uberEat_C_C/menu/MenuStoreList';
 import EmptyState from '../../../components/uberEat_C_C/menu/EmptyState';
 import RecommendStore from '../../../components/uberEat_C_C/menu/RecommendStore';
 
-function MenuPage() {
+function MenuPage({ baseUrl }) {
     const [type, setType] = useState(null)
     const [search,setSearch] = useState(null)
     const [webaction , setWebaction] = useState(null)
@@ -68,7 +68,7 @@ function MenuPage() {
                 {/* 地圖 */}
                 <Map data={data}/>
                 <hr />
-                <RecommendStore/>
+                <RecommendStore baseUrl={baseUrl}/>
                 <hr />
                 {/* 食物類別 */}
                 <FoodTypeSelect setType={setType} setWebaction={setWebaction} />                
@@ -77,7 +77,7 @@ function MenuPage() {
                 <Container>
                     <Row xs={2} md={3} className="g-4">
                         {data && data.length?
-                        data.map((object) => (<MenuStoreList object={object}/>))
+                        data.map((object) => (<MenuStoreList object={object} baseUrl={baseUrl}/>))
                         :
                         <EmptyState src={'https://i.imgur.com/J9QnVAy.png'}/>
                         }

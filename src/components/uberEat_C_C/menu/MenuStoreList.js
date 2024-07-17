@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 /**
  * useFetch問題，圖片
  */
-function MenuStoreList({object}) {
+function MenuStoreList({object, baseUrl}) {
   const [sid, setSid] = useState(null)
   const [name, setName] = useState(null)
   const [intro, setIntro] = useState(null)
@@ -26,7 +26,7 @@ function MenuStoreList({object}) {
     <Col>
         <Link to={`/store/${sid}`} className='menu-link-to-store'>
             <Card className='menu-store-list'>
-                <Card.Img variant="top" src={`${pic}`} />
+                <Card.Img variant="top" src={`${baseUrl}${pic}`} />
                 <Card.Body>
                   <Card.Title className='menu-card-title'>{name}</Card.Title>
                   <Card.Subtitle className="mb-2 text-muted">{intro}</Card.Subtitle>

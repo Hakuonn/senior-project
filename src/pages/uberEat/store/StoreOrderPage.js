@@ -5,7 +5,7 @@ import { Space, Button, Table } from 'antd';
 import Axios from '../../../components/Axios';
 import StoreCancelOrder from '../../../components/uberEat_C_S/StoreCancelOrder';
 
-function StoreOrderPage() {
+function StoreOrderPage({ baseUrl }) {
   const [dataSource, setDataSource] = useState(null);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
 
@@ -24,13 +24,43 @@ function StoreOrderPage() {
         console.log(err);
       });
   };
-
-  const handleAcceptOrder = (record) => {
+  const handleNotifyCustomer = (record) => {
     Axios()
-      .post('/order/accept/', JSON.stringify({
+      .post('/order/notice/', JSON.stringify({
         oid: record.oid,
       }))
       .then((response) => {
+        console.log('通知顧客可取餐的回應:', response);
+        // 更新訂單狀態為已完成
+        const updatedDataSource = dataSource.map((item) => {
+          if (item.oid === record.oid) {
+            item.status = '未取餐';
+          }
+          return item;
+        });
+        setDataSource(updatedDataSource);
+      })
+      .catch((error) => {
+        console.error('通知顧客可取餐失敗', error);
+      });
+  };
+
+  const handleAcceptOrder = (record) => {
+    let endpoint = '';
+    if (record.status === '未接單') {
+      endpoint = '/order/accept/';
+    } else if (record.status === '已接單') {
+      endpoint = '/order/notice/';
+    } else if (record.status === '未取餐') {
+      endpoint = '/order/complete/';
+    }
+    
+    Axios()
+      .post(endpoint, JSON.stringify({
+        oid: record.oid,
+      }))
+      .then((response) => {
+        console.log('Response from server:', response);
         if (response.status === 200) {
           const updatedDataSource = dataSource.map((item) => {
             if (item.oid === record.oid) {
@@ -56,6 +86,7 @@ function StoreOrderPage() {
         console.error("接單失敗", error);
       });
   };
+  
 
   const handleCancelOrder = (record) => {
     setSelectedOrderId(record.oid);
@@ -148,7 +179,7 @@ function StoreOrderPage() {
             <Button
               type="primary"
               ghost
-              onClick={() => handleAcceptOrder(record)}
+              onClick={() => handleNotifyCustomer(record)}
             >
               通知顧客可取餐
             </Button>

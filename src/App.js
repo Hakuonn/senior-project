@@ -23,7 +23,7 @@ import LoginPage from './pages/uberEat/customer/LoginPage';
 import RegisterPage from './pages/uberEat/customer/RegisterPage';
 import MenuPage from './pages/uberEat/customer/MenuPage';
 
-
+const baseUrl = "https://6bbf-1-174-140-223.ngrok-free.app";
 
 function App() {
   return (
@@ -37,7 +37,7 @@ function App() {
           <Route path='/About' element={<AboutMePage/>} />
           {/* <Route path='/Activity' element={<Activity/>} /> */}
           <Route path='/CommonQA' element={<CommonQAPage/>} />
-          <Route path='/Menu' element={<MenuPage/>} />
+          <Route path='/Menu' element={<MenuPage baseUrl={baseUrl}/>} />
           {/* <Route path='/store/:sid' element={<Store/>} /> */}
           {/* <Route path='/cart' element={<Cart/>} /> */}
           {/* <Route path='/UserProfile' element={<UserProfile/>} /> */}
@@ -46,7 +46,7 @@ function App() {
           {/* <Route path='/activity/:actid' element={<ActivityPage/>}/> */}
 
           {/* uberEat - store */}
-          <Route path='/StoreIndex' element={<StoreIndexPage/>} />
+          <Route path='/StoreIndex' element={<StoreIndexPage baseUrl={baseUrl}/>} />
           <Route path='/StoreLogin' element={<StoreLoginPage/>} />
           <Route path='/StoreRegister' element={<StoreRegisterPage/>} />
           <Route path='/StoreProduct' element={<StoreProductPage/>} />
