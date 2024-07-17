@@ -36,7 +36,7 @@ Components：
 
 ## 命名規則
 
-如果是頁面，請在檔名後面加page並且放置在pages相對應的資料夾，ex:StoreOrderPage.js
+如果是頁面，請在檔名後面加page並且放置在pages相對應的資料夾，ex:StoreOrderPage.js。<br/>
 如果是component，則不用加並放置在components相對應的資料夾，ex:ProductItem.js
 ### 例如
 ![命名規則](src/imgs/read-me1.png)
