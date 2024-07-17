@@ -23,6 +23,11 @@ function MenuPage({ baseUrl })
 <Card.Img variant="top" src={`${baseUrl}${pic}`} />
 ```
 
+### 0717特別說明
+在App.js裡面有註解掉的Route是Brian能力不足無法debug也沒時間debug的部份，裡面"極有可能"是有重大錯誤才沒去做修正。<br/>
+各位麻煩請依照06/11會議資料裡所分配的工作負責人依照自己的情況去啟用，並且去DC裡面的github連結抓取原始檔去做修正。<br/>
+那些註解並不是壞掉！！就只是沒有去做啟用！！🙂‍↔️🙂‍↔️
+
 
 ## 純凈版
 
