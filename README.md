@@ -22,6 +22,7 @@ function MenuPage({ baseUrl })
 在需要圖片的地方修改成：
 <Card.Img variant="top" src={`${baseUrl}${pic}`} />
 ```
+圖片路徑是對的！！但顯示不出來是非常正常的。bin說後面會改不用擔心
 
 ### 0717特別說明
 ***在App.js裡面有註解掉的Route是Brian能力不足無法debug也沒時間debug的部份，裡面"極有可能"是有重大錯誤才沒去做修正。***<br/><br/>
