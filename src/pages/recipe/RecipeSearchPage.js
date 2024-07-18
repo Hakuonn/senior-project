@@ -7,6 +7,7 @@ import { SearchOutlined } from '@ant-design/icons';
 // import './SearchPage.css';
 // import '../result/SearchResultPage.css';
 import PlaceholderLoading from 'react-placeholder-loading'
+import RecipeNav from '../../components/nav_and_footer/RecipeNav';
 
 // 我這邊搜尋結果有用placehoder套件，要注意！！
 // https://www.npmjs.com/package/react-placeholder-loading
@@ -74,6 +75,8 @@ function RecipeSearchPage() {
   ];
 
   return (
+    <>
+    <RecipeNav/>
     <div className="searchpage-container">
       <div className="search-content">
         <div className="search-bar">
@@ -121,6 +124,8 @@ function RecipeSearchPage() {
         {showSearchResult ? <SearchResult searchResults={searchResults}/> : <PlaceholderLoading shape='rect'/>}
       </div>
     </div>
+    </>
+
   );
 }
 
