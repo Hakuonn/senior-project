@@ -1,5 +1,11 @@
 # 版本更新
 
+## date/0718
+- 1. 更新footer無法固定在底部的bug (App.js, App.css, nav_footer.css)
+- 2. Store歷史訂單查詢與商家評價查詢頁面改用Container
+- 3. 新增了一些食譜頁面(css尚未)
+
+
 ## date/0717
 我已經將img的網址更新了，當Axios Server有變更時記得除了Axios.js外也要去App.js修改。
 更新如下（範例）：

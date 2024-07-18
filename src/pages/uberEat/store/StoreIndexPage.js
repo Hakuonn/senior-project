@@ -97,7 +97,7 @@ function StoreIndexPage({ baseUrl }) {
       .then((res) => {
         console.log('Change success:', res);
         alert('儲存成功');
-        window.location.reload(); // 或者其他刷新數據的方式
+        window.location.reload();
       })
       .catch((err) => {
         console.error('Error submitting data:', err);
