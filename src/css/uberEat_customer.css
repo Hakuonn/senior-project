@@ -1,0 +1,33 @@
+.QA{
+    margin-bottom: 10vh;
+    
+}
+
+.food-type-list-recommend{
+    text-align: center;
+      .type-content {
+          height: 150px; 
+          text-align: center; 
+          padding: 10px; 
+      }
+  
+      .type-img {
+          max-height: 100%; 
+          width: auto;
+      }
+  }
+  .food-type-list{
+    text-align: center;
+  }
+  .type-img{
+    width: 80%;
+    transition: box-shadow .25s;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  }
+  .type-img:hover{
+    transition: box-shadow .25s;
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  .food-type-name{
+    font-size: 18px;
+  }
