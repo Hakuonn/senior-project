@@ -1,0 +1,258 @@
+{
+    "serverURL":[
+        {
+            "serverurl": "https://cb90-223-138-36-2.ngrok-free.app/"
+        }
+    ],
+    "sliderImg":[
+        {
+            "title": "silder01",
+            "url":"https://i.imgur.com/pecscYo.png"
+        },
+        {
+            "title": "silder02",
+            "url":"https://i.imgur.com/8DcZwed.png"
+        },
+        {
+            "title": "silder03",
+            "url":"https://i.imgur.com/ZCmxyK8.png"
+        }
+    ],
+    "consumerQA":[
+        {   
+            "id":1,
+            "Q": "我是直接跟環飽EcoBǎo購買剩食嗎？",
+            "A":"環飽EcoBǎo只是個提供買賣家串接的平台，所有剩食商品皆由商家自行管理，平台只提供買賣雙方的媒合，並提供買家一個信任、安全、環保的飲食體驗。"
+        },
+        {   
+            "id":2,
+            "Q": "我要如何下單？",
+            "A":"選擇您要的剩食產品，加入購物車，在購物車中選擇您要的剩食數量、折價券，再進行結帳，即完成下單。"
+        },
+        {   
+            "id":3,
+            "Q": "我要如何成為環飽EcoBǎo的一份子？",
+            "A":"透過我們首頁點選點選「使用者登入/註冊按鈕」，進入後再點選「註冊」按鈕，輸入基本資料即可成為我們的一份子！"
+        },
+        {
+            "id":4,
+            "Q":"綠色飲食",
+            "A":"「綠色飲食」是一種簡單改變生活飲食習慣的行為，宣導食物適量、優先選用在地、當季及天然食材以及自備環保餐具，進而達到珍惜食物、減少浪費，對人體健康與環保都有助益的飲食方式。 詳見環境部介紹：https://greenlife.epa.gov.tw/about/intro/flipFood"
+        }
+    ],
+    "storeQA":[
+        {   
+            "id":1,
+            "Q": "我要如何成為環飽EcoBǎo的合作商家？",
+            "A":"透過我們首頁點選點選「商家登入/註冊按鈕」，進入後再點選「註冊」按鈕，輸入商家基本資料，在經過驗證即可成為商家！減少剩食，也減少剩食所製造的額外成本。"
+        },
+        {   
+            "id":2,
+            "Q": "訂單是否需要開發票給客人？",
+            "A":"若商家有設立稅籍登記，依台灣稅法相關規定，當商家有銷售行為時，即應主動開立統一發票或收據給消費者喔～"
+        },
+        {   
+            "id":3,
+            "Q": "一定要寫上商家簡介嗎？",
+            "A":"不一定，不過我們推薦能寫上簡介的話就盡量寫喔～除了讓客人有基本了解商家，也可以提升品牌價值～"
+        }
+    ],
+    "recommendStore":[
+        {
+            "id": 1,
+            "name": "麥噹噹"
+        },
+        {
+            "id": 2,
+            "name": "肯德G"
+        },
+        {
+            "id": 3,
+            "name": "摩絲爸嘎"
+        },
+        {
+            "id": 4,
+            "name": "蟹堡王"
+        },
+        {
+            "id": 5,
+            "name": "單單漢堡"
+        }
+    ],
+    "foodType":[
+        {
+            "id": 1,
+            "ft": "速食",
+            "img": "https://i.imgur.com/cdPiEG3.png"
+        },
+        {
+            "id": 2,
+            "ft": "日式",
+            "img":"https://i.imgur.com/r0AeOyb.png"
+        },
+        {
+            "id": 3,
+            "ft": "美式",
+            "img":"https://i.imgur.com/JZPV6gu.png"
+        },
+        {
+            "id": 4,
+            "ft": "中式",
+            "img":"https://i.imgur.com/5t2aRx5.png"
+        },
+        {
+            "id": 5,
+            "ft": "台式",
+            "img":"https://i.imgur.com/r0AeOyb.png"
+        },
+        {
+            "id": 6,
+            "ft": "素食",
+            "img":"https://i.imgur.com/GZDG8id.png"
+        },
+        {
+            "id": 7,
+            "ft": "手搖飲",
+            "img":"https://i.imgur.com/nN9KhF3.png"
+        },
+        {
+            "id": 8,
+            "ft": "炸物",
+            "img": "https://i.imgur.com/6dQ4F1o.png"
+        }
+    ],
+    "foodAllergen":[
+        {
+            "id": "eggs",
+            "label": "蛋"
+        },
+        {
+            "id": "milk",
+            "label": "奶"
+        },
+        {
+            "id": "gluten",
+            "label": "麩質"
+        },
+        {
+            "id": "Glycine-max",
+            "label": "大豆"
+        },
+        {
+            "id": "peanut",
+            "label": "花生"
+        },
+        {
+            "id": "almond",
+            "label": "杏仁"
+        },
+        {
+            "id": "crustaceans",
+            "label": "甲殼類"
+        },
+        {
+            "id": "fish",
+            "label": "魚"
+        },
+        {
+            "id": "mango",
+            "label": "芒果"
+        },
+        {
+            "id": "sesame",
+            "label": "芝麻"
+        },
+        {
+            "id": "pecan",
+            "label": "胡桃"
+        },
+        {
+            "id": "walnut",
+            "label": "核桃"
+        },
+        {
+            "id": "cashew",
+            "label": "腰果"
+        },
+        {
+            "id": "hazelnut",
+            "label": "榛果"
+        },
+        {
+            "id": "SO2",
+            "label": "二氧化硫（亞硫酸鹽）"
+        }
+    ],
+    "store":[
+        {
+            "id": 1,
+            "sotreName": "binbin炸雞店",
+            "intro": "仿肯德基",
+            "ig": "https://www.instagram.com/0625.squafaccce/",
+            "fb": "https://www.facebook.com/profile.php?id=100092980359814"
+        }
+    ],
+    "cart":[
+        {
+            "id": 1,
+            "item": "炸雞桶",
+            "store": "binbin炸雞店",
+            "price": 100
+        },
+        {
+            "id": 2,
+            "item": "炸雞腿",
+            "store": "binbin炸雞店",
+            "price": 200
+        }
+    ],
+    "userOrderdataSource":[
+        {
+            "key": 1,
+            "id": "A001",
+            "item": "卡拉雞腿堡",
+            "store": "彬彬炸雞店",
+            "price": 100,
+            "amount": 10,
+            "isFinished": "已完成"
+        },
+        {
+            "key": 2,
+            "id": "A002",
+            "item": "卡拉雞腿堡",
+            "store": "彬彬炸雞店",
+            "price": 100,
+            "amount": 10,
+            "isFinished": "已完成"
+        },
+        {
+            "key": 3,
+            "id": "A003",
+            "item": "皇家炸雞堡",
+            "store": "彬彬炸雞店",
+            "price": 1000,
+            "amount": 10,
+            "isFinished": "已完成"
+        }
+    ],
+    "CartdataSource":[
+        {
+            "key": 1,
+            "item": "卡拉雞腿堡",
+            "store": "彬彬炸雞店",
+            "price": 100
+        },
+        {
+            "key": 2,
+            "item": "貴族雞腿堡",
+            "store": "彬彬炸雞店2店",
+            "price": 100
+        },
+        {
+            "key": 3,
+            "item": "皇家炸雞堡",
+            "store": "彬彬炸雞店3店",
+            "price": 1000
+        }
+    ]
+}

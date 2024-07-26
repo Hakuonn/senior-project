@@ -1,0 +1,8 @@
+.footer{
+    vertical-align: bottom;
+    background-color: rgba(147, 147, 147, 0.5);
+    text-align: center;
+    height: 15rem;
+    padding-top: 5vh;
+    padding-bottom: 5vh;
+}

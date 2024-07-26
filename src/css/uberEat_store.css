@@ -1,0 +1,10 @@
+.full-page-image {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+}
+.store-add-new-product{
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+    text-align: left;
+}
