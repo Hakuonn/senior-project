@@ -1,119 +1,65 @@
-import React, { useState } from 'react';
-import { Button, Col, Image, Row, Modal, message } from 'antd';
-import { UserOutlined, LoginOutlined, UserAddOutlined } from '@ant-design/icons';
-// import './IndexPage.css';
-import Axios from '../../components/Axios';
-import logo_540 from '../../imgs/logo_540.png';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Container, Card, Row, Col } from 'react-bootstrap';
+import RecipeSlider from '../../components/recipe_C/RecipeSlider';
 import RecipeNav from '../../components/nav_and_footer/RecipeNav';
+import '../../css/recipe_index.css';
 
+// 假資料
+const popularRecipes = [
+  {
+    name: '檸檬香草烤鮭魚',
+    description: '簡單的烤鮭魚食譜，搭配檸檬和香草，十分美味。',
+    ingredients: ['鮭魚', '檸檬', '香草', '橄欖油', '鹽', '胡椒']
+  },
+  {
+    name: '香煎雞胸肉',
+    description: '嫩滑的香煎雞胸肉，搭配新鮮蔬菜和香料。',
+    ingredients: ['雞胸肉', '橄欖油', '迷迭香', '大蒜', '鹽', '黑胡椒']
+  },
+  {
+    name: '西班牙海鮮飯',
+    description: '充滿海鮮風味的西班牙海鮮飯，色香味俱全。',
+    ingredients: ['海鮮混合', '番茄', '洋蔥', '大蒜', '紅椒', '香料', '米']
+  },
+  {
+    name: '健康水果沙拉',
+    description: '新鮮水果製作的健康沙拉，口感清爽。',
+    ingredients: ['蘋果', '香蕉', '橙子', '葡萄', '蜂蜜', '檸檬汁']
+  },
+];
 
-/**
- * 原 食譜登入頁面 目前停用中
- * @returns 
- */
 const RecipeIndexPage = () => {
-  const [modalVisible, setModalVisible] = useState(false);
-
-  // example
-  const accounts = [
-    { id: 1, username: 'DefaultAccount_01', password: 'DefaultAccount_01' },
-    { id: 2, username: 'DefaultAccount_02', password: 'DefaultAccount_02' },
-    { id: 3, username: 'DefaultAccount_03', password: 'DefaultAccount_03' },
-  ];
-
-  const handleGuestLogin = () => {
-    setModalVisible(true);
-  };
-
-  const handleModalClose = () => {
-    setModalVisible(false);
-  };
-
-  const handleLogin = (account) => {
-    const accountData = {
-      account: account.username,
-      password: account.password,
-    }
-
-      Axios().post('/Center/login/', JSON.stringify(accountData))
-      .then(response => {
-        console.log('API response:', response.data);
-        if (response.status === 200) {
-          window.localStorage.setItem('jwt', response.data.token);
-          // message.success('登入成功', { style: { fontSize: '20px' } });
-        }
-      })
-      .catch(error => {
-        console.error('Error occurred:', error.response.data);
-        if (error.response.status === 500) {
-          // Handle 500 error
-          message.error("發生非預期錯誤");
-        } 
-        else if (error.response.status === 400) {
-          // Handle 400 error
-          message.error("帳號密碼錯誤，請重試");
-        }
-      });
-  };
-
   return (
-    <>
-    <RecipeNav/>
-    <div className="index-page-container" justify="center" align="middle">
-      <Row>
-        <Col xs={24} md={24}>
-          <Image src={logo_540} preview={false} />
-        </Col>        
-      </Row>
-
-      <Row gutter={[16, 40]} justify="center">
-        <Col xs={24} md={12}>
-          <Link to="/Member/login">
-            <Button type="primary" size='large' shape='round' icon={<LoginOutlined />} block>
-              登入
-            </Button>
-          </Link>
-        </Col>
-        <Col xs={24} md={12}>
-        <Link to="/Member/register">
-          <Button type="default" size='large' shape='round' icon={<UserAddOutlined />} block>
-            註冊
-          </Button>
-        </Link>
-        </Col>
-      </Row>
-
-      <Row gutter={[16, 40]}>
-        <Col xs={24} md={24} style={{ marginTop: '24px' }}>
-          <Button size='large' shape='round' icon={<UserOutlined />} block onClick={handleGuestLogin}>
-            訪客登入
-          </Button>
-        </Col>
-      </Row>      
-
-      {/* Modal 组件 */}
-      <Modal
-        title="選擇訪客帳號"
-        visible={modalVisible}
-        onCancel={handleModalClose}
-        footer={null}
-        centered
-      >
-        <div style={{ backgroundColor: 'white', padding: '24px', borderRadius: '8px', height: '300px', overflowY: 'auto' }}>
-          {/* example */}
-          {accounts.map(account => (
-            <Link to="/Recipe/search">
-              <Button key={account.id} type="default" size="large" block style={{ marginBottom: '12px' }} onClick={() => handleLogin(account)}>
-                {account.username}
-              </Button>
-            </Link>
+    <Container>
+      <RecipeNav />
+      <RecipeSlider />
+      <div className="mt-4">
+        <h2 className="text-center mb-4">熱門食譜排行榜</h2>
+        <Row>
+          {popularRecipes.map((recipe, index) => (
+              <Col xs={12} md={6} lg={3} key={index} className="mb-3 position-relative">
+                <Card className="ranking-card">
+                  <Card.Body>
+                    <div className="ranking-number">{index + 1}</div>
+                    <Card.Title>{recipe.name}</Card.Title>
+                    <Card.Text>
+                      {recipe.description}
+                    </Card.Text>
+                    <div className="ingredients">
+                      <h6>食材:</h6>
+                      <ul>
+                        {recipe.ingredients.map((ingredient, idx) => (
+                          <li key={idx}>{ingredient}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </Col>
           ))}
-        </div>
-      </Modal>
-        
-    </div>
-    </>
+        </Row>
+      </div>
+    </Container>
   );
 };
 

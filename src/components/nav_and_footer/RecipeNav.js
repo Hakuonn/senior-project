@@ -61,7 +61,7 @@ function RecipeNav() {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto" />
             <Nav>
-              <Nav.Link href="/">回到主頁</Nav.Link>
+              <Nav.Link href="/RecipeIndex">食譜主頁</Nav.Link>
               <Nav.Link href="/Recipe/search">食譜搜尋</Nav.Link>
               <Button variant="outline-success" ref={target} onClick={() => setShow(!show)}><VscAccount size={30} /></Button>
               <Overlay
