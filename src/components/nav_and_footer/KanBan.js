@@ -65,7 +65,7 @@ function KanBan() {
               <Nav.Link href='/Activity'>活動專區</Nav.Link>
               <Nav.Link href='/About'>關於我們</Nav.Link>
               <Nav.Link href="/CommonQA">常見問題</Nav.Link>
-              <Nav.Link href="/RecipeIndex">美味食譜</Nav.Link>
+              <Nav.Link href="/Recipe/search">美味食譜</Nav.Link>
               <Nav.Link href="/Menu">查看美食</Nav.Link>
               <Nav.Link onClick={() => isValid("/cart")}>購物車</Nav.Link>
               <Button variant="outline-success" ref={target} onClick={() => setShow(!show)}><VscAccount size={30} /></Button>

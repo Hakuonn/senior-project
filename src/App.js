@@ -18,7 +18,6 @@ import StoreCustomerFeedbackPage from './pages/uberEat/store/StoreCustomerFeedba
 
 // recipe - 4 times for cook
 import RecipeIndexPage from './pages/recipe/RecipeIndexPage';
-import RecipeQuizPage from './pages/recipe/RecipeQuizPage';
 import RecipeSearchPage from './pages/recipe/RecipeSearchPage';
 import RecipeShowPage from './pages/recipe/RecipeShowPage';
 
@@ -29,7 +28,7 @@ import LoginPage from './pages/uberEat/customer/LoginPage';
 import RegisterPage from './pages/uberEat/customer/RegisterPage';
 import MenuPage from './pages/uberEat/customer/MenuPage';
 
-const baseUrl = "https://6bbf-1-174-140-223.ngrok-free.app";
+const baseUrl = "https://28ab-1-174-125-68.ngrok-free.app/";
 
 function App() {
   return (
@@ -64,7 +63,6 @@ function App() {
             <Route path='/StoreCustomerFeedback' element={<StoreCustomerFeedbackPage/>} />
             {/* 健康食譜 */}
             <Route path='/RecipeIndex' element={<RecipeIndexPage/>} />
-            <Route path='/RecipeQuiz' element={<RecipeQuizPage/>} />
             <Route path='/Recipe/search' element={<RecipeSearchPage/>} />
             <Route path='/Recipe/result/:rid' element={<RecipeShowPage/>} />
 

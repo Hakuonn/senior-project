@@ -1,64 +1,63 @@
-import React, { useState , useEffect} from 'react';
-import { Input, Button, Row, Col, Divider } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Form, Button, Row, Col, Container, Spinner } from 'react-bootstrap'; // Import Spinner
 import Axios from '../../components/Axios';
 import TagSelector from '../../components/recipe_C/TagSelector';
 import SearchResult from '../../components/recipe_C/SearchResult';
-import { SearchOutlined } from '@ant-design/icons';
-// import './SearchPage.css';
-// import '../result/SearchResultPage.css';
-import PlaceholderLoading from 'react-placeholder-loading'
 import RecipeNav from '../../components/nav_and_footer/RecipeNav';
-
-// 我這邊搜尋結果有用placehoder套件，要注意！！
-// https://www.npmjs.com/package/react-placeholder-loading
+import '../../css/recipe_search.css'
 
 function RecipeSearchPage() {
   const [inputValue, setInputValue] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
-  const [showSearchResult, setShowSearchResult] = useState(false); // 新增狀態來控制是否顯示搜尋結果
+  const [isLoading, setIsLoading] = useState(false); 
 
   const handleInputChange = e => {
     setInputValue(e.target.value);
   };
 
   const handleTagChange = (tag, checked) => {
-    const nextSelectedTags = checked ?
-      [...selectedTags, tag] :
-      selectedTags.filter(t => t !== tag);
+    const nextSelectedTags = checked
+      ? [...selectedTags, tag]
+      : selectedTags.filter(t => t !== tag);
     setSelectedTags(nextSelectedTags);
   };
 
   const handleSearch = async () => {
     const searchData = {
-      tags: selectedTags,
-      userInput: inputValue
+      sentence: inputValue,
+      user_query: selectedTags
     };
+    console.log('Search Data:', searchData);
+
+    setIsLoading(true); 
+
     try {
-      const response = await Axios().get('Recipe/example_output/', { params: searchData });
+      const response = await Axios().post('Recipe/get/', searchData);
       console.log('GET request successful:', response.data);
       setSearchResults(response.data);
-      setShowSearchResult(true);
-      console.log(searchData);
     } catch (error) {
       console.error('Error making GET request:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
+
       try {
-        const response = await Axios().get('Recipe/example_output/');
+        const response = await Axios().get('Recipe/get/');
         console.log('GET request successful:', response.data);
-        setSearchResults(response.data); // 更新搜尋結果
-        setShowSearchResult(true); // 顯示搜尋結果
-
-
+        setSearchResults(response.data);
       } catch (error) {
         console.error('Error making GET request:', error);
+      } finally {
+        setIsLoading(false); 
       }
     };
-  
+
     fetchData();
   }, []);
 
@@ -76,56 +75,60 @@ function RecipeSearchPage() {
 
   return (
     <>
-    <RecipeNav/>
-    <div className="searchpage-container">
-      <div className="search-content">
-        <div className="search-bar">
-          <Input 
-            placeholder="輸入你想吃的類型或是食物名稱" 
-            size='large' 
-            prefix={<SearchOutlined />} 
-            onChange={handleInputChange}
-            value={inputValue}
-          />
-        </div>
-        <div className="slogan">
-          <p>選擇您想要的種類，讓我們幫你挑選您可能喜愛的料理~</p>
-        </div>
-        <div className="hot-searches">
-          {hotSearches.map((search, index) => (
-            <div>
-              {index+1}. 
-              <span key={index} onClick={() => setInputValue(search)}>{search}</span>
-            </div>
+      <RecipeNav />
+      <Container className="searchpage-container">
+        <div className="search-content">
+          <Form.Group controlId="searchInput" className="mb-3">
+            <Form.Control
+              type="text"
+              placeholder="輸入你想吃的類型或是食物名稱"
+              size="lg"
+              value={inputValue}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+          <div className="slogan">
+            <p>選擇您想要的種類，讓我們幫你挑選您可能喜愛的料理~</p>
+          </div>
+          <div className="hot-searches">
+            {hotSearches.map((search, index) => (
+              <div key={index}>
+                {index + 1}.{' '}
+                <span onClick={() => setInputValue(search)}>{search}</span>
+              </div>
             ))}
-        </div>
-        <Divider/>
-        <div className="conditions">
-          <Row gutter={[16, 16]}>
-            <Col span={8}>
-              <p className='tagName'>製作時間</p>
+          </div>
+          <hr />
+          <Row className="conditions">
+            <Col xs={12} md={4}>
+              <p className="tagName">製作時間</p>
               <TagSelector tags={timeTags} selectedTags={selectedTags} handleTagChange={handleTagChange} />
             </Col>
-            <Col span={8}>
-              <p className='tagName'>各國料理</p>
+            <Col xs={12} md={4}>
+              <p className="tagName">各國料理</p>
               <TagSelector tags={cuisineTags} selectedTags={selectedTags} handleTagChange={handleTagChange} />
             </Col>
-            <Col span={8}>
-              <p className='tagName'>健康選擇</p>
+            <Col xs={12} md={4}>
+              <p className="tagName">健康選擇</p>
               <TagSelector tags={healthTags} selectedTags={selectedTags} handleTagChange={handleTagChange} />
             </Col>
           </Row>
+          <div className="search-button text-center mt-3">
+            <Button variant="primary" size="lg" onClick={handleSearch}>
+              搜索
+            </Button>
+          </div>
+          {isLoading ? (
+            <div className="text-center mt-3">
+              <Spinner animation="border" />
+              <p>正在搜尋食譜，請稍候...</p>
+            </div>
+          ) : (
+            <SearchResult searchResults={searchResults} />
+          )}
         </div>
-        <div className="search-button">
-          <Button shape='round' size='large' onClick={handleSearch}>搜索</Button>
-        </div>
-        
-        {/* 顯示搜尋結果 */}
-        {showSearchResult ? <SearchResult searchResults={searchResults}/> : <PlaceholderLoading shape='rect'/>}
-      </div>
-    </div>
+      </Container>
     </>
-
   );
 }
 

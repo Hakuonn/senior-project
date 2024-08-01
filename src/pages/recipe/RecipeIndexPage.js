@@ -7,6 +7,11 @@ import logo_540 from '../../imgs/logo_540.png';
 import { Link } from 'react-router-dom';
 import RecipeNav from '../../components/nav_and_footer/RecipeNav';
 
+
+/**
+ * 原 食譜登入頁面 目前停用中
+ * @returns 
+ */
 const RecipeIndexPage = () => {
   const [modalVisible, setModalVisible] = useState(false);
 
