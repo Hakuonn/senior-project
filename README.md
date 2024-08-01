@@ -1,5 +1,10 @@
 # 版本更新
 
+## date/0801
+- 1. 更新食譜頁面、食譜搜尋頁面
+- 2. 刪除食譜前後測
+
+
 ## date/0718
 - 1. 更新footer無法固定在底部的bug (App.js, App.css, nav_footer.css)
 - 2. Store歷史訂單查詢與商家評價查詢頁面改用Container

@@ -62,7 +62,6 @@ function RecipeNav() {
             <Nav className="me-auto" />
             <Nav>
               <Nav.Link href="/">回到主頁</Nav.Link>
-              <Nav.Link href='/RecipeQuiz'>測驗（先不用）</Nav.Link>
               <Nav.Link href="/Recipe/search">食譜搜尋</Nav.Link>
               <Button variant="outline-success" ref={target} onClick={() => setShow(!show)}><VscAccount size={30} /></Button>
               <Overlay
