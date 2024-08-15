@@ -1,28 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; 
 import { Row, Col, Card, Container, Button } from 'react-bootstrap';
+import { BsStar, BsStarFill } from 'react-icons/bs';
 import Axios from '../../components/Axios';
 import RecipeNav from '../../components/nav_and_footer/RecipeNav';
 
 const RecipePage = () => {
   const [data, setData] = useState(null);
-  console.log(data)
+  const [isFavorite, setIsFavorite] = useState(false);
   const { rid } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
-      Axios().get('Recipe/get_id/', { params: { rid } })
+      Axios().get('recipe/search/id/', { params: { rid } })
       .then((res) => {
         let recipe = res.data[0];
 
         const modifiedRecipe = { 
           ...recipe, 
-          // nutrition: JSON.parse(recipe.attributes.nutrition.replace(/'/g, '"')), 
           nutrition: recipe.attributes.nutrition,
           ingredients: JSON.parse(recipe.ingredients.replace(/'/g, '"')), 
           steps: JSON.parse(recipe.steps.replace(/'/g, '"')), 
         };
         setData(modifiedRecipe);
+
       })
       .catch((err) => {
           console.log(err);
@@ -30,8 +31,41 @@ const RecipePage = () => {
             alert("This recipe is not found");
           }
       });
+  }, [rid]);
+
+
+  // 食譜收藏功能，尚未測試
+  const handleFavoriteClick = () => {
+    if (isFavorite) {
+      // 執行取消收藏操作
+      Axios().delete('recipe/member/delete/', { data: { rid } })
+        .then(() => {
+          setIsFavorite(false);
+          alert('已取消收藏');
+        })
+        .catch((err) => {
+          console.log(err);
+          if (err.response && err.response.status === 404) {
+            alert("沒有該收藏紀錄");
+          }
+        });
+    } else {
+      // 執行新增收藏操作
+      Axios().post('recipe/member/new/', { rid })
+        .then(() => {
+          setIsFavorite(true);
+          alert('成功收藏');
+        })
+        .catch((err) => {
+          console.log(err);
+          if (err.response && err.response.status === 404) {
+            alert("食譜沒找到呢");
+          } else if (err.response && err.response.status === 400) {
+            alert("使用者未知");
+          }
+        });
     }
-  , [rid]);
+  };
 
   return (
     <>
@@ -45,7 +79,16 @@ const RecipePage = () => {
           <Col>
             <Card className="mb-4" style={{ borderRadius: '10px', padding: '20px' }}>
               <Card.Body>
-                <Card.Title>{data.name}</Card.Title>
+                <div className="d-flex justify-content-between">
+                  <Card.Title>{data.name}</Card.Title>
+                  <Button 
+                    variant="link" 
+                    onClick={handleFavoriteClick}
+                    style={{ color: isFavorite ? 'gold' : 'gray' }}
+                  >
+                    {isFavorite ? <BsStarFill size={24}/> : <BsStar size={24}/>}
+                  </Button>
+                </div>
                 <Card.Text>{data.description}</Card.Text>
                 <hr />
                 <Row>
