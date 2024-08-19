@@ -16,12 +16,12 @@ function LoginPage() {
         // window.location.href="/menu"
     }
     // 回傳登入資料
-    const action = 'api/token/obtain/'
+    const action = 'member/basic/login/'
     const handleSubmit = (e) =>{
-        Axios().post(action, JSON.stringify({
+        Axios().post(action, {
             account: account,
             password: passwd
-        }))
+        })
         .then((res)=>{
             if (res.status === 200){
                 alert("登入成功")

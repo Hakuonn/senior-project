@@ -49,17 +49,17 @@ function RegisterPage() {
     function datatoback({values={}}){
         let data = {
             account: values.account,
-            name: values.userName,
+            name: values.name,
             phone: values.phone,
             gender: values.gender,
             email: values.email,
-            address: values.addr,
+            address: values.address,
             birth: values.birth,
-            password: values.passwd,
-            allergen: selectAllergen
+            password: values.password,
+            allergen: selectAllergen.join(',')
         }
         
-        Axios().post('register/new/', JSON.stringify(data))
+        Axios().post('/member/basic/register/', JSON.stringify(data))
         .then((res)=>{
             if(res.status === 200){
                 console.log('success')
@@ -124,15 +124,15 @@ function RegisterPage() {
                     <Form.Label>名字*</Form.Label>
                     <Form.Control 
                      type="text" 
-                     name='userName' 
+                     name='name' 
                      placeholder="你的名字" 
-                     value={values.userName} 
+                     value={values.name} 
                      onChange={handleChange}
-                     isInvalid={!!errors.userName}
+                     isInvalid={!!errors.name}
                      required
                      />
                      <Form.Control.Feedback type='invalid'>
-                        {errors.userName}
+                        {errors.name}
                     </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="phone">
@@ -187,14 +187,14 @@ function RegisterPage() {
                     <Form.Control 
                      type="text" 
                      placeholder="輸入地址" 
-                     name='addr' 
-                     value={values.addr} 
+                     name='address' 
+                     value={values.address} 
                      onChange={handleChange}
-                     isInvalid={!!errors.addr}
+                     isInvalid={!!errors.address}
                      required 
                      />
                     <Form.Control.Feedback type='invalid'>
-                        {errors.addr}
+                        {errors.address}
                     </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="account">
@@ -246,14 +246,14 @@ function RegisterPage() {
                     <Form.Control 
                      type="password" 
                      placeholder="Password" 
-                     name='passwd' 
-                     value={values.passwd} 
+                     name='password' 
+                     value={values.password} 
                      onChange={handleChange}
-                     isInvalid={!!errors.passwd}
+                     isInvalid={!!errors.password}
                      required
                      />
                     <Form.Control.Feedback type='invalid'>
-                        {errors.passwd}
+                        {errors.password}
                     </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="SignInCheckPassword">
@@ -290,13 +290,13 @@ function RegisterPage() {
                          validationSchema={schema}
                          onSubmit={console.log}
                          initialValues={{
-                            userName: '',
+                            name: '',
                             phone: '',
                             gender: '',
-                            addr: '',
+                            address: '',
                             account: '',
                             email: '',
-                            passwd: '',
+                            password: '',
                             confirmPasswd: '',
                          }}
                         >

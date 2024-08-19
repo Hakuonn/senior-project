@@ -178,7 +178,7 @@ function Store() {
   return (
     <>
     <KanBan/>
-    <div className='store'>
+    <Container className='store'>
         <Container fluid>
             {storeInfo &&
             storeInfo.map((item)=>(
@@ -263,7 +263,7 @@ function Store() {
                 </Col>
             </Row>
         </Container>
-    </div>
+    </Container>
     </>
   )
 }

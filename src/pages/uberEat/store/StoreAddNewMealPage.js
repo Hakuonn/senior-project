@@ -14,8 +14,10 @@ function StoreAddNewMealPage() {
   const { Formik } = formik;
   const navigate = useNavigate();
   const [image, setImage] = useState(null);
+  const [submitAction, setSubmitAction] = useState(''); // 新增這行
 
-  const datatoback = (values) => {
+
+  const datatoback = (values, resetForm) => {
     Axios().post('/store_data/goods/upload/', JSON.stringify({
       status: false,
       type: values.type,
@@ -30,7 +32,12 @@ function StoreAddNewMealPage() {
     .then((res) => {
       console.log(res.data);
       alert('餐點已上傳，記得去商品管理頁面進行上架喔～');
-      navigate('/other-page'); // 提交成功後跳轉到其他頁面
+      if (submitAction === 'submit') {
+        navigate('/StoreProduct');
+      } else {
+        resetForm();
+        setImage(null);
+      }
     })
     .catch((err) => {
       console.log(err);
@@ -54,7 +61,6 @@ function StoreAddNewMealPage() {
     { id: 'hazelnut', label: '榛果' },
     { id: 'SO2', label: '二氧化硫（亞硫酸鹽）' }
   ];
-
   const handlePicUpload = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -221,14 +227,21 @@ function StoreAddNewMealPage() {
                     </div>
                   </Form.Group>
                   <div className="d-flex gap-2 mt-5">
-                    <Button variant="outline-success" size="l" type="submit" className="w-50">
+                    <Button
+                      variant="outline-success"
+                      size="l"
+                      type="submit"
+                      className="w-50"
+                      onClick={() => setSubmitAction('submit')}
+                    >
                       提交
                     </Button>
                     <Button
                       variant="outline-primary"
                       size="l"
                       className="w-50"
-                      onClick={() => navigate('/add-new-meal')}
+                      type="submit"
+                      onClick={() => setSubmitAction('continue')}
                     >
                       繼續新增
                     </Button>
