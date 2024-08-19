@@ -60,21 +60,29 @@ function RegisterPage() {
         }
         
         Axios().post('/member/basic/register/', JSON.stringify(data))
-        .then((res)=>{
-            if(res.status === 200){
-                console.log('success')
-                AfterofRegisterClickHandler()
-            }
-        })
-        .catch((err)=>{
-            console.log(err)
-        })
+    .then((res) => {
+        if (res.status === 200) {
+            console.log('success');
+            AfterofRegisterClickHandler();  // 註冊成功的回調函數
+        }
+    })
+    .catch((err) => {
+        console.log(err);
+        // 從後端獲取錯誤訊息，並彈出註冊失敗的字卡
+        const errorMessage = err.response?.data?.message || "註冊失敗，請稍後再試";
+        alert(`註冊失敗：${errorMessage}`);
+    });
     }
 
     // 註冊後回到商店選擇頁面
     const AfterofRegisterClickHandler = () =>{
-        alert("註冊成功")
-        window.open("/LoginPage",'_self')
+        // 使用 setTimeout 模擬延遲後的跳轉，給用戶足夠時間看到成功訊息
+        setTimeout(() => {
+            window.open("/LoginPage",'_self');  // 跳轉到登入頁面
+        }, 2000);  // 2秒後跳轉
+    
+        // 彈出成功字卡
+        alert("註冊成功！2秒後將自動跳轉到登入頁面");
     }
 
     // 過敏原管理
