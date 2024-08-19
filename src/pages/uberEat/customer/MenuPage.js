@@ -18,7 +18,7 @@ function MenuPage() {
 
     // 從後端抓取商家資料
     function get_backdata(webaction = null , type = null , search = null){
-        let action = '/goods/search/store/'
+        let action = '/store/sreach/get/'
         let params = {
             params:{}
         }
