@@ -28,7 +28,7 @@ function RecommendStore({ baseUrl }) {
     const handlerOnclick = (e) =>{
     }
     const getData = () =>{
-      Axios().get('/store_sch/prefer/')
+      Axios().get('store/search/recommand/')
       .then((res)=>{
         let data = res.data
         setData(data)

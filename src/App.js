@@ -28,7 +28,7 @@ import LoginPage from './pages/uberEat/customer/LoginPage';
 import RegisterPage from './pages/uberEat/customer/RegisterPage';
 import MenuPage from './pages/uberEat/customer/MenuPage';
 
-const baseUrl = "https://28ab-1-174-125-68.ngrok-free.app/";
+const baseUrl = "http://140.133.74.162:12345/";
 
 function App() {
   return (

@@ -1,11 +1,11 @@
 import React from 'react'
 import { Col, Container, ListGroup, Row, Tab } from 'react-bootstrap'
-import AboutVision from './aboutPages/AboutVision'
-import AboutEcobao from './aboutPages/AboutEcobao'
-import AboutSd from './aboutPages/AboutSd'
+import AboutVision from './aboutPages/AboutVision.js'
+import AboutEcobao from './aboutPages/AboutEcobao.js'
+import AboutSd from './aboutPages/AboutSd.js'
 import KanBan from '../../../components/nav_and_footer/KanBan'
 import Home from '../../HomePage'
-
+  
 
 function AboutMePage() {
   return (
