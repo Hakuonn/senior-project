@@ -130,8 +130,6 @@ function Store({baseUrl}) {
 
     useEffect(()=>{
         getGoodsFromBack()
-        // getCommitFromBack()
-        // getRatingFromBack()
     },[])
 
   return (
@@ -168,7 +166,15 @@ function Store({baseUrl}) {
                                         <br/>
                                         ${item.price}
                                     </Card.Text>
-                                    <Button variant="primary" onClick={() => goodsInfoToMeal(item)}>查看</Button>
+                                    <Button variant="primary" onClick={() => {
+                                        let tmp_item = item
+                                        tmp_item['baseUrl']=baseUrl;
+                                        return(
+                                            
+                                            goodsInfoToMeal(tmp_item)
+        
+                                        )
+                                    }}>查看</Button>
                                     </Card.Body>
                                 </Card>
                                 </Col>

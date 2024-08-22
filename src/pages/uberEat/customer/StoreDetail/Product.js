@@ -2,28 +2,26 @@ import React, { useEffect, useState } from 'react'
 import { Modal, Button, Form, Container, Row, Col, Image } from 'react-bootstrap'
 import Axios from '../../../../components/Axios'
 import { Link, useNavigate } from 'react-router-dom'
-import { Divider, Space, Tag } from 'antd';
 
 
 /*** 
  * 餐點彈出視窗
  ***/
 function Meal(props) {
-    const [serverUrl, setServerUrl] = useState(null);
-    const serverURL = "http://127.0.0.1"
+    const serverUrl = props.baseUrl
+
     const [info, setInfo] = useState(null);
     const [showAlert, setShowAlert] = useState(false);
-    
-    const navigate = useNavigate()
+
     // 若按下購物車按鈕，進行的動作！
     const addCartHandler = (gid) =>{
         let data = {
-            id: gid,
+            goods_id: gid,
             quantity: 1,
         }
         Axios().post('order/cart/', JSON.stringify(data))
         .then((res)=>{
-            if (res.status === 200) {
+            if (res.status === 201) {
                 setShowAlert(true); // 顯示警告框
                 setTimeout(() => {
                   setShowAlert(false); // 1 秒後隱藏警告框
@@ -32,23 +30,20 @@ function Meal(props) {
               }
         })
         .catch((err)=>{
-            console.log(err)
-            alert('請先登入喔～')
-            navigate('/LoginPage')
+            if(err.response.status === 404){
+              alert("此商品已下架摟，請重新選擇！")
+              window.location.reload()
+            }
+            else if (err.response.status === 400){
+              alert("商品已全數售出！請選擇其他商品")
+            }
         })
     }
-    
-
+  
     useEffect(()=>{
         setInfo(props.goodinfo)
     },[props])
     
-    useEffect(() => {
-        if (serverURL && serverURL.length > 0) {
-          const firstServerURL = serverURL[0].serverurl
-          setServerUrl(firstServerURL)
-        }
-      }, [serverURL])
 
     return (
         <Modal
@@ -74,8 +69,10 @@ function Meal(props) {
                     </Col>
                     <Col>
                       <Image
-                        src={`${serverUrl}${info.food_pic}`}
+                        src={`${info.baseUrl}${info.food_pic}`}
                         alt={info.food_pic}
+                        style={{width:"100%",paddingBottom:"5%"}}
+
                       />
                     </Col>
                   </Row>
@@ -98,7 +95,7 @@ function Meal(props) {
                     已成功加入購物車
                   </div>
                 ) : (
-                  <Button type="button" onClick={() => addCartHandler(info.gid)}>
+                  <Button type="button" onClick={() => addCartHandler(info.id)}>
                     加到購物車
                   </Button>
                 )}

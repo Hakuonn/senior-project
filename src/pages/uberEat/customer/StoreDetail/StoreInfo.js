@@ -54,6 +54,8 @@ function StoreInfo({id , baseUrl}){
                         <Link to={storeInfo.link_ig} className='store-link'><FaInstagram size={30}/></Link>
                     </Container>
                     <Container>
+                        <p></p>
+                        <h5>簡介</h5>
                         <p>{storeInfo.intro}</p>
                     </Container>
                 </Col>
