@@ -46,7 +46,7 @@ function App() {
             {/* <Route path='/Activity' element={<Activity/>} /> */}
             <Route path='/CommonQA' element={<CommonQAPage/>} />
             <Route path='/Menu' element={<MenuPage baseUrl={baseUrl}/>} />
-            <Route path='/store/:id' element={<StoreDetail baseUrl={baseUrl} />} />
+            <Route path='/Menu/Store/:id' element={<StoreDetail baseUrl={baseUrl} />} />
             {/* <Route path='/cart' element={<Cart/>} /> */}
             <Route path='/UserProfile' element={<UserProfile/>} />
             {/* <Route path='/orders' element={<UserOrder/>} /> */}

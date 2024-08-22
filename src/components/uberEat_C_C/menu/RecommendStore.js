@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
  * Axios接收資料error，圖片
  */
 function RecommendStore({ baseUrl }) {
+
     const [data, setData] = useState(null)
 
     // react-slick 設定專區
@@ -25,7 +26,7 @@ function RecommendStore({ baseUrl }) {
     }
     const navigate = useNavigate()
     const handlerOnclick = (id) =>{
-        navigate(`store/${id}`)
+        navigate(`Store/${id}`)
     }
 
     const getData = () =>{

@@ -1,8 +1,7 @@
-import { Rating } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { Col, Container, Image, Row, Card, Button } from 'react-bootstrap'
 import { FaInstagram, FaSquareFacebook } from "react-icons/fa6"
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation , useParams } from "react-router-dom";
 import { Divider, Space, Tag } from 'antd';
 import Meal from './StoreDetail/Product';
 import KanBan from '../../../components/nav_and_footer/KanBan';
@@ -86,24 +85,8 @@ function Store({baseUrl}) {
         }
     ]
 
-    // 取得目前url位置
-    const location = useLocation()
-    const currentUrl = location.pathname;
-    const parts = currentUrl.split('/')[2]
-    console.log(parts)
-
-
-    // 取得店家rating
-    // const getRatingFromBack = () =>{
-    //     const action = '/store_sch/score/'
-    //     Axios().get(action, {params:{sid:parts}})
-    //     .then((res)=>{
-    //         setRating(res.data)
-    //     })
-    //     .catch((err)=>{
-    //         console.log(err)
-    //     })
-    // }
+    const {id} = useParams()
+    const parts = id
 
     // 取得產品資料
     const getGoodsFromBack = () =>{
@@ -146,25 +129,18 @@ function Store({baseUrl}) {
     }
 
     useEffect(()=>{
-        getDataFromBack()
         getGoodsFromBack()
         // getCommitFromBack()
         // getRatingFromBack()
     },[])
-    useEffect(() => {
-        if (serverUrl && serverUrl.length > 0) {
-          const firstServerURL = serverUrl[0].serverurl
-          setServerUrl(firstServerURL)
-        }
-      }, [serverUrl])
-
 
   return (
     <>
     <KanBan/>
+    <Container className='storedetail-page d-flex'>
     <div className='store'>
         <Container fluid>
-            <StoreInfo id={parts} />
+            <StoreInfo id={parts} baseUrl={baseUrl} />
             <Row>
                 <Col>
                     <hr />
@@ -179,7 +155,9 @@ function Store({baseUrl}) {
                             goods.map((item)=>(
                                 <Col key={item.gid}>
                                 <Card className="food-card">
-                                    <Card.Img variant="top" src={`${serverUrl}${item.food_pic}`} className='food-card-img'/>
+
+                                    <Card.Img variant="top" src={`${baseUrl}${item.food_pic}`} className='food-card-img'/>
+                                    
                                     <Card.Body>
                                     <Card.Title>{item.name}</Card.Title>
                                     <Card.Subtitle>剩餘數量：{item.quantity}</Card.Subtitle>
@@ -218,6 +196,8 @@ function Store({baseUrl}) {
             </Row>
         </Container>
     </div>
+
+    </Container>
     </>
   )
 }
