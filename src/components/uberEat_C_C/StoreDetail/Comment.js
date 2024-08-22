@@ -1,7 +1,7 @@
 import React, { useEffect , useState } from 'react'
 import { Card } from 'react-bootstrap'
 import { Rating } from '@mui/material'
-import Axios from '../../../../components/Axios'
+import Axios from 'components/Axios'
 
 /**
  * 關於商家評論的視覺區塊

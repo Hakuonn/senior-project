@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Container, Form, Button, Image, Row, Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import KanBan from '../../../components/nav_and_footer/KanBan'
-import Axios from '../../../components/Axios'
+import KanBan from 'components/nav_and_footer/KanBan'
+import Axios from 'components/Axios'
 // import { stringify } from 'qs'
 
 

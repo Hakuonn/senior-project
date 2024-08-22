@@ -1,10 +1,9 @@
 import React from 'react'
 import { Col, Container, Row, Image, Form, Button } from 'react-bootstrap'
-import { Navigate } from "react-router-dom"
 import * as formik from 'formik';
 import * as yup from 'yup';
 
-import Axios from '../../../../components/Axios';
+import Axios from '../../Axios';
 
 function MyPassword() {
     const { Formik } = formik

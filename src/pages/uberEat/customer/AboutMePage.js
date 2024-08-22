@@ -1,10 +1,11 @@
 import React from 'react'
 import { Col, Container, ListGroup, Row, Tab } from 'react-bootstrap'
-import AboutVision from './aboutPages/AboutVision.js'
-import AboutEcobao from './aboutPages/AboutEcobao.js'
-import AboutSd from './aboutPages/AboutSd.js'
-import KanBan from '../../../components/nav_and_footer/KanBan'
-import Home from '../../HomePage'
+
+import AboutVision from 'components/uberEat_C_C/aboutPages/AboutVision.js'
+import AboutEcobao from 'components/uberEat_C_C/aboutPages/AboutEcobao.js'
+import AboutSd from 'components/uberEat_C_C/aboutPages/AboutSd.js'
+
+import KanBan from 'components/nav_and_footer/KanBan'
   
 
 function AboutMePage() {

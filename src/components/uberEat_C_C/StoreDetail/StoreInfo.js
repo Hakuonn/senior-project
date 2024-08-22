@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Col, Container, Image, Row, Card, Button } from 'react-bootstrap'
-import Axios from "../../../../components/Axios"
+import Axios from "components/Axios"
 import { Link, useLocation } from "react-router-dom";
 import { Rating } from '@mui/material'
 

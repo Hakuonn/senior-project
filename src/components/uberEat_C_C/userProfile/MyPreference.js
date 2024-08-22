@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 
-import Axios from '../../../../components/Axios';
+import Axios from '../../Axios';
 
 
 function MyPreference() {

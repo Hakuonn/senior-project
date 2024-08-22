@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Card, Col, Container, Form, Row, Button, Image, Alert } from 'react-bootstrap'
-import logo from '../../../imgs/logo.png'
+import logo from 'imgs/logo.png'
 import { Link } from 'react-router-dom'
-import KanBan from '../../../components/nav_and_footer/KanBan'
-import Axios from '../../../components/Axios'
+import KanBan from 'components/nav_and_footer/KanBan'
+import Axios from 'components/Axios'
 import * as formik from 'formik';
 import * as yup from 'yup';
 
@@ -71,6 +71,7 @@ function RegisterPage() {
         //     "account": "string",
         //     "password": "string"
         //   }
+
         Axios().post('member/basic/register/', JSON.stringify(data))
         .then((res)=>{
             if(res.status === 201){

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Container, Card } from 'react-bootstrap'
 import { Table, Tabs } from 'antd';
-import KanBan from '../../components/KanBan'
-import Axios from '../../components/Axios';
-import ReviewModal from '../../components/OrderReviewModal';
+import KanBan from 'components/KanBan'
+import Axios from 'components/Axios';
+import ReviewModal from 'components/OrderReviewModal';
 
 /**
  * 消費者訂單

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Col, Container, Row, Image, Form, Button } from 'react-bootstrap'
-import Axios from '../../../../components/Axios'
+import Axios from '../../Axios'
 import { useNavigate } from 'react-router-dom'
 
 

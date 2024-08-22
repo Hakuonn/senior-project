@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Card, Container } from 'react-bootstrap';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import KanBan from '../../../components/nav_and_footer/KanBan';
 
-import Axios from '../../../components/Axios.js'
+import KanBan from 'components/nav_and_footer/KanBan';
+import Axios from 'components/Axios.js'
 
 function CommonQAPage() {
   const [storeQA,setStoreQA] = useState(null)
