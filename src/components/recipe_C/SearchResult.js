@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import FavoriteButton from './FavoriteButton';
 
 function dealIngrdientValue(Text){
   let text = JSON.parse(Text.replace(/'/g, '"')); 
@@ -22,16 +23,22 @@ function SearchResult({ searchResults }) {
       <Row>
         {searchResults.map((item, index) => (
           <Col xs={12} className="mb-4" key={index}>
-            <Card className="h-100">
+            
+            <Card className="h-100 recipe-card">
               <Card.Body>
-              <Card.Title>
-                <Link 
+              <div className="d-flex justify-content-between align-items-center">
+              <Link 
                   to={`/Recipe/result/${item.rid}`} 
                   style={{ textDecoration: 'none', color: '#000000', fontWeight: 'bold' }}
                 >
-                  {item.name}
-                </Link>
-              </Card.Title>
+                    <Card.Title className="mb-2">{item.name}</Card.Title>
+              </Link>
+
+                    <FavoriteButton
+                      rid={item.rid}
+                    />
+                  </div>
+                  <hr />
                 <Card.Text>
                   <strong>食譜介紹：</strong><br />
                   {item.description}

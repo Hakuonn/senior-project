@@ -4,13 +4,14 @@ import Axios from '../../components/Axios';
 import TagSelector from '../../components/recipe_C/TagSelector';
 import SearchResult from '../../components/recipe_C/SearchResult';
 import RecipeNav from '../../components/nav_and_footer/RecipeNav';
-import '../../css/recipe_search.css'
+import '../../css/recipe_search.css';
 
 function RecipeSearchPage() {
   const [inputValue, setInputValue] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
-  const [isLoading, setIsLoading] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false); // 用來追蹤是否已經進行過搜索
 
   const handleInputChange = e => {
     setInputValue(e.target.value);
@@ -30,10 +31,11 @@ function RecipeSearchPage() {
     };
     console.log('Search Data:', searchData);
 
-    setIsLoading(true); 
+    setIsLoading(true);
+    setHasSearched(true); // 設置為已經進行過搜索
 
     try {
-      const response = await Axios().post('Recipe/get/', searchData);
+      const response = await Axios().post('/recipe/search/analyze/', searchData);
       console.log('GET request successful:', response.data);
       setSearchResults(response.data);
     } catch (error) {
@@ -42,24 +44,6 @@ function RecipeSearchPage() {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-
-      try {
-        const response = await Axios().get('Recipe/get/');
-        console.log('GET request successful:', response.data);
-        setSearchResults(response.data);
-      } catch (error) {
-        console.error('Error making GET request:', error);
-      } finally {
-        setIsLoading(false); 
-      }
-    };
-
-    fetchData();
-  }, []);
 
   const timeTags = ['15分鐘或更少', '30分鐘或更少', '60分鐘或更少', '60分鐘以上'];
   const cuisineTags = ['日式', '中式', '韓式', '西班牙', '義式', '德式', '墨西哥'];
@@ -122,6 +106,10 @@ function RecipeSearchPage() {
             <div className="text-center mt-3">
               <Spinner animation="border" />
               <p>正在搜尋食譜，請稍候...</p>
+            </div>
+          ) : hasSearched && searchResults.length === 0 ? (
+            <div className="text-center mt-3">
+              <p>查無任何食譜</p>
             </div>
           ) : (
             <SearchResult searchResults={searchResults} />
