@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Col, Container, Row, Image, Form, Button } from 'react-bootstrap'
-import Axios from '../../../components/Axios'
+import Axios from '../../../../components/Axios'
 import { useNavigate } from 'react-router-dom'
 
 
@@ -19,7 +19,7 @@ function MyProfile() {
     const nevigate = useNavigate()
 
     const handleSubmit = (e) =>{
-        Axios().post('member/update_account/', JSON.stringify({
+        Axios().put('member/info/change/', JSON.stringify({
             name: name,
             birth: birth,
             email: email,
@@ -29,16 +29,21 @@ function MyProfile() {
         .then((res)=>{
             if(res.status === 200){
                 alert('修改成功')
+                window.location.reload()
             }
         })
         .catch((err)=>{
-            alert('請重新登入')
-            nevigate('/LoginPage')
+            if(err.response.status === 400){
+                alert("請確認輸入格式或資料是否符合欄位所需！")
+            }
+            else{
+                alert("伺服器正在維護中，請稍候使用！")
+            }
         })
     }
 
     useEffect(()=>{
-        Axios().get('member/account/')
+        Axios().get('member/info/get/')
         .then((res)=>{
             let data = res.data
             setTestData(data)
@@ -52,7 +57,7 @@ function MyProfile() {
             let error = err.response
             if (error.status === 401){
                 console.log(err)
-                alert('請重新登入')
+                alert('憑證失效摟！請重新登入～')
                 nevigate('/LoginPage')
             }
             else{

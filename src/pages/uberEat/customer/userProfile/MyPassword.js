@@ -1,8 +1,10 @@
 import React from 'react'
 import { Col, Container, Row, Image, Form, Button } from 'react-bootstrap'
+import { Navigate } from "react-router-dom"
 import * as formik from 'formik';
 import * as yup from 'yup';
-import Axios from '../../../components/Axios';
+
+import Axios from '../../../../components/Axios';
 
 function MyPassword() {
     const { Formik } = formik
@@ -13,21 +15,24 @@ function MyPassword() {
     });
 
     const dataToBack = (values) =>{
-        const action = 'memberP/password_upd/'
-        Axios().post(action, JSON.stringify({
+        const action = 'member/info/change_password/'
+        Axios().patch(action, JSON.stringify({
             old_password: values.passwd,
             new_password: values.newPasswd,
         }))
         .then((res)=>{
             if(res.status === 200){
-                alert('密碼修改成功')
-            }
-            else{
-                alert('密碼錯誤')
+                alert('密碼修改成功，請重新登入')
+                window.localStorage.setItem('jwt','None')
+                window.open("/LoginPage",'_self')
             }
         })
         .catch((err)=>{
-            console.log(err)
+            if(err.response.status == 401){
+                alert('舊密碼不符合，請確認輸入是否正確')
+            }else{
+                alert('伺服器正在維護中，請稍後再試！')
+            }
         })
     }
 

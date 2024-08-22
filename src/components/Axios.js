@@ -2,8 +2,6 @@ import axios from "axios"
 import { Navigate } from "react-router-dom"
 
 
-
-
 function Axios(){
   // const navigate = useNavigate()
   if (window.localStorage.getItem('jwt') === null){
@@ -12,7 +10,7 @@ function Axios(){
   let jwt = `Bearer ${(window.localStorage.getItem('jwt'))}`
   const res = axios.create(
     {
-      baseURL: 'http://140.133.74.162:12345',
+      baseURL: 'http://140.133.74.162:12345/',
       timeout:10000,
       headers:{
         // 'ngrok-skip-browser-warning':'123',

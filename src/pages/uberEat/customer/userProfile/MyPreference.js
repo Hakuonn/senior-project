@@ -1,25 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import useFetch from '../../../hooks/useFetch';
-import Axios from '../../../components/Axios';
+
+import Axios from '../../../../components/Axios';
+
 
 function MyPreference() {
-    const { data: dietaryPreference } = useFetch('http://localhost:8002/foodType');
+    // dietaryPreference -> 顯示在前端的使用者偏好選項
+    const [dietaryPreference,setPre] = useState(null)
+    // preferences -> 新偏好
     const [preferences, setPreferences] = useState([]);
+    // defaultPreferences -> 就偏好
     const [defaultPreferences, setDefaultPreference] = useState([]);
-    console.log(preferences)
-    console.log(defaultPreferences)
 
+    
 
     const datatoback = () => {
-        Axios().post('/member/prefer/', JSON.stringify({
-            prefer: preferences,
+        // 若使用者誤觸
+        if (preferences.length === 0){
+            alert("沒有偵測到變動呢！要挑選按鈕喔")
+            return;
+        }
+        Axios().put('member/info/change/', JSON.stringify({
+            prefer: preferences.toString(),
         }))
         .then((res) => {
             alert('修改成功');
+            window.location.reload()
         })
         .catch((err) => {
-            console.log(err);
+            alert("伺服器正在維護中，請稍後再試！")
         });
     };
 
@@ -27,16 +36,29 @@ function MyPreference() {
         const PreferFt = String(ft);
         const updatedPreferSet = new Set([...defaultPreferences, ...preferences]);
 
-        // 将转化后的id添加到集合中
+        // 用set的特性（Array無），是否存在該東西，有就刪除，無就添加
         updatedPreferSet.has(PreferFt) ? updatedPreferSet.delete(PreferFt) : updatedPreferSet.add(PreferFt);
 
         // Set -> Array
         const updatedAllergenArray = Array.from(updatedPreferSet);
+        // FIX: 按鈕無法取消
+        setDefaultPreference(updatedAllergenArray)
+        // 忘記把原本的紀錄刪除！
         setPreferences(updatedAllergenArray);
     };
 
     useEffect(() => {
-        Axios().get('/member/account/')
+        // 取得方便前端將選項輸出的東西
+        Axios().get("common/foodTypePic/")
+        .then((res) => {
+            setPre(res.data)
+        })
+        .catch((err) => {
+            alert("伺服器維護中！")
+        })
+
+        // 取得使用者所有資料（除了帳號、密碼）
+        Axios().get('member/info/get/')
         .then((res) => {
             let data = res.data;
             if (data.prefer === "" || data.prefer == null){
@@ -44,14 +66,12 @@ function MyPreference() {
               setDefaultPreference(prefer);
             }
             else{
-              let prefer = JSON.parse(data.prefer.replace(/'/g, '"'))
+              let prefer = data.prefer.split(",")
               setDefaultPreference(prefer);
-            }
-            
-          })
+            }   
+        })
           .catch((err) => {
-            alert("偏好達到上限")
-            console.log(err);
+            alert("伺服器維護中！請稍後再試")
           });
       }, []);
 

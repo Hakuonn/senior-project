@@ -4,6 +4,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Image } from 'react-bootstrap'
 import Axios from '../../Axios'
+import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 
 /**
@@ -11,10 +13,6 @@ import Axios from '../../Axios'
  */
 function RecommendStore({ baseUrl }) {
     const [data, setData] = useState(null)
-    // url
-    useEffect(() => {
-
-    }, [])
 
     // react-slick 設定專區
     const settings = {
@@ -25,9 +23,13 @@ function RecommendStore({ baseUrl }) {
         slidesToScroll: 5,
         margin: 10
     }
-    const handlerOnclick = (e) =>{
+    const navigate = useNavigate()
+    const handlerOnclick = (id) =>{
+        navigate(`store/${id}`)
     }
+
     const getData = () =>{
+      // 取得推薦商家
       Axios().get('store/search/recommand/')
       .then((res)=>{
         let data = res.data
@@ -50,11 +52,11 @@ function RecommendStore({ baseUrl }) {
                 <Slider {...settings}>
                     {data &&
                      data.map((item)=>(
-                        <div className='select-type' key={item.upid} onClick={handlerOnclick}>
-                          <div className='type-content'>
-                            <Image src={`${baseUrl}${item.pic}`} alt={item.name} className='type-img' rounded/>
-                            <span className='food-type-name'>{item.name}</span>
-                          </div>
+                        <div className='select-type' key={item.id} onClick={() => handlerOnclick(item.id)}>
+                            <div className='type-content'>
+                              <Image src={`${baseUrl}${item.pic}`} alt={item.name} className='type-img' rounded/>
+                              <span className='food-type-name'>{item.name}</span>
+                            </div>
                         </div>
                      ))
                     }

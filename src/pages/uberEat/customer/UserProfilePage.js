@@ -2,7 +2,7 @@ import React from 'react'
 import { Container, Tab, ListGroup, Row, Col } from 'react-bootstrap'
 import MyProfile from './userProfile/MyProfile'
 import MyAllergen from './userProfile/MyAllergen'
-import KanBan from '../../components/KanBan'
+import KanBan from '../../../components/nav_and_footer/KanBan'
 import MyPassword from './userProfile/MyPassword.js'
 import MyPreference from './userProfile/MyPreference'
 
