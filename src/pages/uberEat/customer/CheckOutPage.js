@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import KanBan from '../../components/KanBan';
+import KanBan from 'components/nav_and_footer/KanBan';
 import { Button, Container, Modal } from 'react-bootstrap'; // 引入 react-bootstrap 的 Modal
 import { message, Steps } from 'antd';
-import Bill from '../../components/bill/Bill';
-import Pay from '../../components/bill/Pay';
-import Almost from '../../components/bill/Almost';
-import Axios from '../../components/Axios';
+
+// components
+import Bill from 'components/uberEat_C_C/CheckOut/Bill';
+import Pay from 'components/uberEat_C_C/CheckOut/Pay';
+import Almost from 'components/uberEat_C_C/CheckOut/Almost';
+import Axios from 'components/Axios';
+
 import { ExclamationCircleFilled } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 
@@ -32,10 +35,26 @@ function CheckOutPage() {
 
   const submitHandler = () => {
     const cartIds = data.map((item) => item.cart_id);
+
+    // 後端傳送格式
+    //{
+    //  "cart_item_ids": [
+    //    0
+    //  ],
+    //  "delivery_method": "string",
+    //  "delivery_address": "string",
+    //  "payment_method": "string",
+    //  "delivery_notes": "string",
+    //  "scheduled_time": "Unknown Type: date-time"
+    // }
+
     Axios()
       .post('/order/add/', JSON.stringify({
-        cart_list: cartIds,
+        cart_list_ids: cartIds,
+        delivery_address:'無',
         payment_method: payment,
+        delivery_notes:'',
+        scheduled_time:''
       }))
       .then((res) => {
           setShowModal(false);

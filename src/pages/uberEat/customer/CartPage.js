@@ -1,141 +1,231 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Button, Form } from 'react-bootstrap';
-import { Table } from 'antd';
-import Column from 'antd/es/table/Column';
-import KanBan from 'components/KanBan';
-import CartCounter from 'components/cart/CartCounter';
-import CartDelete from 'components/cart/CartDelete';
+import { Container, Table, Button, Spinner, Row, Col, Form, Card } from 'react-bootstrap';
+
+import KanBan from 'components/nav_and_footer/KanBan';
 import Axios from 'components/Axios';
-import { Link } from 'react-router-dom';
+
 
 /**
  * 購物車
  */
-function Cart() {
+const ShoppingCart = () => {
+  const [cartItems, setCartItems] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedItems, setSelectedItems] = useState([]);
 
-  const [itemQuantities, setItemQuantities] = useState({});
-  const [total, setTotal] = useState(null);
-  const [cartid, setCartid] = useState([]); // Array 來存儲選定商品的 cart_id
-  const [dataSource, setDataSource] = useState(null);
-  console.log('total',total)
-  console.log('itemQuantities',itemQuantities)
-
-  const buyClick = () => {
-    // 在按下"購買"時，將所選商品的 cart_id 傳送到後端
-    Axios().post('/cart/getid/', JSON.stringify({ cartIds: cartid }))
-      .then((res) => {
-        if (res.status === 200) {
-          let data = res.data
-          setDataSource(data)
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
-
-  const getToBack = () => {
+  useEffect(() => {
     Axios().get('order/cart/get/')
       .then((res) => {
         if (res.status === 200) {
-          let data = res.data
-          setDataSource(data)
-          // 在資料已載入後計算總金額
-          let caltotal = 0;
-          data.forEach((item) => {
-            caltotal += item.subtotal;
-          });
+          const data = res.data || []; // 确保数据为数组
+          setCartItems(data);
+
+          // 计算总金额
+          const caltotal = data.reduce((acc, item) => acc + item.subtotal, 0);
           setTotal(caltotal);
         }
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false); // 无论成功或失败，都设置为已加载
       });
+  }, []);
+
+  /**
+   * 將後端給予的資料以商店名稱進行分組
+   */
+  const groupedItems = cartItems.reduce((acc, item) => {
+    const storeName = item.goods_info.store_name;
+    if (!acc[storeName]) {
+      acc[storeName] = [];
+    }
+    acc[storeName].push(item);
+    return acc;
+  }, {});
+
+  /**
+   * 處理購物車前端項目
+   * @param {*} id 購物車項目ＩＤ
+   */
+  const handleSelectItem = (id) => {
+    setSelectedItems(prev =>
+      prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
+    );
   };
 
-  const handleQuantityChange = (itemId, newQuantity) => {
-    // 找出目前商品的價格
-  const item = dataSource.find(item => item.cart_id === itemId);
-  const itemPrice = item ? item.price : 0;
+  /**
+   * 由於前面有店家名稱，這針對店家名稱進行全選
+   * @param {*} storeName 店家名稱
+   */
+  const handleSelectAll = (storeName) => {
+    const storeItems = groupedItems[storeName];
+    const allSelected = storeItems.every(item => selectedItems.includes(item.id));
+    
+    if (allSelected) {
+      // 取消所選店鋪的商品
+      setSelectedItems(prev => prev.filter(id => !storeItems.some(item => item.id === id)));
+    } else {
+      // 選擇該店所有商品
+      const storeItemIds = storeItems.map(item => item.id);
+      setSelectedItems(prev => [...prev, ...storeItemIds.filter(id => !prev.includes(id))]);
+    }
+  };
 
-  // 計算小計
-  const subtotal = newQuantity * itemPrice;
-
-  // 更新 itemQuantities
-  setItemQuantities({ ...itemQuantities, [itemId]: newQuantity });
-
-  // 更新 total
-  setTotal(total => {
-    // 找出原本的小計
-    const prevSubtotal = (itemQuantities[itemId] || 0) * itemPrice;
-    // 減去原本的小計，加上新的小計
-    return total - prevSubtotal + subtotal;
-  });
+  /** 
+   * 結帳事件處理
+   * */ 
+  const handleCheckout = () => {
+    // 处理结账时的逻辑，例如发送 selectedItems 到后端
+    console.log('Selected Items:', selectedItems);
+  };
+  // 若還在拿取資料則加載
+  if (isLoading) {
+    return (
+      <Container className="mt-5 text-center">
+        <Spinner animation="border" variant="primary" />
+      </Container>
+    ); 
   }
 
-  useEffect(() => {
-    getToBack()
-  }, [])
-
-  
-
-
   return (
-    <>
-      <KanBan />
-      <div className="cart">
-        <Container fluid>
-          <Form>
-            <h1>購物車</h1>
-            <Table dataSource={dataSource}>
-              <Column title="店家" dataIndex="store_name" key="store_name" />
-              <Column title="品名" dataIndex="goods_name" key="goods_name" />
-              <Column title="單價" dataIndex="price" key="price" />
-              <Column
-                title="數量"
-                key="quantity"
-                render={(record) => (
-                  <CartCounter
-                    data={record}
-                    cartid={record.cart_id}
-                    onQuantityChange={handleQuantityChange}
-                    onUpdateDataSource={setDataSource}
-                  />
-                )}
-              />
-              <Column
-                title="小計"
-                key="itemTotal"
-                render={(record) => (
-                  <span>{itemQuantities[record.cart_id] * record.price || record.price}</span>
-                )}
-              />
-              <Column
-                title="刪除"
-                key="isDelete"
-                render={(record) => (
-                  <CartDelete cartid={record.cart_id} onUpdateDataSource={setDataSource} />
-                )}
-              />
+    <Container className="mt-5">
+      <KanBan></KanBan>
+      <h2 className="mb-4 text-left">購物車</h2>
+      {Object.keys(groupedItems).map(storeName => (
+        <Card className="mb-5 shadow-sm" key={storeName}>
+          <Card.Header className="text-white text-left" style={{ backgroundColor: '#2E8B57' }}>
+            <h3>{storeName}</h3>
+          </Card.Header>
+          <Card.Body>
+            <Table bordered hover className="mb-4">
+              <thead className="bg-light">
+                <tr>
+                  <th className="text-center">
+                    <Form.Check
+                      type="checkbox"
+                      checked={groupedItems[storeName].every(item => selectedItems.includes(item.id))}
+                      onChange={() => handleSelectAll(storeName)}
+                    />
+                  </th>
+                  <th className="text-left">商品名稱</th>
+                  <th className="text-center">單價</th>
+                  <th className="text-center">數量</th>
+                  <th className="text-center">小計</th>
+                  <th className="text-center">操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                {groupedItems[storeName].map(item => (
+                  <tr key={item.id}>
+                    <td className="text-center">
+                      <Form.Check
+                        type="checkbox"
+                        value={item.id}
+                        checked={selectedItems.includes(item.id)}
+                        onChange={() => handleSelectItem(item.id)}
+                      />
+                    </td>
+                    <td className="text-left">{item.goods_info.product_name}</td>
+                    <td className="text-center">${item.goods_info.price}</td>
+                    <td className="text-center">
+                      <Button
+                        variant="outline-secondary"
+                        size="lg"
+                        onClick={() => updateQuantity(item.id, -1)}
+                      >
+                        -
+                      </Button>
+                      <span className="mx-3">{item.quantity}</span>
+                      <Button
+                        variant="outline-secondary"
+                        size="lg"
+                        onClick={() => updateQuantity(item.id, 1)}
+                      >
+                        +
+                      </Button>
+                    </td>
+                    <td className="text-center">${item.subtotal}</td>
+                    <td className="text-center">
+                      <Button variant="danger" size="lg" onClick={() => removeItem(item.id)}>
+                        刪除
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
             </Table>
-            <div>
-              <span className="cart-total">總金額：＄ {total}</span>
-              <Link to="/checkout">
-                <Button
-                  variant="success"
-                  size="lg"
-                  className="cart-buy-button"
-                  onClick={() => buyClick()}
-                >
-                  購買
-                </Button>
-              </Link>
-            </div>
-          </Form>
-        </Container>
-      </div>
-    </>
+          </Card.Body>
+        </Card>
+      ))}
+      <Row className="mt-4">
+        <Col md={{ span: 4, offset: 4 }} className="text-center">
+          <h4>總金額: ${total}</h4>
+          <Button
+            variant="success"
+            size="lg"
+            onClick={handleCheckout}
+            disabled={selectedItems.length === 0}
+          >
+            結帳
+          </Button>
+        </Col>
+      </Row>
+    </Container>
   );
+  /**
+   * 處理購物車ＩＤ的商品選項處理
+   * @param {*} id 
+   * @param {*} delta 
+   */
+  function updateQuantity(id, delta) {
+    setCartItems(prevItems =>
+      prevItems.reduce((acc, item) => {
+        if (item.id === id) {
+          const newQuantity = item.quantity + delta;
+          if (newQuantity > 0) {
+            acc.push({
+              ...item,
+              quantity: newQuantity,
+              subtotal: newQuantity * item.goods_info.price,
+            });
+          }
+          else{
+            removeItem(item.id)
+          }
+        } else {
+          acc.push(item);
+          
+        }
+        return acc;
+      }, [])
+    );
+
+    const item = cartItems.find(item => item.id === id);
+    const newTotal = total + item.goods_info.price * delta;
+    setTotal(newTotal > 0 ? newTotal : 0);
+  }
+  /**
+   * 刪除購物車選項
+   * @param {*} id 購物車項目ＩＤ
+   */
+  function removeItem(id) {
+    const itemToRemove = cartItems.find(item => item.id === id);
+    setCartItems(prevItems => prevItems.filter(item => item.id !== id));
+    setTotal(prevTotal => prevTotal - itemToRemove.subtotal);
+
+    Axios().delete(`order/cart/delete/`,{
+      params:{goods_id:itemToRemove.goods}}
+    )
+    .then((res) => {
+      alert("已移除購物車！")
+    })
+    .catch((err) => {
+      alert("伺服器維護中")
+    })
+  };
 }
 
-export default Cart;
+export default ShoppingCart;

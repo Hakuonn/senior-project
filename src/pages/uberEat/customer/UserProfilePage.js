@@ -1,10 +1,10 @@
 import React from 'react'
 import { Container, Tab, ListGroup, Row, Col } from 'react-bootstrap'
-import MyProfile from 'components/uberEat_C_C/userProfile/MyProfile'
-import MyAllergen from 'components/uberEat_C_C/userProfile/MyAllergen'
+import MyProfile from 'components/uberEat_C_C/UserProfile/MyProfile'
+import MyAllergen from 'components/uberEat_C_C/UserProfile/MyAllergen'
 import KanBan from 'components/nav_and_footer/KanBan'
-import MyPassword from 'components/uberEat_C_C/userProfile/MyPassword.js'
-import MyPreference from 'components/uberEat_C_C/userProfile/MyPreference'
+import MyPassword from 'components/uberEat_C_C/UserProfile/MyPassword.js'
+import MyPreference from 'components/uberEat_C_C/UserProfile/MyPreference'
 
 
 /*** 
