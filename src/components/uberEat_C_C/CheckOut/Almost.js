@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { Card, ListGroup } from 'react-bootstrap'
+import { Card, Container, ListGroup } from 'react-bootstrap'
 import Axios from 'components/Axios'
+import LoadingSpinner from 'components/loadingSpinner'
 
-function Almost({data, payment}) {
-    const [memberName, setMemberName] = useState(null)
-    const [memberPhone, setMemberPhone] = useState(null)
+function Almost({data, payment , time , orderNote}) {
+
     const [order, setOrder] = useState(null)
-    const [storeName, setStoreName] = useState(null)
-    const [storePhone, setStorePhone] = useState(null)
-    const [storeAddress, setStoreAddress] = useState(null)
+    const [storeData,setStoreData] = useState(null)
+    const [memberData,setMemberData] = useState(null)
     const [total, setTotal] = useState(0)
-    console.log(order)
+
 
     const calTotal = () =>{
       let result = 0
@@ -21,20 +20,25 @@ function Almost({data, payment}) {
       setTotal(result)
     }
 
-
-
     const GetFromBack = () =>{
+        // 取得使用者資料
         Axios().get('member/info/get/')
         .then((res)=>{
             let data = res.data
-            if(data){
-            setMemberName(data.name)
-            setMemberPhone(data.phone)                
-            }
+            setMemberData(data)
 
         })
         .catch((err)=>{
             console.log(err)
+        })
+        // 取得商家資料
+        Axios().get('store/search/id/',{
+          params:{
+            id:data[0].goods_info.store_id
+          }
+        })
+        .then((res) => {
+          setStoreData(res.data)
         })
     }
 
@@ -44,53 +48,59 @@ function Almost({data, payment}) {
     
     useEffect(()=>{
       if (data && data.length > 0) {
-          setOrder(data)
-          setStoreName(data[0].store_name)
-          setStorePhone(data[0].store_phone)
-          setStoreAddress(data[0].store_address)  
+          setOrder(data) 
           calTotal() 
       }         
     },[data])
   
-
-  return (
-    <>
-    <Card>
-        <Card.Header>
-        <Card.Title>確認您的訂單</Card.Title>
-        </Card.Header>
-      <Card.Body>
-        <Card.Text>訂購人：{memberName}</Card.Text>
-        <Card.Text>電話：{memberPhone}</Card.Text>            
-      </Card.Body>
-      <ListGroup className="list-group-flush">
+  if (data && memberData && storeData){
+    return (
+      <Container className="my-4">
+      <Card>
+          <Card.Header>
+          <Card.Title>確認您的訂單</Card.Title>
+          </Card.Header>
         <Card.Body>
-          <Card.Text>店家：{storeName}</Card.Text>
-          <Card.Text>店家電話：{storePhone}</Card.Text>
-          <Card.Text>店家地址：{storeAddress}</Card.Text>    
+          <Card.Text>訂購人：{memberData.name}</Card.Text>
+          <Card.Text>電話：{memberData.phone}</Card.Text>            
         </Card.Body>
-      </ListGroup>
-      <Card.Body>
-        <Card.Title>餐點明細</Card.Title>
         <ListGroup className="list-group-flush">
-            {order &&
-             order.map((item)=>(
-            <ListGroup.Item>
-              <Card.Text>{item.goods_name} ${item.price}</Card.Text>
-              <Card.Text>數量：{item.quantity}</Card.Text>
-              <Card.Text>小計：{`$${item.subtotal}`}</Card.Text>
-            </ListGroup.Item>                
-             )) 
-            }
+          <Card.Body>
+            <Card.Text>店家：{storeData.name}</Card.Text>
+            <Card.Text>店家電話：{storeData.phone}</Card.Text>
+            <Card.Text>店家地址：{storeData.address}</Card.Text>    
+          </Card.Body>
         </ListGroup>
-      </Card.Body>
-      <Card.Footer>
-        <Card.Title>{`總金額：$${total}`}</Card.Title>
-        <Card.Subtitle className='mt-3'>支付方式：{payment}</Card.Subtitle>
-      </Card.Footer>
-    </Card>
-    </>
-  )
+        <Card.Body>
+          <Card.Title>餐點明細</Card.Title>
+          <ListGroup className="list-group-flush">
+              {order &&
+               order.map((item)=>(
+              <ListGroup.Item>
+                <Card.Text>商品名稱：{item.goods_info.product_name}</Card.Text>
+                <Card.Text>商品價格：${item.goods_info.price}</Card.Text>
+                <Card.Text>數量：{item.quantity}</Card.Text>
+                <Card.Text>小計：{`$${item.subtotal}`}</Card.Text>
+              </ListGroup.Item>                
+               )) 
+              }
+          </ListGroup>
+        </Card.Body>
+        <Card.Footer>
+          <Card.Title>{`總金額：$${total}`}</Card.Title>
+          <Card.Subtitle className='mt-3'>支付方式：{payment}</Card.Subtitle>
+          <Card.Subtitle className='mt-3'>註記：{orderNote}</Card.Subtitle>
+          <Card.Subtitle className='mt-3'>預計取餐：{time}</Card.Subtitle>
+
+        </Card.Footer>
+      </Card>
+      </Container>
+      
+    )
+  }else{
+    <LoadingSpinner></LoadingSpinner>
+  }
+  
 }
 
 export default Almost

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Table, Button, Spinner, Row, Col, Form, Card } from 'react-bootstrap';
-
+import { useNavigate } from 'react-router-dom';
 import KanBan from 'components/nav_and_footer/KanBan';
 import Axios from 'components/Axios';
 
@@ -9,6 +9,8 @@ import Axios from 'components/Axios';
  * 購物車
  */
 const ShoppingCart = () => {
+  let navigate = useNavigate()
+
   const [cartItems, setCartItems] = useState([]);
   const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -34,6 +36,16 @@ const ShoppingCart = () => {
       });
   }, []);
 
+  const updateQuantitytoBack = (goods_id,quantity) => {
+    Axios().post('order/cart/update-quantity/',{
+      "goods_id": goods_id,
+      "quantity": quantity
+    })
+    .catch((err) => {
+      alert("商品數量變更失敗！")
+    })
+  }
+  
   /**
    * 將後端給予的資料以商店名稱進行分組
    */
@@ -78,9 +90,11 @@ const ShoppingCart = () => {
    * 結帳事件處理
    * */ 
   const handleCheckout = () => {
-    // 处理结账时的逻辑，例如发送 selectedItems 到后端
-    console.log('Selected Items:', selectedItems);
+      navigate("/Cart/Checkout",{
+        state: { goods_id: selectedItems } 
+      })
   };
+
   // 若還在拿取資料則加載
   if (isLoading) {
     return (
@@ -191,6 +205,7 @@ const ShoppingCart = () => {
               quantity: newQuantity,
               subtotal: newQuantity * item.goods_info.price,
             });
+            updateQuantitytoBack(item.goods,newQuantity)
           }
           else{
             removeItem(item.id)
