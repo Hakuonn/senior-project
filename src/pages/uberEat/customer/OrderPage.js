@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Container, Card } from 'react-bootstrap'
 import { Table, Tabs } from 'antd';
-import KanBan from 'components/KanBan'
+import KanBan from 'components/nav_and_footer/KanBan'
 import Axios from 'components/Axios';
-import ReviewModal from 'components/OrderReviewModal';
+import ReviewModal from 'components/uberEat_C_C/Order/OrderReviewModal';
 
 /**
  * 消費者訂單
@@ -29,7 +29,7 @@ function UserOrder() {
     setIsReviewModalVisible(false);
   };
   const getOrder = () =>{
-    Axios().get('/orderv/all/')
+    Axios().get('/order/member/')
   .then((res)=>{
     let data = res.data
     console.log(data)
@@ -48,8 +48,8 @@ function UserOrder() {
   const columns = [
     {
       title: '#',
-      dataIndex: 'oid',
-      key: 'oid',
+      dataIndex: 'id',
+      key: 'id',
     },
     {
       title: '店家',

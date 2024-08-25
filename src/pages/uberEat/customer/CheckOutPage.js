@@ -17,6 +17,7 @@ import { useLocation } from 'react-router-dom';
 function CheckOutPage() {
   
   const [current, setCurrent] = useState(0);
+  
   const [data, setData] = useState(null);
   // 付款方式
   const [payment, setPayment] = useState(null);
