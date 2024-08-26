@@ -5,7 +5,10 @@ import HomePage from './pages/HomePage';
 // uberEat - Customer
 import AboutMePage from './pages/uberEat/customer/AboutMePage';
 import CommonQAPage from './pages/uberEat/customer/CommonQAPage';
-
+import UserProfile from './pages/uberEat/customer/UserProfilePage'
+import StoreDetail from './pages/uberEat/customer/StorePage'
+import ShoppingCart from 'pages/uberEat/customer/CartPage';
+import CheckOutPage from 'pages/uberEat/customer/CheckOutPage';
 // uberEat - Store
 import StoreIndexPage from './pages/uberEat/store/StoreIndexPage';
 import StoreLoginPage from './pages/uberEat/store/StoreLoginPage';
@@ -28,7 +31,7 @@ import LoginPage from './pages/uberEat/customer/LoginPage';
 import RegisterPage from './pages/uberEat/customer/RegisterPage';
 import MenuPage from './pages/uberEat/customer/MenuPage';
 
-const baseUrl = "https://28ab-1-174-125-68.ngrok-free.app/";
+const baseUrl = "http://140.133.74.162:12345/";
 
 function App() {
   return (
@@ -36,7 +39,7 @@ function App() {
       <BrowserRouter>
         <div className="content-wrap">
           <Routes>
-            <Route path='/' element={<HomePage/>} exact />
+            <Route path='/' element={<HomePage baseUrl={baseUrl}/>} exact  />
             {/* uberEat - customer */}
             <Route path='/LoginPage' element={<LoginPage/>} />
             <Route path='/Register' element={<RegisterPage/>} />
@@ -44,11 +47,11 @@ function App() {
             {/* <Route path='/Activity' element={<Activity/>} /> */}
             <Route path='/CommonQA' element={<CommonQAPage/>} />
             <Route path='/Menu' element={<MenuPage baseUrl={baseUrl}/>} />
-            {/* <Route path='/store/:sid' element={<Store/>} /> */}
-            {/* <Route path='/cart' element={<Cart/>} /> */}
-            {/* <Route path='/UserProfile' element={<UserProfile/>} /> */}
+            <Route path='/Menu/Store/:id' element={<StoreDetail baseUrl={baseUrl} />} />
+            <Route path='/Cart' element={<ShoppingCart />} />
+            <Route path='/UserProfile' element={<UserProfile/>} />
             {/* <Route path='/orders' element={<UserOrder/>} /> */}
-            {/* <Route path='/checkout' element={<CheckOutPage/>}/> */}
+            <Route path='/Cart/Checkout' element={<CheckOutPage/>}/>
             {/* <Route path='/activity/:actid' element={<ActivityPage/>}/> */}
 
 

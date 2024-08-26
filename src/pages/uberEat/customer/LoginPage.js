@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Container, Form, Button, Image, Row, Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import KanBan from '../../../components/nav_and_footer/KanBan'
-import Axios from '../../../components/Axios'
+import KanBan from 'components/nav_and_footer/KanBan'
+import Axios from 'components/Axios'
 // import { stringify } from 'qs'
 
 
@@ -16,7 +16,7 @@ function LoginPage() {
         // window.location.href="/menu"
     }
     // 回傳登入資料
-    const action = 'api/token/obtain/'
+    const action = 'member/basic/login/'
     const handleSubmit = (e) =>{
         Axios().post(action, JSON.stringify({
             account: account,
@@ -25,7 +25,7 @@ function LoginPage() {
         .then((res)=>{
             if (res.status === 200){
                 alert("登入成功")
-                window.localStorage.setItem('jwt',res.data['access'])
+                window.localStorage.setItem('jwt',res.data['token'])
                 AfterofLoginClickHandler()
             }
         })
