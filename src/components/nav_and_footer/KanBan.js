@@ -45,7 +45,9 @@ function KanBan() {
 
   return (
     <div>
-      <Navbar expand="lg" className="bg-body-tertiary" bg="light" data-bs-theme="light" fixed='top'>
+      <Navbar expand="lg" className="bg-body-tertiary" 
+      bg="light" data-bs-theme="light" fixed='top'
+      >
         <Container>
           <Navbar.Brand href="/" className='nav-brand'>
             <img

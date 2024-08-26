@@ -1,6 +1,6 @@
 import React from 'react'
 import { Col, Container, Row, Image } from 'react-bootstrap'
-import AboutBuilder from '../../../../components/uberEat_C_C/AboutBuilder'
+import AboutBuilder from 'components/uberEat_C_C/AboutBuilder'
 
 
 
