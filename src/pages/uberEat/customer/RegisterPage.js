@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Card, Col, Container, Form, Row, Button, Image, Alert } from 'react-bootstrap'
-import logo from '../../../imgs/logo.png'
+import logo from 'imgs/logo.png'
 import { Link } from 'react-router-dom'
-import KanBan from '../../../components/nav_and_footer/KanBan'
-import Axios from '../../../components/Axios'
+import KanBan from 'components/nav_and_footer/KanBan'
+import Axios from 'components/Axios'
 import * as formik from 'formik';
 import * as yup from 'yup';
 
@@ -56,18 +56,54 @@ function RegisterPage() {
             address: values.addr,
             birth: values.birth,
             password: values.passwd,
-            allergen: selectAllergen
+            allergen: selectAllergen.toString()
         }
-        
-        Axios().post('register/new/', JSON.stringify(data))
+        // 後端格式如下
+        // {
+        //     "name": "string",
+        //     "phone": "string",
+        //     "gender": "strin",
+        //     "email": "user@example.com",
+        //     "address": "string",
+        //     "birth": "2024-08-21",
+        //     "allergen": "string",
+        //     "prefer": "string",
+        //     "account": "string",
+        //     "password": "string"
+        //   }
+
+        Axios().post('member/basic/register/', JSON.stringify(data))
         .then((res)=>{
-            if(res.status === 200){
-                console.log('success')
+            if(res.status === 201){
+                alert("註冊成功，歡迎成為我們的會員！")
                 AfterofRegisterClickHandler()
             }
         })
-        .catch((err)=>{
-            console.log(err)
+        .catch((error)=>{
+            if (error.response) {
+                // 伺服器有回應
+                const status = error.response.status;
+    
+                switch (status) {
+                    case 400:
+                        alert("輸入的格式出錯")
+                        break;
+                    case 409:
+                        alert("已經有相同帳號！請去登入～");
+                        break;
+                    case 500:
+                        alert("伺服器出現錯誤，請稍候嘗試");
+                        break;
+                    default:
+                        console.error(`Unexpected Error: ${status}`);
+                }
+            } else if (error.request) {
+                // 請求已發出，但沒有收到回應
+                console.error('No Response: 伺服器無回應');
+            } else {
+                // 設定錯誤
+                console.error('Error:', error.message);
+            }
         })
     }
 

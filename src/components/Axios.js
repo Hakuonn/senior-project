@@ -2,8 +2,6 @@ import axios from "axios"
 import { Navigate } from "react-router-dom"
 
 
-
-
 function Axios(){
   // const navigate = useNavigate()
   if (window.localStorage.getItem('jwt') === null){
