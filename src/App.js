@@ -30,6 +30,7 @@ import Footer from './components/nav_and_footer/Footer'
 import LoginPage from './pages/uberEat/customer/LoginPage';
 import RegisterPage from './pages/uberEat/customer/RegisterPage';
 import MenuPage from './pages/uberEat/customer/MenuPage';
+import RecipeFavoritePage from './pages/recipe/RecipeFavoritePage';
 
 const baseUrl = "http://140.133.74.162:12345/";
 
@@ -66,6 +67,7 @@ function App() {
             <Route path='/StoreCustomerFeedback' element={<StoreCustomerFeedbackPage/>} />
             {/* 健康食譜 */}
             <Route path='/RecipeIndex' element={<RecipeIndexPage/>} />
+            <Route path='/RecipeFavorite' element={<RecipeFavoritePage/>} />
             <Route path='/Recipe/search' element={<RecipeSearchPage/>} />
             <Route path='/Recipe/result/:rid' element={<RecipeShowPage/>} />
 
