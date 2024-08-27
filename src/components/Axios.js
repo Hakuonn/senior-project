@@ -2,8 +2,6 @@ import axios from "axios"
 import { Navigate } from "react-router-dom"
 
 
-
-
 function Axios(){
   // const navigate = useNavigate()
   if (window.localStorage.getItem('jwt') === null){
@@ -15,10 +13,10 @@ function Axios(){
       baseURL: 'http://140.133.74.162:12345/',
       timeout:10000,
       headers:{
-        'ngrok-skip-browser-warning':'123',
+        // 'ngrok-skip-browser-warning':'123',
         'Authorization':jwt,
         'Content-Type':'Application/json',
-        'Accept':'Application/json'
+        'Accept':'*/*'
       }
     }
   )

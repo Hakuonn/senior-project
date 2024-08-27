@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import StoreKanBan from '../../../components/nav_and_footer/StoreKanBan'
-import { Card } from 'react-bootstrap'
+import { Card, Container } from 'react-bootstrap'
 import { Rating } from '@mui/material'
 import Axios from '../../../components/Axios'
 
@@ -26,7 +26,7 @@ function StoreCustomerFeedbackPage() {
   return (
     <>
     <StoreKanBan/>
-    <div className='storeIndex'>
+    <Container className='storeIndex'>
             <h1>商家評價查詢</h1>
             <div className='customer-feedback'>
                 {dataSource && dataSource !== '無資料'?
@@ -48,7 +48,7 @@ function StoreCustomerFeedbackPage() {
                 </Card>
                 }
             </div>
-    </div>
+    </Container>
     </>
   )
 }

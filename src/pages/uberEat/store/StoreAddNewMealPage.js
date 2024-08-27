@@ -5,19 +5,16 @@ import * as formik from 'formik';
 import * as yup from 'yup';
 import Axios from '../../../components/Axios';
 import '../../../css/uberEat_store.css';
-import { useNavigate } from 'react-router-dom';
 
 /*** 
  * 商家新增產品頁面 allergen要修改，因為我已經把json-server關了
  ***/
 function StoreAddNewMealPage() {
   const { Formik } = formik;
-  const navigate = useNavigate();
+
   const [image, setImage] = useState(null);
-  const [submitAction, setSubmitAction] = useState(''); // 新增這行
 
-
-  const datatoback = (values, resetForm) => {
+  const datatoback = (values) => {
     Axios().post('/store_data/goods/upload/', JSON.stringify({
       status: false,
       type: values.type,
@@ -32,12 +29,7 @@ function StoreAddNewMealPage() {
     .then((res) => {
       console.log(res.data);
       alert('餐點已上傳，記得去商品管理頁面進行上架喔～');
-      if (submitAction === 'submit') {
-        navigate('/StoreProduct');
-      } else {
-        resetForm();
-        setImage(null);
-      }
+      window.location.reload();
     })
     .catch((err) => {
       console.log(err);
@@ -61,6 +53,7 @@ function StoreAddNewMealPage() {
     { id: 'hazelnut', label: '榛果' },
     { id: 'SO2', label: '二氧化硫（亞硫酸鹽）' }
   ];
+
   const handlePicUpload = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -84,6 +77,7 @@ function StoreAddNewMealPage() {
         <Row>
           <Col>
             <Formik
+              // validationSchema={schema}
               initialValues={{
                 name: '',
                 type: '',
@@ -226,24 +220,9 @@ function StoreAddNewMealPage() {
                       ))}
                     </div>
                   </Form.Group>
-                  <div className="d-flex gap-2 mt-5">
-                    <Button
-                      variant="outline-success"
-                      size="l"
-                      type="submit"
-                      className="w-50"
-                      onClick={() => setSubmitAction('submit')}
-                    >
-                      提交
-                    </Button>
-                    <Button
-                      variant="outline-primary"
-                      size="l"
-                      className="w-50"
-                      type="submit"
-                      onClick={() => setSubmitAction('continue')}
-                    >
-                      繼續新增
+                  <div className="d-grid gap-2 mt-5">
+                    <Button variant="outline-success" size="lg" type="submit">
+                      新增產品
                     </Button>
                   </div>
                 </Form>

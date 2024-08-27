@@ -49,40 +49,68 @@ function RegisterPage() {
     function datatoback({values={}}){
         let data = {
             account: values.account,
-            name: values.name,
+            name: values.userName,
             phone: values.phone,
             gender: values.gender,
             email: values.email,
-            address: values.address,
+            address: values.addr,
             birth: values.birth,
-            password: values.password,
-            allergen: selectAllergen.join(',')
+            password: values.passwd,
+            allergen: selectAllergen.toString()
         }
-        
-        Axios().post('/member/basic/register/', JSON.stringify(data))
-    .then((res) => {
-        if (res.status === 200) {
-            console.log('success');
-            AfterofRegisterClickHandler();  // 註冊成功的回調函數
-        }
-    })
-    .catch((err) => {
-        console.log(err);
-        // 從後端獲取錯誤訊息，並彈出註冊失敗的字卡
-        const errorMessage = err.response?.data?.message || "註冊失敗，請稍後再試";
-        alert(`註冊失敗：${errorMessage}`);
-    });
+        // 後端格式如下
+        // {
+        //     "name": "string",
+        //     "phone": "string",
+        //     "gender": "strin",
+        //     "email": "user@example.com",
+        //     "address": "string",
+        //     "birth": "2024-08-21",
+        //     "allergen": "string",
+        //     "prefer": "string",
+        //     "account": "string",
+        //     "password": "string"
+        //   }
+
+        Axios().post('member/basic/register/', JSON.stringify(data))
+        .then((res)=>{
+            if(res.status === 201){
+                alert("註冊成功，歡迎成為我們的會員！")
+                AfterofRegisterClickHandler()
+            }
+        })
+        .catch((error)=>{
+            if (error.response) {
+                // 伺服器有回應
+                const status = error.response.status;
+    
+                switch (status) {
+                    case 400:
+                        alert("輸入的格式出錯")
+                        break;
+                    case 409:
+                        alert("已經有相同帳號！請去登入～");
+                        break;
+                    case 500:
+                        alert("伺服器出現錯誤，請稍候嘗試");
+                        break;
+                    default:
+                        console.error(`Unexpected Error: ${status}`);
+                }
+            } else if (error.request) {
+                // 請求已發出，但沒有收到回應
+                console.error('No Response: 伺服器無回應');
+            } else {
+                // 設定錯誤
+                console.error('Error:', error.message);
+            }
+        })
     }
 
     // 註冊後回到商店選擇頁面
     const AfterofRegisterClickHandler = () =>{
-        // 使用 setTimeout 模擬延遲後的跳轉，給用戶足夠時間看到成功訊息
-        setTimeout(() => {
-            window.open("/LoginPage",'_self');  // 跳轉到登入頁面
-        }, 2000);  // 2秒後跳轉
-    
-        // 彈出成功字卡
-        alert("註冊成功！2秒後將自動跳轉到登入頁面");
+        alert("註冊成功")
+        window.open("/LoginPage",'_self')
     }
 
     // 過敏原管理
@@ -132,15 +160,15 @@ function RegisterPage() {
                     <Form.Label>名字*</Form.Label>
                     <Form.Control 
                      type="text" 
-                     name='name' 
+                     name='userName' 
                      placeholder="你的名字" 
-                     value={values.name} 
+                     value={values.userName} 
                      onChange={handleChange}
-                     isInvalid={!!errors.name}
+                     isInvalid={!!errors.userName}
                      required
                      />
                      <Form.Control.Feedback type='invalid'>
-                        {errors.name}
+                        {errors.userName}
                     </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="phone">
@@ -195,14 +223,14 @@ function RegisterPage() {
                     <Form.Control 
                      type="text" 
                      placeholder="輸入地址" 
-                     name='address' 
-                     value={values.address} 
+                     name='addr' 
+                     value={values.addr} 
                      onChange={handleChange}
-                     isInvalid={!!errors.address}
+                     isInvalid={!!errors.addr}
                      required 
                      />
                     <Form.Control.Feedback type='invalid'>
-                        {errors.address}
+                        {errors.addr}
                     </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="account">
@@ -254,14 +282,14 @@ function RegisterPage() {
                     <Form.Control 
                      type="password" 
                      placeholder="Password" 
-                     name='password' 
-                     value={values.password} 
+                     name='passwd' 
+                     value={values.passwd} 
                      onChange={handleChange}
-                     isInvalid={!!errors.password}
+                     isInvalid={!!errors.passwd}
                      required
                      />
                     <Form.Control.Feedback type='invalid'>
-                        {errors.password}
+                        {errors.passwd}
                     </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="SignInCheckPassword">
@@ -298,13 +326,13 @@ function RegisterPage() {
                          validationSchema={schema}
                          onSubmit={console.log}
                          initialValues={{
-                            name: '',
+                            userName: '',
                             phone: '',
                             gender: '',
-                            address: '',
+                            addr: '',
                             account: '',
                             email: '',
-                            password: '',
+                            passwd: '',
                             confirmPasswd: '',
                          }}
                         >

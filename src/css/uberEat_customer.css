@@ -31,3 +31,11 @@
   .food-type-name{
     font-size: 18px;
   }
+  .store-img{
+    width: 80%;
+    height: 80%;
+    position: relative;left: 15%;
+  }
+  .storedetail-page{
+    padding-top: 3%;
+  }

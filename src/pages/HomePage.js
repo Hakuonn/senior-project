@@ -6,11 +6,11 @@ import { Container } from 'react-bootstrap'
 
 
 
-function Home() {
+function Home({baseUrl}) {
   return (
     <Container>
         <KanBan/>
-        <SimpleSlider/>
+        <SimpleSlider baseUrl={baseUrl}/>
         <LogIn/>
     </Container>
   )

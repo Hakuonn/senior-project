@@ -18,14 +18,14 @@ function LoginPage() {
     // 回傳登入資料
     const action = 'member/basic/login/'
     const handleSubmit = (e) =>{
-        Axios().post(action, {
+        Axios().post(action, JSON.stringify({
             account: account,
             password: passwd
-        })
+        }))
         .then((res)=>{
             if (res.status === 200){
                 alert("登入成功")
-                window.localStorage.setItem('jwt',res.data['access'])
+                window.localStorage.setItem('jwt',res.data['token'])
                 AfterofLoginClickHandler()
             }
         })

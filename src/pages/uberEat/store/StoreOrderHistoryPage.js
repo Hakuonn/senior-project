@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react'
-import StoreKanBan from '../../../components/nav_and_footer/StoreKanBan'
-import { Card } from 'react-bootstrap'
+import React, { useState, useEffect } from 'react';
+import StoreKanBan from '../../../components/nav_and_footer/StoreKanBan';
+import { Card, Container } from 'react-bootstrap';
 import { Table, Tabs } from 'antd';
 import Axios from '../../../components/Axios';
-
 
 /*** 
  * 商家歷史訂單記錄頁面
  ***/
 function StoreOrderHistoryPage() {
-  const [dataSource, setDataSource] = useState(null)
-  console.log(dataSource)
+  const [dataSource, setDataSource] = useState(null);
+  console.log(dataSource);
+  
   const getHistory = () => {
     Axios()
       .get('/orderv/all/')
@@ -22,6 +22,7 @@ function StoreOrderHistoryPage() {
         console.log(err);
       });
   };
+
   const columns = [
     {
       title: '#',
@@ -69,7 +70,9 @@ function StoreOrderHistoryPage() {
       dataIndex: 'orderpayments',
       key: 'orderpayments',
       render: (orderpayments) => (
-        <span>{orderpayments[0].method}</span>
+        <span>
+          {orderpayments && orderpayments.length > 0 ? orderpayments[0].method : '無'}
+        </span>
       ),
     },
     {
@@ -85,50 +88,49 @@ function StoreOrderHistoryPage() {
   ];
 
   const { TabPane } = Tabs;
-  const filterOrdersByStatus = (orders, status) =>{
+
+  const filterOrdersByStatus = (orders, status) => {
     return orders.filter((order) => order.status === status);
-  }
+  };
 
   useEffect(() => {
     getHistory();
   }, []);
+
   return (
     <>
-    <StoreKanBan/>
-    <div className='storeIndex'>
+      <StoreKanBan />
+      <Container className='storeIndex'>
         <h1>歷史訂單</h1>
         <div className='order-div'>
-            {dataSource && dataSource !== '會員未建立任何訂單紀錄'?
-              <div className='order-div'>
-                <Tabs defaultActiveKey="1">
-                  <TabPane tab="未接單" key="1">
-                    <Table dataSource={filterOrdersByStatus(dataSource, '未接單')} columns={columns} />
-                  </TabPane>
-                  <TabPane tab="已接單" key="2">
-                    <Table dataSource={filterOrdersByStatus(dataSource, '已接單')} columns={columns} />
-                  </TabPane>
-                  <TabPane tab="未取餐" key="3">
-                    <Table dataSource={filterOrdersByStatus(dataSource, '未取餐')} columns={columns} />
-                  </TabPane>
-                  <TabPane tab="已完成" key="4">
-                    <Table dataSource={filterOrdersByStatus(dataSource, '已完成')} columns={columns} />
-                  </TabPane>
-                  <TabPane tab="已取消" key="5">
-                    <Table dataSource={filterOrdersByStatus(dataSource, '已取消')} columns={columns} />
-                  </TabPane>
-                </Tabs>
-              </div>
-            :
+          {dataSource && dataSource !== '會員未建立任何訂單紀錄' ? (
+            <div className='order-div'>
+              <Tabs defaultActiveKey="1">
+                <TabPane tab="未接單" key="1">
+                  <Table dataSource={filterOrdersByStatus(dataSource, '未接單')} columns={columns} />
+                </TabPane>
+                <TabPane tab="已接單" key="2">
+                  <Table dataSource={filterOrdersByStatus(dataSource, '已接單')} columns={columns} />
+                </TabPane>
+                <TabPane tab="已完成" key="3">
+                  <Table dataSource={filterOrdersByStatus(dataSource, '已完成')} columns={columns} />
+                </TabPane>
+                <TabPane tab="已取消" key="4">
+                  <Table dataSource={filterOrdersByStatus(dataSource, '已取消')} columns={columns} />
+                </TabPane>
+              </Tabs>
+            </div>
+          ) : (
             <Card>
               <Card.Body>
-                  <Card.Title>目前無任何歷史訂單</Card.Title>
+                <Card.Title>目前無任何歷史訂單</Card.Title>
               </Card.Body>
             </Card>
-            }
+          )}
         </div>
-    </div>
+      </Container>
     </>
-  )
+  );
 }
 
-export default StoreOrderHistoryPage
+export default StoreOrderHistoryPage;

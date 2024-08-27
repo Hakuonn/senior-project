@@ -2,64 +2,111 @@ import React, { useEffect, useState } from 'react';
 import KanBan from '../../../components/nav_and_footer/KanBan';
 import { Button, Container, Modal } from 'react-bootstrap'; // 引入 react-bootstrap 的 Modal
 import { message, Steps } from 'antd';
-import Bill from '../../../components/bill/Bill';
-import Pay from '../../../components/bill/Pay';
-import Almost from '../../../components/bill/Almost';
+
+// components
+import Bill from '../../../components/uberEat_C_C/CheckOut/Bill';
+import Pay from '../../../components/uberEat_C_C/CheckOut/Pay';
+import Almost from '../../../components/uberEat_C_C/CheckOut/Almost';
 import Axios from '../../../components/Axios';
+
 import { ExclamationCircleFilled } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+// 拿取購物車的項目
+import { useLocation } from 'react-router-dom';
 
 function CheckOutPage() {
+  
   const [current, setCurrent] = useState(0);
+  
   const [data, setData] = useState(null);
+  // 付款方式
   const [payment, setPayment] = useState(null);
+  // 預計時間
+  const [time,setTime] = useState(null)
+  // 訂單註記
+  const [orderNote,setOrderNote] = useState('')
+
   const [showModal, setShowModal] = useState(false); // 使用 show/hide 状态来控制 Modal 显示
+
+  const location = useLocation();
+  const { state } = location;
   const navigate = useNavigate();
 
-  const getToBack = () => {
-    Axios()
-      .get('/cart/get/')
-      .then((res) => {
-        if (res.status === 200) {
-          let data = res.data;
-          setData(data);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   const submitHandler = () => {
-    const cartIds = data.map((item) => item.cart_id);
+    const cartIds = data.map((item) => item.id);
+
+    // 後端傳送格式
+    //{
+    //  "cart_item_ids": [
+    //    0
+    //  ],
+    //  "delivery_method": "string",
+    //  "delivery_address": "string",
+    //  "payment_method": "string",
+    //  "delivery_notes": "string",
+    //  "scheduled_time": "Unknown Type: date-time"
+    // }
+
     Axios()
-      .post('/order/add/', JSON.stringify({
-        cart_list: cartIds,
+      .post('order/member/create-from-cart/', JSON.stringify({
+        cart_item_ids: cartIds,
+        delivery_address:'無',
         payment_method: payment,
+        delivery_notes:orderNote,
+        scheduled_time:time
       }))
       .then((res) => {
           setShowModal(false);
+          alert("訂購成功，請靜待賣家回覆，將會以信件通知您！")
           navigate('/orders');
       })
       .catch((error) => {
-        console.error('送出訂單失敗', error);
+        if(error.response.status === 400){
+          alert("購物車中產品已被購買完畢！請重新下單～")
+          navigate('/Cart')
+        } else if (error.response.state === 404){ 
+          alert("產品可能已經下架，請重新下單～")
+          navigate('/Cart')
+        }
       });
   };
+  
+  useEffect(() => {
 
+    Axios().get("/order/cart/get/",{
+      params:{
+        'cartItems':state.goods_id.toString()
+      }
+    })
+    .then((res) => {
+      setData(res.data)
+    })
+
+  },[])
+  
   const steps = [
     {
       title: '確認訂單',
       content: <Bill data={data} />,
     },
     {
-      title: '支付方式',
-      content: <Pay setPayment={setPayment} />,
+      title: '支付方式以及其他',
+      content: <Pay 
+      setPayment={setPayment}
+      setTime={setTime} 
+      setOrderNote={setOrderNote} />,
     },
     {
       title: '確認完成',
-      content: <Almost data={data} payment={payment} />,
-    },
-  ];
+      content: <Almost 
+                data={data}
+                payment={payment} 
+                time={time} 
+                orderNote={orderNote} 
+                 />,
+      },
+    ];
+
   const items = steps.map((item) => ({ key: item.title, title: item.title }));
 
   const nextClick = () => {
@@ -69,10 +116,6 @@ function CheckOutPage() {
   const prevClick = () => {
     setCurrent(current - 1);
   };
-
-  useEffect(() => {
-    getToBack();
-  }, []);
 
   return (
     <>
