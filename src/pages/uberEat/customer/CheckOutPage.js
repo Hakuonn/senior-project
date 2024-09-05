@@ -48,27 +48,34 @@ function CheckOutPage() {
     // }
 
     Axios()
-      .post('order/member/create-from-cart/', JSON.stringify({
-        cart_item_ids: cartIds,
-        delivery_address:'無',
-        payment_method: payment,
-        delivery_notes:orderNote,
-        scheduled_time:time
-      }))
-      .then((res) => {
-          setShowModal(false);
-          alert("訂購成功，請靜待賣家回覆，將會以信件通知您！")
-          navigate('/orders');
-      })
-      .catch((error) => {
-        if(error.response.status === 400){
-          alert("購物車中產品已被購買完畢！請重新下單～")
-          navigate('/Cart')
-        } else if (error.response.state === 404){ 
-          alert("產品可能已經下架，請重新下單～")
-          navigate('/Cart')
-        }
-      });
+  .post('order/member/create-from-cart/', JSON.stringify({
+    cart_item_ids: cartIds,
+    delivery_address: '無',
+    payment_method: payment,
+    delivery_notes: orderNote,
+    scheduled_time: time
+  }))
+  .then((res) => {
+    setShowModal(false);
+    alert("訂購成功，請靜待賣家回覆，將會以信件通知您！");
+    navigate('/orders');
+  })
+  .catch((error) => {
+    if (error.response) {
+      // 確保 error.response 存在
+      if (error.response.status === 400) {
+        alert("購物車中產品已被購買完畢！請重新下單～");
+        navigate('/Cart');
+      } else if (error.response.status === 404) {
+        alert("產品可能已經下架，請重新下單～");
+        navigate('/Cart');
+      }
+    } else {
+      // 處理 error.response 為 undefined 的情況
+      console.error("無法獲取回應，請稍後再試。", error);
+      alert("發生錯誤，請稍後再試！");
+    }
+  });
   };
   
   useEffect(() => {
