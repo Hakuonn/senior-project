@@ -24,7 +24,7 @@ const RecipeIndexPage = () => {
     <Container>
       <RecipeNav />
       <RecipeSlider />
-      <div className="mt-4">
+      <div className="mt-5">
         <h2 className="text-center mb-4">熱門食譜排行榜</h2>
         <Row className="g-4 mb-5">
           {popularRecipes.map((recipe, index) => (

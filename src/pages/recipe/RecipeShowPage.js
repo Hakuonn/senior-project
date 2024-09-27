@@ -36,7 +36,7 @@ const RecipePage = () => {
     <>
       <RecipeNav />
       <Container className='recipepage-container mt-5'>
-        <Button variant="secondary" onClick={() => navigate(-1)} className="mb-3">
+        <Button variant="secondary" onClick={() => navigate(-1)} className="mb-3 mt-5">
           回上頁
         </Button>
         {data && (
