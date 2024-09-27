@@ -1,10 +1,10 @@
 import React from 'react'
 import { Container, Tab, ListGroup, Row, Col } from 'react-bootstrap'
-// import MyProfile from 'components/uberEat_C_C/UserProfile/MyProfile'
-// import MyAllergen from 'components/uberEat_C_C/UserProfile/MyAllergen'
+import MyProfile from 'components/uberEat_C_C/UserProfile/MyProfile'
+import MyAllergen from 'components/uberEat_C_C/UserProfile/MyAllergen'
 import KanBan from 'components/nav_and_footer/KanBan'
-// import MyPassword from 'components/uberEat_C_C/UserProfile/MyPassword.js'
-// import MyPreference from 'components/uberEat_C_C/UserProfile/MyPreference'
+import MyPassword from 'components/uberEat_C_C/UserProfile/MyPassword.js'
+import MyPreference from 'components/uberEat_C_C/UserProfile/MyPreference'
 
 
 /*** 
@@ -29,10 +29,10 @@ function UserProfile() {
               <Col xs={12} md={10}>
                 <div className='about-right-div'>
                   <Tab.Content>
-                    {/* <Tab.Pane eventKey="#profile"><MyProfile/></Tab.Pane> */}
-                    {/* <Tab.Pane eventKey="#allergen"><MyAllergen/></Tab.Pane> */}
-                    {/* <Tab.Pane eventKey="#preference"><MyPreference/></Tab.Pane> */}
-                    {/* <Tab.Pane eventKey="#passwd"><MyPassword/></Tab.Pane> */}
+                    <Tab.Pane eventKey="#profile"><MyProfile/></Tab.Pane>
+                    <Tab.Pane eventKey="#allergen"><MyAllergen/></Tab.Pane>
+                    <Tab.Pane eventKey="#preference"><MyPreference/></Tab.Pane>
+                    <Tab.Pane eventKey="#passwd"><MyPassword/></Tab.Pane>
                   </Tab.Content>
                 </div>
               </Col>
