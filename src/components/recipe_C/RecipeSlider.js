@@ -9,7 +9,7 @@ import slider4 from '../../imgs/sliders/slider4.png'
 function RecipeSlider() {
   
   return (
-      <Carousel>
+      <Carousel className='mt-5'>
         <Carousel.Item>
         <img
           className="d-block w-100"

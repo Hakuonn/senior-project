@@ -60,9 +60,9 @@ function RecipeSearchPage() {
   return (
     <>
       <RecipeNav />
-      <Container className="searchpage-container">
-        <div className="search-content">
-          <Form.Group controlId="searchInput" className="mb-3">
+      <Container className="searchpage-container mt-5">
+        <div className="search-content mt-5">
+          <Form.Group controlId="searchInput" className="mb-3 mt-5">
             <Form.Control
               type="text"
               placeholder="輸入你想吃的類型或是食物名稱"
