@@ -20,27 +20,30 @@ function Almost({data, payment , time , orderNote}) {
       setTotal(result)
     }
 
-    const GetFromBack = () =>{
-        // 取得使用者資料
-        Axios().get('member/info/get/')
-        .then((res)=>{
-            let data = res.data
-            setMemberData(data)
-
-        })
-        .catch((err)=>{
-            console.log(err)
-        })
-        // 取得商家資料
-        Axios().get('store/search/id/',{
-          params:{
-            id:data[0].goods_info.store_id
-          }
-        })
+    const GetFromBack = () => {
+      // 取得使用者資料
+      Axios().get('member/info/get/')
         .then((res) => {
-          setStoreData(res.data)
+          let data = res.data;
+          setMemberData(data);
         })
-    }
+        .catch((err) => {
+          console.log("取得會員資料失敗：", err.response ? err.response.data : err.message);
+        });
+    
+      // 取得商家資料
+      Axios().get('store/search/id/', {
+        params: {
+          id: data[0].goods_info.store_id
+        }
+      })
+        .then((res) => {
+          setStoreData(res.data);
+        })
+        .catch((err) => {
+          console.log("取得商家資料失敗：", err.response ? err.response.data : err.message);
+        });
+    };
 
     useEffect(()=>{
         GetFromBack()

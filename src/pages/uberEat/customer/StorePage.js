@@ -134,10 +134,10 @@ function Store({baseUrl}) {
 
   return (
     <>
-    <KanBan/>
-    <Container className='storedetail-page d-flex'>
-    <div className='store'>
-        <Container fluid>
+    <KanBan />
+      <Container className='storedetail-page'>
+        <div className='store'>
+          <Container fluid>
             <StoreInfo id={parts} baseUrl={baseUrl} />
             <Row>
                 <Col>

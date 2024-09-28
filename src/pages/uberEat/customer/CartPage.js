@@ -105,7 +105,7 @@ const ShoppingCart = () => {
   }
 
   return (
-    <Container className="mt-5">
+    <Container fluid className="mt-5 pt-5">
       <KanBan></KanBan>
       <h2 className="mb-4 text-left">購物車</h2>
       {Object.keys(groupedItems).map(storeName => (

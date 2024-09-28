@@ -108,7 +108,7 @@ function UserOrder() {
     <>
       <KanBan />
       <div className="userOrder">
-        <Container fluid>
+        <Container fluid className="mt-5 pt-5">
           <h1>我的訂單</h1>
           <div className="order-div">
             {dataSource.length > 0 ? (
