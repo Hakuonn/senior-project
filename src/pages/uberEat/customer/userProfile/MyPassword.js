@@ -2,7 +2,7 @@ import React from 'react'
 import { Col, Container, Row, Image, Form, Button } from 'react-bootstrap'
 import * as formik from 'formik';
 import * as yup from 'yup';
-import Axios from '../../../components/Axios';
+import Axios from '../../../../components/Axios';
 
 function MyPassword() {
     const { Formik } = formik

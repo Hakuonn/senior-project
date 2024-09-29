@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import StoreKanBan from '../../../components/nav_and_footer/StoreKanBan'
-import { Card } from 'react-bootstrap'
+import { Card, Container  } from 'react-bootstrap'
 import { Rating } from '@mui/material'
 import Axios from '../../../components/Axios'
+import '../../../css/uberEat_store.css'
+
 
 
 function StoreCustomerFeedbackPage() {
     const [dataSource, setDataSource] = useState(null)
     
     console.log(dataSource)
-    const getData = () =>{
-        Axios().get('/store_data/Eva/')
+    const getData = (id) =>{
+        Axios().get('/comment/store/getSelf/')
         .then((res)=>{
             let data = res.data
             setDataSource(data)
@@ -26,6 +28,8 @@ function StoreCustomerFeedbackPage() {
   return (
     <>
     <StoreKanBan/>
+    <Container className='store-add-new-product'>
+
     <div className='storeIndex'>
             <h1>商家評價查詢</h1>
             <div className='customer-feedback'>
@@ -49,6 +53,7 @@ function StoreCustomerFeedbackPage() {
                 }
             </div>
     </div>
+    </Container>
     </>
   )
 }

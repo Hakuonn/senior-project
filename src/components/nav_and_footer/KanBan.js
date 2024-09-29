@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { Container, Nav, Navbar, Overlay, Tooltip, Button } from 'react-bootstrap';
 import { VscAccount } from 'react-icons/vsc';
 import { Link, useNavigate } from 'react-router-dom';
@@ -17,17 +17,20 @@ function KanBan() {
 
   const isValid = (url) => {
     const action = 'api/token/verify/';
-    Axios().post(action, JSON.stringify({ token: jwtToken }))
+    const jwtToken = window.localStorage.getItem('jwt'); // 從 localStorage 中取出 token
+
+    Axios().post(action, { token: jwtToken })
       .then((res) => {
-        if (res.status === 200) {
-          handleNavigate(url);
-        }
+          if (res.status === 200) {
+              handleNavigate(url);
+          }
       })
       .catch((err) => {
-        alert('請先登入喔～');
-        navigate('/LoginPage');
+          console.error('Token verification failed:', err);
+          alert('請先登入喔～');
+          navigate('/LoginPage');
       });
-  }
+}
 
   const LogIn = () => {
     const w = window.open("/LoginPage", '_self');

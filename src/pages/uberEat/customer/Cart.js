@@ -14,38 +14,38 @@ import { Link } from 'react-router-dom';
 function Cart() {
 
   const [itemQuantities, setItemQuantities] = useState({});
-  const [total, setTotal] = useState(null);
+  const [total, setTotal] = useState(0);
   const [cartid, setCartid] = useState([]); // Array 來存儲選定商品的 cart_id
-  const [dataSource, setDataSource] = useState(null);
-  console.log('total',total)
-  console.log('itemQuantities',itemQuantities)
+  const [dataSource, setDataSource] = useState([]);
 
   const buyClick = () => {
     // 在按下"購買"時，將所選商品的 cart_id 傳送到後端
     Axios().post('/cart/getid/', JSON.stringify({ cartIds: cartid }))
       .then((res) => {
         if (res.status === 200) {
-          let data = res.data
-          setDataSource(data)
+          let data = res.data;
+          setDataSource(data);
         }
       })
       .catch((err) => {
-        console.log(err)
-      })
-  }
+        console.log(err);
+      });
+  };
 
   const getToBack = () => {
-    Axios().get('/cart/get/')
+    Axios().get('order/member/')
       .then((res) => {
         if (res.status === 200) {
-          let data = res.data
-          setDataSource(data)
+          let data = res.data;
+          setDataSource(data);
           // 在資料已載入後計算總金額
           let caltotal = 0;
           data.forEach((item) => {
             caltotal += item.subtotal;
+            setItemQuantities((prev) => ({ ...prev, [item.cart_id]: item.quantity }));
           });
           setTotal(caltotal);
+          getToBack();
         }
       })
       .catch((err) => {
@@ -54,36 +54,45 @@ function Cart() {
   };
 
   const handleQuantityChange = (itemId, newQuantity) => {
+    if (newQuantity === 0) {
+      handleDelete(itemId);
+      return;
+    }
+
     // 找出目前商品的價格
-  const item = dataSource.find(item => item.cart_id === itemId);
-  const itemPrice = item ? item.price : 0;
+    const item = dataSource.find(item => item.cart_id === itemId);
+    const itemPrice = item ? item.price : 0;
 
-  // 計算小計
-  const subtotal = newQuantity * itemPrice;
+    // 更新 itemQuantities
+    setItemQuantities(prevQuantities => {
+      const updatedQuantities = { ...prevQuantities, [itemId]: newQuantity };
+      return updatedQuantities;
+    });
 
-  // 更新 itemQuantities
-  setItemQuantities({ ...itemQuantities, [itemId]: newQuantity });
+    // 強制更新頁面
+    getToBack();
+  };
 
-  // 更新 total
-  setTotal(total => {
-    // 找出原本的小計
-    const prevSubtotal = (itemQuantities[itemId] || 0) * itemPrice;
-    // 減去原本的小計，加上新的小計
-    return total - prevSubtotal + subtotal;
-  });
-  }
+  const handleDelete = (itemId) => {
+    setDataSource(prevDataSource => prevDataSource.filter(item => item.cart_id !== itemId));
+
+    setItemQuantities(prevQuantities => {
+      const { [itemId]: _, ...newQuantities } = prevQuantities;
+      return newQuantities;
+    });
+
+    // 強制更新頁面
+    getToBack();
+  };
 
   useEffect(() => {
-    getToBack()
-  }, [])
-
-  
-
+    getToBack();
+  }, []);
 
   return (
     <>
       <KanBan />
-      <div className="cart">
+      <Container className="cart">
         <Container fluid>
           <Form>
             <h1>購物車</h1>
@@ -107,14 +116,17 @@ function Cart() {
                 title="小計"
                 key="itemTotal"
                 render={(record) => (
-                  <span>{itemQuantities[record.cart_id] * record.price || record.price}</span>
+                  <span>{(itemQuantities[record.cart_id] || record.quantity) * record.price}</span>
                 )}
               />
               <Column
                 title="刪除"
                 key="isDelete"
                 render={(record) => (
-                  <CartDelete cartid={record.cart_id} onUpdateDataSource={setDataSource} />
+                  <CartDelete
+                    cartid={record.cart_id}
+                    onUpdateDataSource={() => handleDelete(record.cart_id)}
+                  />
                 )}
               />
             </Table>
@@ -133,7 +145,7 @@ function Cart() {
             </div>
           </Form>
         </Container>
-      </div>
+      </Container>
     </>
   );
 }

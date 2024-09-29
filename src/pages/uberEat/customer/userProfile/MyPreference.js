@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import useFetch from '../../../hooks/useFetch';
-import Axios from '../../../components/Axios';
+
+import Axios from '../../../../components/Axios';
 
 function MyPreference() {
-    const { data: dietaryPreference } = useFetch('http://localhost:8002/foodType');
     const [preferences, setPreferences] = useState([]);
     const [defaultPreferences, setDefaultPreference] = useState([]);
     console.log(preferences)
@@ -64,7 +63,7 @@ function MyPreference() {
                 <Col xs={8} md={8}>
                     <h2>飲食偏好</h2>
                     <Form>
-                        {dietaryPreference &&
+                        {/* {dietaryPreference &&
                         dietaryPreference.map((item) => (
                             <Form.Check
                                 key={item.id}
@@ -74,7 +73,7 @@ function MyPreference() {
                                 checked={(defaultPreferences && preferences) ? (defaultPreferences.includes(item.ft) || preferences.includes(item.ft)) : false}
                                 onChange={() => handleChange(item.ft)}
                             />
-                        ))}
+                        ))} */}
                         <Button onClick={()=>datatoback()}>
                             確認
                         </Button>

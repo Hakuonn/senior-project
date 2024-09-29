@@ -6,6 +6,8 @@ import StoreKanBan from '../../../components/nav_and_footer/StoreKanBan';
 import EmptyState from '../../../components/uberEat_C_S/EmptyState';
 import ProductItem from '../../../components/uberEat_C_S/ProductItem';
 import EmptyImg from '../../../imgs/ZHJ8C7j.png';
+import '../../../css/uberEat_store.css'
+
 
 function StoreProductPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -19,8 +21,8 @@ function StoreProductPage() {
     setItemData(item);
   };
 
-  const availableHandler = (gid) => {
-    Axios().post('/store_data/goods/available/', JSON.stringify({ gid }))
+  const availableHandler = (id) => {
+    Axios().patch(`goods/store/toggle_status/?id=${id}`)
     .then((res) => {
       console.log(res);
       alert('上架成功！');
@@ -32,8 +34,8 @@ function StoreProductPage() {
     });
   };
 
-  const unavailableHandler = (gid) => {
-    Axios().post('/store_data/goods/unavailable/', JSON.stringify({ gid }))
+  const unavailableHandler = (id) => {
+    Axios().patch(`goods/store/toggle_status/?id=${id}`)
     .then((res) => {
       console.log(res);
       alert('下架成功！');
@@ -45,20 +47,22 @@ function StoreProductPage() {
     });
   };
 
-  const deleteHandler = (gid) => {
-    Axios().post('/store_data/goods/delete/', JSON.stringify({ gid }))
+  const deleteHandler = (id) => {
+    Axios().delete(`goods/store/delete/?id=${id}`)
     .then((res) => {
       console.log(res);
       alert('刪除成功！');
-      setData(data.filter(item => item.gid !== gid));
+      setData(data.filter(item => item.id !== id));
     })
     .catch((err) => {
       console.log('failure');
     });
   };
+  
+  
 
   const getBack = () => {
-    Axios().get('/store_data/food/')
+    Axios().get('/goods/store/get/')
     .then((res) => {
       setData(res.data);
       if (data) {
@@ -87,7 +91,7 @@ function StoreProductPage() {
   return (
     <>
       <StoreKanBan />
-      <Container>
+      <Container className='store-add-new-product'>
         <Row>
           <Col>
             <h1>商品管理</h1>
@@ -107,7 +111,7 @@ function StoreProductPage() {
                     <Row xs={1} md={4} className="g-4">
                       {data.map((item) => (
                         <ProductItem
-                          key={item.gid}
+                          key={item.id}
                           item={item}
                           onEdit={goEditHandler}
                           onAvailable={availableHandler}

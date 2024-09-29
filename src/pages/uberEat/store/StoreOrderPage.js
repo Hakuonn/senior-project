@@ -1,213 +1,216 @@
-// StoreOrder.js
 import React, { useEffect, useState } from 'react';
+import { Button, Container, Card, Modal } from 'react-bootstrap';
+import { Table, Tabs, Badge } from 'antd';
 import StoreKanBan from '../../../components/nav_and_footer/StoreKanBan';
-import { Card } from 'react-bootstrap';
-import { Space, Button, Table } from 'antd';
 import Axios from '../../../components/Axios';
-import StoreCancelOrder from '../../../components/uberEat_C_S/StoreCancelOrder';
+import dayjs from 'dayjs';
+import '../../../css/uberEat_store.css'
 
-function StoreOrderPage() {
-  const [dataSource, setDataSource] = useState(null);
-  const [selectedOrderId, setSelectedOrderId] = useState(null);
+
+/**
+ * 商家訂單管理
+ **/
+
+function StoreOrder() {
+  const [dataSource, setDataSource] = useState([]);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const getOrder = () => {
     Axios()
-      .get('/orderv/all/')
+      .get('order/store/allOrder/') 
       .then((res) => {
         let data = res.data;
-        const filterData = data.filter(item => {
-          const status = item.status;
-          return status === '未接單' || status === '已接單' || status === '未取餐';
-        });
-        setDataSource(filterData);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const handleAcceptOrder = (record) => {
-    Axios()
-      .post('/order/accept/', JSON.stringify({
-        oid: record.oid,
-      }))
-      .then((response) => {
-        if (response.status === 200) {
-          const updatedDataSource = dataSource.map((item) => {
-            if (item.oid === record.oid) {
-              if (item.status === '未接單') {
-                item.status = '已接單';
-              } else if (item.status === '已接單') {
-                item.status = '未取餐';
-              } else if (item.status === '未取餐') {
-                item.status = '已完成';
-                // 2秒後會自動在頁面刪除
-                setTimeout(() => {
-                  const updatedData = dataSource.filter((item) => item.oid !== record.oid);
-                  setDataSource(updatedData);
-                }, 2000);
-              }
-            }
-            return item;
-          });
-          setDataSource(updatedDataSource);
+        if (data === '店家尚未收到任何訂單') {
+          setDataSource([]);
+        } else {
+          setDataSource(data);
         }
       })
-      .catch((error) => {
-        console.error("接單失敗", error);
+      .catch((err) => {
+        console.error('Error fetching orders:', err);
       });
   };
 
-  const handleCancelOrder = (record) => {
-    setSelectedOrderId(record.oid);
+  const columns = [
+    {
+      title: '顧客名稱',
+      dataIndex: 'customer_name',
+      key: 'customer_name',
+    },
+    {
+      title: '聯絡方式',
+      dataIndex: 'customer_contact',
+      key: 'customer_contact',
+    },
+    {
+      title: '訂單總額',
+      dataIndex: 'total_amount',
+      key: 'total_amount',
+    },
+    {
+      title: '取餐號碼',
+      dataIndex: 'take_order_key',
+      key: 'take_order_key',
+    },
+    {
+      title: '訂單狀態',
+      dataIndex: 'status',
+      key: 'status',
+      render: (status) => {
+        const statusMap = {
+          pending: '待確認',
+          confirmed: '已確認',
+          preparing: '準備中',
+          ready: '可拿取',
+          complete: '已完成',
+          cancelled: '已取消',
+        };
+        return <Badge status="processing" text={statusMap[status]} />;
+      },
+    },
+    {
+      title: '操作',
+      key: 'action',
+      render: (text, record) => (
+        <>
+          <Button variant="primary" onClick={() => handleModalOpen(record)}>
+            查看詳細
+          </Button>
+        </>
+      ),
+    },
+  ];
+  
+  const handleModalOpen = (order) => {
+    setSelectedOrder(order);
+    setIsModalVisible(true);
   };
 
-  const removeCancelledOrder = (orderId) => {
-    const updatedDataSource = dataSource.map((item) => {
-      if (item.oid === orderId && item.status === '未取餐') {
-        setTimeout(() => {
-          const updatedData = dataSource.filter((item) => item.oid !== orderId);
-          setDataSource(updatedData);
-        }, 2000);
-      }
-      return item;
-    });
-    setDataSource(updatedDataSource);
+  const handleModalClose = () => {
+    setIsModalVisible(false);
+  };
+
+  // 使用 PUT 更新訂單狀態
+  const updateOrderStatus = (status) => {
+    Axios()
+      .patch(`/order/store/status/`, { order_id: selectedOrder.id, status }) // 確保傳送正確的格式
+      .then((res) => {
+        getOrder(); // 更新訂單列表
+        setIsModalVisible(false);
+      })
+      .catch((err) => {
+        console.error('Error updating order status:', err);
+      });
   };
 
   useEffect(() => {
     getOrder();
   }, []);
 
-  const columns = [
-    {
-      title: '#',
-      dataIndex: 'oid',
-      key: 'oid',
-    },
-    {
-      title: '品名',
-      dataIndex: 'orderfoods',
-      key: 'orderfoods',
-      render: (orderfoods) => (
-        <>
-          {orderfoods.map((item, index) => (
-            <p key={index}>{item.goods_name}</p>
+  const renderOrderDetails = () => {
+    if (!selectedOrder) return null;
+
+    return (
+      <>
+        <p>顧客名稱: {selectedOrder.customer_name}</p>
+        <p>聯絡方式: {selectedOrder.customer_contact}</p>
+        <p>取餐方式: {selectedOrder.delivery_method}</p>
+        <p>取餐號碼: {selectedOrder.take_order_key}</p>
+        <p>下單時間: {dayjs(selectedOrder.created_at).format('YYYY-MM-DD HH:mm')}</p>
+        <p>預定時間: {dayjs(selectedOrder.scheduled_time).format('YYYY-MM-DD HH:mm')}</p>
+        <p>支付方式: {selectedOrder.payment_method}</p>
+        <p>支付狀態: {selectedOrder.payment_status === 'paid' ? '已付款' : '未付款'}</p>
+        <div>
+          <h5>訂單項目:</h5>
+          {selectedOrder.items.map((item, index) => (
+            <div key={index}>
+              <p>品名: {item.goods_name}</p>
+              <p>數量: {item.quantity}</p>
+              <p>購買價格: {item.price}</p>
+            </div>
           ))}
-        </>
-      ),
-    },
-    {
-      title: '價格',
-      dataIndex: 'orderfoods',
-      key: 'orderfoods',
-      render: (orderfoods) => (
-        <>
-          {orderfoods.map((item, index) => (
-            <p key={index}>{item.subtotal}</p>
-          ))}
-        </>
-      ),
-    },
-    {
-      title: '數量',
-      dataIndex: 'orderfoods',
-      key: 'orderfoods',
-      render: (orderfoods) => (
-        <>
-          {orderfoods.map((item, index) => (
-            <p key={index}>{item.quantity}</p>
-          ))}
-        </>
-      ),
-    },
-    {
-      title: '付款方式',
-      dataIndex: 'orderpayments',
-      key: 'orderpayments',
-      render: (orderpayments) => (
-        <span>{orderpayments && orderpayments.length > 0 ? orderpayments[0].method : '未知'}</span>
-      ),
-    },
-    {
-      title: '總金額',
-      dataIndex: 'total',
-      key: 'total',
-    },
-    {
-      title: '訂單狀態',
-      dataIndex: 'status',
-      key: 'status',
-    },
-    {
-      title: "操作",
-      render: (record) => (
-        <Space>
-          {record.status === '未接單' && (
-            <Button
-              type="primary"
-              ghost
-              onClick={() => handleAcceptOrder(record)}
-            >
-              接單
-            </Button>
-          )}
-          {record.status === '已接單' && (
-            <Button
-              type="primary"
-              ghost
-              onClick={() => handleAcceptOrder(record)}
-            >
-              通知顧客可取餐
-            </Button>
-          )}
-          {record.status === '未取餐' && (
-            <Button
-              type="primary"
-              ghost
-              onClick={() => handleAcceptOrder(record)}
-            >
-              完成訂單
-            </Button>
-          )}
-          <Button
-            type="primary"
-            danger
-            ghost
-            onClick={() => handleCancelOrder(record)}
-          >
-            取消
-          </Button>
-        </Space>
-      ),
-    },
-  ];
+        </div>
+      </>
+    );
+  };
 
   return (
     <>
       <StoreKanBan />
-      <div className='storeIndex'>
-          <h1>待處理訂單</h1>
-          <div className='order-div'>
-            {dataSource ?
-             <Table dataSource={dataSource} columns={columns} />
-             :
-             <Card>
+      <div className="storeOrder">
+        <Container fluid  className='store-add-new-product'>
+          <h1>商家訂單管理</h1>
+          <div className="order-div" >
+            {dataSource.length > 0 ? (
+              <Tabs defaultActiveKey="1">
+              <Tabs.TabPane tab="待確認" key="1">
+                <Table
+                  dataSource={dataSource.filter((order) => order.status === 'pending')}
+                  columns={columns}
+                />
+              </Tabs.TabPane>
+              <Tabs.TabPane tab="已確認" key="2">
+                <Table
+                  dataSource={dataSource.filter((order) => order.status === 'confirmed')}
+                  columns={columns}
+                />
+              </Tabs.TabPane>
+              <Tabs.TabPane tab="準備中" key="3">
+                <Table
+                  dataSource={dataSource.filter((order) => order.status === 'preparing')}
+                  columns={columns}
+                />
+              </Tabs.TabPane>
+              <Tabs.TabPane tab="可拿取" key="4">
+                <Table
+                  dataSource={dataSource.filter((order) => order.status === 'ready')}
+                  columns={columns}
+                />
+              </Tabs.TabPane>
+            </Tabs>
+            
+            ) : (
+              <Card>
                 <Card.Body>
-                    <Card.Title>目前無任何訂單喔～</Card.Title>
+                  <Card.Title>目前無任何訂單</Card.Title>
                 </Card.Body>
               </Card>
-            }
+            )}
           </div>
+        </Container>
+
+        {/* Bootstrap Modal for order details */}
+        <Modal show={isModalVisible} onHide={handleModalClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>訂單詳細資料</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{renderOrderDetails()}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleModalClose}>
+            關閉
+          </Button>
+          <Button variant="primary" onClick={() => updateOrderStatus('confirmed')}>
+            標記為已確認
+          </Button>
+          <Button variant="warning" onClick={() => updateOrderStatus('preparing')}>
+            標記為準備中
+          </Button>
+          <Button variant="info" onClick={() => updateOrderStatus('ready')}>
+            標記為可拿取
+          </Button>
+          <Button variant="success" onClick={() => updateOrderStatus('complete')}>
+            標記為已完成
+          </Button>
+          <Button variant="danger" onClick={() => updateOrderStatus('cancelled')}>
+            取消訂單
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
       </div>
-      <StoreCancelOrder
-        visible={!!selectedOrderId}
-        onCancel={() => setSelectedOrderId(null)}
-        orderId={selectedOrderId}
-        onOrderCancelled={removeCancelledOrder}
-      />
     </>
   );
 }
 
-export default StoreOrderPage;
+export default StoreOrder;

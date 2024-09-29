@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Modal, Button, Form, Container, Row, Col, Image } from 'react-bootstrap'
-import Axios from '../../components/Axios'
+import Axios from '../../../components/Axios';
 import { Link, useNavigate } from 'react-router-dom'
 import { Divider, Space, Tag } from 'antd';
-import useFetch from '../../hooks/useFetch';
 
 
 /*** 
@@ -11,7 +10,6 @@ import useFetch from '../../hooks/useFetch';
  ***/
 function Meal(props) {
     const [serverUrl, setServerUrl] = useState(null)
-    const { data: serverURL } = useFetch("http://localhost:8002/serverURL")
     const [info, setInfo] = useState(null);
     const [showAlert, setShowAlert] = useState(false);
     
@@ -43,12 +41,6 @@ function Meal(props) {
     useEffect(()=>{
         setInfo(props.goodinfo)
     },[props])
-    useEffect(() => {
-        if (serverURL && serverURL.length > 0) {
-          const firstServerURL = serverURL[0].serverurl
-          setServerUrl(firstServerURL)
-        }
-      }, [serverURL])
 
     return (
         <Modal

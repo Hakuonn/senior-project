@@ -5,6 +5,8 @@ import HomePage from './pages/HomePage';
 // uberEat - Customer
 import AboutMePage from './pages/uberEat/customer/AboutMePage';
 import CommonQAPage from './pages/uberEat/customer/CommonQAPage';
+import Store from './pages/uberEat/customer/Store';
+import UserProfile from './pages/uberEat/customer/UserProfile';
 
 // uberEat - Store
 import StoreIndexPage from './pages/uberEat/store/StoreIndexPage';
@@ -39,9 +41,9 @@ function App() {
           {/* <Route path='/Activity' element={<Activity/>} /> */}
           <Route path='/CommonQA' element={<CommonQAPage/>} />
           <Route path='/Menu' element={<MenuPage/>} />
-          {/* <Route path='/store/:sid' element={<Store/>} /> */}
+          <Route path='/store/:sid' element={<Store/>} />
           <Route path='/cart' element={<Cart/>} />
-          {/* <Route path='/UserProfile' element={<UserProfile/>} /> */}
+          <Route path='/UserProfile' element={<UserProfile/>} />
           {/* <Route path='/orders' element={<UserOrder/>} /> */}
           {/* <Route path='/checkout' element={<CheckOutPage/>}/> */}
           {/* <Route path='/activity/:actid' element={<ActivityPage/>}/> */}

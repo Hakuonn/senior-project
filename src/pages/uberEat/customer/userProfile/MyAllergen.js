@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import Allergen from '../../../components/Allergen';
+import Allergen from '../../../../components/Allergen';
 
 function MyAllergen() {
 

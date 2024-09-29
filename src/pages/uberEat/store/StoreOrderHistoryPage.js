@@ -1,134 +1,172 @@
-import React, { useState, useEffect } from 'react'
-import StoreKanBan from '../../../components/nav_and_footer/StoreKanBan'
-import { Card } from 'react-bootstrap'
-import { Table, Tabs } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Button, Container, Card, Modal } from 'react-bootstrap';
+import { Table, Tabs, Badge } from 'antd';
+import StoreKanBan from '../../../components/nav_and_footer/StoreKanBan';
 import Axios from '../../../components/Axios';
+import dayjs from 'dayjs';
+import '../../../css/uberEat_store.css'
 
 
-/*** 
- * 商家歷史訂單記錄頁面
- ***/
-function StoreOrderHistoryPage() {
-  const [dataSource, setDataSource] = useState(null)
-  console.log(dataSource)
-  const getHistory = () => {
+/**
+ * 商家歷史訂單頁面
+ **/
+
+function StoreOrderHistory() {
+  const [dataSource, setDataSource] = useState([]);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  // 獲取歷史訂單
+  const getHistoryOrders = () => {
     Axios()
-      .get('/orderv/all/')
+      .get('order/store/allOrder/')
       .then((res) => {
-        let data = res.data;
+        const data = res.data;
         setDataSource(data);
       })
       .catch((err) => {
-        console.log(err);
+        console.error('Error fetching history orders:', err);
       });
   };
+
   const columns = [
     {
-      title: '#',
-      dataIndex: 'oid',
-      key: 'oid',
+      title: '顧客名稱',
+      dataIndex: 'member_name',
+      key: 'member_name',
     },
     {
-      title: '品名',
-      dataIndex: 'orderfoods',
-      key: 'orderfoods',
-      render: (orderfoods) => (
-        <>
-          {orderfoods.map((item, index) => (
-            <p key={index}>{item.goods_name}</p>
-          ))}
-        </>
-      ),
+      title: '聯絡方式',
+      dataIndex: 'customer_contact',
+      key: 'customer_contact',
     },
     {
-      title: '價格',
-      dataIndex: 'orderfoods',
-      key: 'orderfoods',
-      render: (orderfoods) => (
-        <>
-          {orderfoods.map((item, index) => (
-            <p key={index}>{item.subtotal}</p>
-          ))}
-        </>
-      ),
+      title: '訂單總額',
+      dataIndex: 'total_amount',
+      key: 'total_amount',
     },
     {
-      title: '數量',
-      dataIndex: 'orderfoods',
-      key: 'orderfoods',
-      render: (orderfoods) => (
-        <>
-          {orderfoods.map((item, index) => (
-            <p key={index}>{item.quantity}</p>
-          ))}
-        </>
-      ),
-    },
-    {
-      title: '付款方式',
-      dataIndex: 'orderpayments',
-      key: 'orderpayments',
-      render: (orderpayments) => (
-        <span>{orderpayments?.[0]?.method || '未知'}</span>
-      ),
-    },
-    {
-      title: '總金額',
-      dataIndex: 'total',
-      key: 'total',
+      title: '取餐號碼',
+      dataIndex: 'take_order_key',
+      key: 'take_order_key',
     },
     {
       title: '訂單狀態',
       dataIndex: 'status',
       key: 'status',
+      render: (status) => {
+        const statusMap = {
+          pending: '待確認',
+          confirmed: '已確認',
+          preparing: '準備中',
+          ready: '可拿取',
+          complete: '已完成',
+          cancelled: '已取消',
+        };
+        return <Badge status="processing" text={statusMap[status]} />;
+      },
+    },
+    {
+      title: '操作',
+      key: 'action',
+      render: (text, record) => (
+        <Button variant="primary" onClick={() => handleModalOpen(record)}>
+          查看詳細
+        </Button>
+      ),
     },
   ];
 
-  const { TabPane } = Tabs;
-  const filterOrdersByStatus = (orders, status) =>{
-    return orders.filter((order) => order.status === status);
-  }
+  const handleModalOpen = (order) => {
+    setSelectedOrder(order);
+    setIsModalVisible(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalVisible(false);
+  };
 
   useEffect(() => {
-    getHistory();
+    getHistoryOrders();
   }, []);
+
+  const renderOrderDetails = () => {
+    if (!selectedOrder) return null;
+
+    return (
+      <>
+        <p>顧客名稱: {selectedOrder.member_name}</p>
+        <p>聯絡方式: {selectedOrder.customer_contact}</p>
+        <p>取餐方式: {selectedOrder.delivery_method}</p>
+        <p>取餐號碼: {selectedOrder.take_order_key}</p>
+        <p>下單時間: {dayjs(selectedOrder.created_at).format('YYYY-MM-DD HH:mm')}</p>
+        <p>預定時間: {dayjs(selectedOrder.scheduled_time).format('YYYY-MM-DD HH:mm')}</p>
+        <p>支付方式: {selectedOrder.payment_method}</p>
+        <p>支付狀態: {selectedOrder.payment_status === 'paid' ? '已付款' : '未付款'}</p>
+        <div>
+          <h5>訂單項目:</h5>
+          {selectedOrder.items.map((item, index) => (
+            <div key={index}>
+              <p>品名: {item.goods_name}</p>
+              <p>數量: {item.quantity}</p>
+              <p>購買價格: {item.price}</p>
+            </div>
+          ))}
+        </div>
+      </>
+    );
+  };
+
   return (
     <>
-    <StoreKanBan/>
-    <div className='storeIndex'>
-        <h1>歷史訂單</h1>
-        <div className='order-div'>
-            {dataSource && dataSource !== '會員未建立任何訂單紀錄'?
-              <div className='order-div'>
-                <Tabs defaultActiveKey="1">
-                  <TabPane tab="未接單" key="1">
-                    <Table dataSource={filterOrdersByStatus(dataSource, '未接單')} columns={columns} />
-                  </TabPane>
-                  <TabPane tab="已接單" key="2">
-                    <Table dataSource={filterOrdersByStatus(dataSource, '已接單')} columns={columns} />
-                  </TabPane>
-                  <TabPane tab="未取餐" key="3">
-                    <Table dataSource={filterOrdersByStatus(dataSource, '未取餐')} columns={columns} />
-                  </TabPane>
-                  <TabPane tab="已完成" key="4">
-                    <Table dataSource={filterOrdersByStatus(dataSource, '已完成')} columns={columns} />
-                  </TabPane>
-                  <TabPane tab="已取消" key="5">
-                    <Table dataSource={filterOrdersByStatus(dataSource, '已取消')} columns={columns} />
-                  </TabPane>
-                </Tabs>
-              </div>
-            :
-            <Card>
-              <Card.Body>
+      <StoreKanBan />
+      <div className="storeOrder">
+        <Container fluid  className='store-add-new-product'>
+          <h1>歷史訂單</h1>
+          <div className="order-div">
+            {dataSource.length > 0 ? (
+              <Tabs defaultActiveKey="1">
+                {/* 顯示已完成訂單 */}
+                <Tabs.TabPane tab="已完成" key="1">
+                  <Table
+                    dataSource={dataSource.filter((order) => order.status === 'complete')}
+                    columns={columns}
+                  />
+                </Tabs.TabPane>
+
+                {/* 顯示已取消訂單 */}
+                <Tabs.TabPane tab="已取消" key="2">
+                  <Table
+                    dataSource={dataSource.filter((order) => order.status === 'cancelled')}
+                    columns={columns}
+                  />
+                </Tabs.TabPane>
+              </Tabs>
+            ) : (
+              <Card>
+                <Card.Body>
                   <Card.Title>目前無任何歷史訂單</Card.Title>
-              </Card.Body>
-            </Card>
-            }
-        </div>
-    </div>
+                </Card.Body>
+              </Card>
+            )}
+          </div>
+        </Container>
+
+        {/* Bootstrap Modal for order details */}
+        <Modal show={isModalVisible} onHide={handleModalClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>訂單詳細資料</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{renderOrderDetails()}</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleModalClose}>
+              關閉
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
     </>
-  )
+  );
 }
 
-export default StoreOrderHistoryPage
+export default StoreOrderHistory;

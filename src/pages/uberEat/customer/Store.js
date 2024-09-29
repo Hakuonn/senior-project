@@ -1,19 +1,17 @@
 import { Rating } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import { Col, Container, Image, Row, Card, Button } from 'react-bootstrap'
 import { FaInstagram, FaSquareFacebook } from "react-icons/fa6"
 import { Link, useLocation } from "react-router-dom";
 import { Divider, Space, Tag } from 'antd';
 import Meal from './Meal';
-import KanBan from '../../components/KanBan';
-import Axios from '../../components/Axios';
-import Comment from '../../components/Comment';
-import useFetch from '../../hooks/useFetch';
+import KanBan from '../../../components/nav_and_footer/KanBan';
+import Axios from '../../../components/Axios';
+
 
 
 function Store() {
     const [serverUrl, setServerUrl] = useState(null)
-    const { data: serverURL } = useFetch("http://localhost:8002/serverURL")
     const [modalShow, setModalShow] = useState(false)
     const [storeInfo, setStoreInfo] = useState(null)
     const [rating, setRating] = useState(null)
@@ -167,18 +165,13 @@ function Store() {
         getCommitFromBack()
         getRatingFromBack()
     },[])
-    useEffect(() => {
-        if (serverURL && serverURL.length > 0) {
-          const firstServerURL = serverURL[0].serverurl
-          setServerUrl(firstServerURL)
-        }
-      }, [serverURL])
+
 
 
   return (
     <>
     <KanBan/>
-    <div className='store'>
+    <Container className='store'>
         <Container fluid>
             {storeInfo &&
             storeInfo.map((item)=>(
@@ -253,17 +246,17 @@ function Store() {
                 </Col>
                 <Col>
                     <h2>本平台評論</h2>
-                    {commit && commit.length > 0? 
+                    {/* {commit && commit.length > 0? 
                         commit.map((item)=>(
                             <Comment id={item.evaid} name={item.name} star={item.star} explain={item.explain} date={item.date} />
                         ))
                     :
                         <p>暫無評論</p>
-                    }
+                    } */}
                 </Col>
             </Row>
         </Container>
-    </div>
+    </Container>
     </>
   )
 }
