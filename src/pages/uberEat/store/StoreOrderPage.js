@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Container, Card, Modal } from 'react-bootstrap';
-import { Table, Tabs, Badge } from 'antd';
+import { Table, Tabs } from 'antd'; // 刪除訂單狀態的引用
 import StoreKanBan from '../../../components/nav_and_footer/StoreKanBan';
 import Axios from '../../../components/Axios';
 import dayjs from 'dayjs';
@@ -35,8 +35,8 @@ function StoreOrder() {
   const columns = [
     {
       title: '顧客名稱',
-      dataIndex: 'customer_name',
-      key: 'customer_name',
+      dataIndex: 'member_name',
+      key: 'member_name',
     },
     {
       title: '聯絡方式',
@@ -52,22 +52,6 @@ function StoreOrder() {
       title: '取餐號碼',
       dataIndex: 'take_order_key',
       key: 'take_order_key',
-    },
-    {
-      title: '訂單狀態',
-      dataIndex: 'status',
-      key: 'status',
-      render: (status) => {
-        const statusMap = {
-          pending: '待確認',
-          confirmed: '已確認',
-          preparing: '準備中',
-          ready: '可拿取',
-          complete: '已完成',
-          cancelled: '已取消',
-        };
-        return <Badge status="processing" text={statusMap[status]} />;
-      },
     },
     {
       title: '操作',
@@ -113,7 +97,7 @@ function StoreOrder() {
 
     return (
       <>
-        <p>顧客名稱: {selectedOrder.customer_name}</p>
+        <p>顧客名稱: {selectedOrder.member_name}</p>
         <p>聯絡方式: {selectedOrder.customer_contact}</p>
         <p>取餐方式: {selectedOrder.delivery_method}</p>
         <p>取餐號碼: {selectedOrder.take_order_key}</p>
@@ -133,6 +117,16 @@ function StoreOrder() {
         </div>
       </>
     );
+  };
+
+  // 定義下一個訂單狀態的對應
+  const nextStatusMap = {
+    pending: { nextStatus: 'confirmed', label: '標記為已確認' },
+    confirmed: { nextStatus: 'preparing', label: '標記為準備中' },
+    preparing: { nextStatus: 'ready', label: '標記為可拿取' },
+    ready: { nextStatus: 'complete', label: '標記為已完成' },
+    complete: null, // 已完成沒有下一個階段
+    cancelled: null, // 已取消的訂單也沒有下一個階段
   };
 
   return (
@@ -190,21 +184,15 @@ function StoreOrder() {
           <Button variant="secondary" onClick={handleModalClose}>
             關閉
           </Button>
-          <Button variant="primary" onClick={() => updateOrderStatus('confirmed')}>
-            標記為已確認
-          </Button>
-          <Button variant="warning" onClick={() => updateOrderStatus('preparing')}>
-            標記為準備中
-          </Button>
-          <Button variant="info" onClick={() => updateOrderStatus('ready')}>
-            標記為可拿取
-          </Button>
-          <Button variant="success" onClick={() => updateOrderStatus('complete')}>
-            標記為已完成
-          </Button>
-          <Button variant="danger" onClick={() => updateOrderStatus('cancelled')}>
-            取消訂單
-          </Button>
+          {/* 根據目前狀態顯示下一個階段按鈕 */}
+          {selectedOrder && nextStatusMap[selectedOrder.status] ? (
+            <Button
+              variant="primary"
+              onClick={() => updateOrderStatus(nextStatusMap[selectedOrder.status].nextStatus)}
+            >
+              {nextStatusMap[selectedOrder.status].label}
+            </Button>
+          ) : null}
         </Modal.Footer>
       </Modal>
 

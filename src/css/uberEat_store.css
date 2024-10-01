@@ -4,9 +4,11 @@
     object-fit: cover;
 }
 .store-add-new-product{
-    margin-top: 100px;
+    margin-top: 120px;
     margin-bottom: 10vh;
     text-align: left;
+    padding-top: 20px; /* 根據你的 navbar 高度調整 */
+
 }
 body {
     overflow-x: hidden;
@@ -23,7 +25,5 @@ img {
     max-width: 100%;  /* 確保圖片不會超過容器的寬度 */
     height: auto;     /* 保持圖片的比例 */
 }
-.store-add-new-product {
-    padding-top: 20px; /* 根據你的 navbar 高度調整 */
-  }
+
 

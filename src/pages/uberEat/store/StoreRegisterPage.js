@@ -88,9 +88,10 @@ function StoreRegister() {
     return (
         <>
             <StoreKanBan />
+            <Container className='store-add-new-product'>
             <Card className='store-signIn-card'>
                 <Row className='signIn-row'>
-                    <Col xs={12} sm={6} md={6}>
+                    <Col  xs={12} sm={6} lg={8}>
                         <h2>共同為地球盡一份心力！</h2>
                         <Formik
                             validationSchema={schema}
@@ -236,9 +237,12 @@ function StoreRegister() {
                         <Image src={logo} rounded className='register-img'/>
                     </Col>
                 </Row>
+                
             </Card>
 
+            </Container>
         </>
+        
     );
 }
 

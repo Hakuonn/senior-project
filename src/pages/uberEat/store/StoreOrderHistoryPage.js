@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Container, Card, Modal } from 'react-bootstrap';
-import { Table, Tabs, Badge } from 'antd';
+import { Table, Tabs } from 'antd'; // 移除了 Badge 的引用
 import StoreKanBan from '../../../components/nav_and_footer/StoreKanBan';
 import Axios from '../../../components/Axios';
 import dayjs from 'dayjs';
@@ -49,22 +49,6 @@ function StoreOrderHistory() {
       title: '取餐號碼',
       dataIndex: 'take_order_key',
       key: 'take_order_key',
-    },
-    {
-      title: '訂單狀態',
-      dataIndex: 'status',
-      key: 'status',
-      render: (status) => {
-        const statusMap = {
-          pending: '待確認',
-          confirmed: '已確認',
-          preparing: '準備中',
-          ready: '可拿取',
-          complete: '已完成',
-          cancelled: '已取消',
-        };
-        return <Badge status="processing" text={statusMap[status]} />;
-      },
     },
     {
       title: '操作',
