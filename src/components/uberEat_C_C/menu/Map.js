@@ -2,26 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { GoogleMap, useLoadScript, MarkerF, InfoWindowF } from '@react-google-maps/api';
 import GetUserLocation from './GetUserLocation';
 import { Container } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-/***
- * 地图组件
- ***/
 function Map({ data }) {
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: 'AIzaSyB71Ppc2GOczEV6gwD_cpS11SlyoOF8Ddk', // 使用环境变量存储 API 密钥
+    googleMapsApiKey: 'AIzaSyB71Ppc2GOczEV6gwD_cpS11SlyoOF8Ddk', // 使用環境變數保護 API 金鑰
   });
 
-  // 保存用户位置的状态变量
   const [userLocation, setUserLocation] = useState(null);
-  // 设置地图中心点，初始为台北101
   const [center, setCenter] = useState({ lat: 22.7319608, lng: 120.3493329 });
-
-  // 标记列表
   const [markers, setMarkers] = useState([]);
+  const [activeMarker, setActiveMarker] = useState(null);
+
   useEffect(() => {
     if (data) {
-      let tmpMarkers = data
+      console.log('Received data:', data);  // 在控制台中查看後端返回的數據
+      const tmpMarkers = data
         .map((e) => {
           const lat = parseFloat(e.lat);
           const lng = parseFloat(e.lng);
@@ -39,9 +35,14 @@ function Map({ data }) {
       setMarkers(tmpMarkers);
     }
   }, [data]);
+  
 
-  // 活动标记
-  const [activeMarker, setActiveMarker] = useState(null);
+  useEffect(() => {
+    if (userLocation) {
+      setCenter({ lat: userLocation.latitude, lng: userLocation.longitude });
+    }
+  }, [userLocation]);
+
   const handleActiveMarker = (markerId) => {
     if (markerId === activeMarker) {
       return;
@@ -49,17 +50,6 @@ function Map({ data }) {
     setActiveMarker(markerId);
   };
 
-  // 监听 userLocation 的变化，更新地图中心点
-  useEffect(() => {
-    if (userLocation) {
-      setCenter({ lat: userLocation.latitude, lng: userLocation.longitude });
-    }
-  }, [userLocation]);
-
-  // 使用 useNavigate 进行页面跳转
-  const navigate = useNavigate();
-
-  // 加载状态
   if (!isLoaded) return <div>Loading...</div>;
 
   return (
@@ -75,28 +65,25 @@ function Map({ data }) {
           >
             {markers.map(({ id, name, position }) => (
               <MarkerF
-                key={id}
+                key={id}  // 使用唯一的 id 作為 key
                 position={position}
-                onClick={() => {
-                  handleActiveMarker(id);
-                  // 点击标记后跳转到对应的商家页面
-                  navigate(`/store/${id}`);
-                }}
+                onClick={() => handleActiveMarker(id)}
               >
                 {activeMarker === id ? (
                   <InfoWindowF
-                    key={`${id}_info`}
+                    key={`${id}_info`}  // InfoWindow 也應該有一個唯一的 key
                     onCloseClick={() => setActiveMarker(null)}
                   >
                     <div>
                       {name}
                       <br />
-                      <Link to={`/store/${id}`}>点我至商家页面</Link>
+                      <Link to={`/store/${id}`}>點我至商家页面</Link>
                     </div>
                   </InfoWindowF>
                 ) : null}
               </MarkerF>
             ))}
+
           </GoogleMap>
         </div>
       </div>
