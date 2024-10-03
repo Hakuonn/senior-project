@@ -37,8 +37,8 @@ function StoreOrderHistory() {
     },
     {
       title: '聯絡方式',
-      dataIndex: 'customer_contact',
-      key: 'customer_contact',
+      dataIndex: 'member_phone',
+      key: 'member_phone',
     },
     {
       title: '訂單總額',
@@ -80,7 +80,7 @@ function StoreOrderHistory() {
     return (
       <>
         <p>顧客名稱: {selectedOrder.member_name}</p>
-        <p>聯絡方式: {selectedOrder.customer_contact}</p>
+        <p>聯絡方式: {selectedOrder.member_phone}</p>
         <p>取餐方式: {selectedOrder.delivery_method}</p>
         <p>取餐號碼: {selectedOrder.take_order_key}</p>
         <p>下單時間: {dayjs(selectedOrder.created_at).format('YYYY-MM-DD HH:mm')}</p>
