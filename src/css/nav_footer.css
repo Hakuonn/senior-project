@@ -1,7 +1,18 @@
 .footer {
+<<<<<<< HEAD
   background-color: rgba(147, 147, 147, 0.5);
   text-align: center;
   padding-top: 5vh;
   margin-top: 5vh;
   padding-bottom: 5vh;
 } 
+=======
+    background-color: rgba(147, 147, 147, 0.5);
+    text-align: center;
+    height: 15rem;
+    padding-top: 5vh;
+    margin-top: 5vh;
+    padding-bottom: 5vh;
+
+  }
+>>>>>>> origin/main

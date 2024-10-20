@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Modal, Button, Form, Container, Row, Col, Image } from 'react-bootstrap'
+<<<<<<< HEAD
 import Axios from '../../Axios'
+=======
+import Axios from 'components/Axios'
+>>>>>>> origin/main
 
 
 /*** 

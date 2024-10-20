@@ -1,6 +1,10 @@
 import React from 'react'
 import { Col, Container, Row, Image } from 'react-bootstrap'
+<<<<<<< HEAD
 import AboutBuilder from '../AboutBuilder'
+=======
+import AboutBuilder from 'components/uberEat_C_C/AboutBuilder'
+>>>>>>> origin/main
 
 
 

@@ -1,9 +1,16 @@
 import React, { useState } from 'react'
 import { Card, Col, Container, Form, Row, Button, Image, Alert } from 'react-bootstrap'
+<<<<<<< HEAD
 import logo from '../../../imgs/logo.png'
 import { Link } from 'react-router-dom'
 import KanBan from '../../../components/nav_and_footer/KanBan'
 import Axios from '../../../components/Axios'
+=======
+import logo from 'imgs/logo.png'
+import { Link } from 'react-router-dom'
+import KanBan from 'components/nav_and_footer/KanBan'
+import Axios from 'components/Axios'
+>>>>>>> origin/main
 import * as formik from 'formik';
 import * as yup from 'yup';
 

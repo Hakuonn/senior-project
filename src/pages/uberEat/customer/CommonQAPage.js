@@ -3,8 +3,13 @@ import { Card, Container } from 'react-bootstrap';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
+<<<<<<< HEAD
 import KanBan from '../../../components/nav_and_footer/KanBan';
 import Axios from '../../../components/Axios.js'
+=======
+import KanBan from 'components/nav_and_footer/KanBan';
+import Axios from 'components/Axios.js'
+>>>>>>> origin/main
 
 function CommonQAPage() {
   const [storeQA,setStoreQA] = useState(null)

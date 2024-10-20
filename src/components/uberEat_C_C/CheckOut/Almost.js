@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Card, Container, ListGroup } from 'react-bootstrap'
+<<<<<<< HEAD
 import Axios from '../../Axios'
 import LoadingSpinner from '../../loadingSpinner'
+=======
+import Axios from 'components/Axios'
+import LoadingSpinner from 'components/loadingSpinner'
+>>>>>>> origin/main
 
 function Almost({data, payment , time , orderNote}) {
 
@@ -20,6 +25,7 @@ function Almost({data, payment , time , orderNote}) {
       setTotal(result)
     }
 
+<<<<<<< HEAD
     const GetFromBack = () => {
       // 取得使用者資料
       Axios().get('member/info/get/')
@@ -44,6 +50,29 @@ function Almost({data, payment , time , orderNote}) {
           console.log("取得商家資料失敗：", err.response ? err.response.data : err.message);
         });
     };
+=======
+    const GetFromBack = () =>{
+        // 取得使用者資料
+        Axios().get('member/info/get/')
+        .then((res)=>{
+            let data = res.data
+            setMemberData(data)
+
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
+        // 取得商家資料
+        Axios().get('store/search/id/',{
+          params:{
+            id:data[0].goods_info.store_id
+          }
+        })
+        .then((res) => {
+          setStoreData(res.data)
+        })
+    }
+>>>>>>> origin/main
 
     useEffect(()=>{
         GetFromBack()

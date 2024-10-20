@@ -7,6 +7,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow effect */
     transition: transform 0.2s, box-shadow 0.2s;
     overflow: hidden; /* Hide anything overflowing the card */
+<<<<<<< HEAD
   }
   
   .ranking-card:hover {
@@ -30,3 +31,29 @@
     color: #333;
   }
   
+=======
+}
+
+.ranking-card:hover {
+  transform: scale(1.02); /* Slightly scale up on hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+}
+
+.ranking-number {
+  font-size: 20rem; /* Large font size for the number */
+  color: #ccc; /* Gray color */
+  position: absolute; /* Position number absolutely within the card */
+  top: 50%;
+  left: 5%;
+  transform: translate(-50%, -50%); /* Center and rotate */
+  z-index: 0; /* Place behind the card content */
+  opacity: 0.3; /* Slight transparency */
+}
+
+h2 {
+  font-size: 5rem;
+  color: #333;
+}
+
+
+>>>>>>> origin/main
