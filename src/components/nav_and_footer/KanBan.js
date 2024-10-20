@@ -90,6 +90,11 @@ function KanBan() {
                     </Link>
                     <br />
                     <br />
+                    <Link className='nav-to-profile' onClick={() => isValid("/weekly-stats")}>
+                      每週健康追蹤
+                    </Link>
+                    <br />
+                    <br />
                     <Link className='nav-to-profile' onClick={() => isValid("/orders")}>
                       我的訂單
                     </Link>
