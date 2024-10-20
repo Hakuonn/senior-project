@@ -31,6 +31,8 @@ import LoginPage from './pages/uberEat/customer/LoginPage';
 import RegisterPage from './pages/uberEat/customer/RegisterPage';
 import MenuPage from './pages/uberEat/customer/MenuPage';
 import RecipeFavoritePage from './pages/recipe/RecipeFavoritePage';
+import HealthBubble from 'components/HealthBubble';
+import WeeklyStatsPage from 'pages/uberEat/customer/WeeklyStatsPage';
 
 const baseUrl = "http://140.133.74.162:12345/";
 
@@ -39,9 +41,11 @@ function App() {
     <div className='App'>
       <BrowserRouter>
         <div className="content-wrap">
+          <HealthBubble/>
           <Routes>
             <Route path='/' element={<HomePage baseUrl={baseUrl}/>} exact  />
             {/* uberEat - customer */}
+            <Route path="/weekly-stats" element={<WeeklyStatsPage/>} />
             <Route path='/LoginPage' element={<LoginPage/>} />
             <Route path='/Register' element={<RegisterPage/>} />
             <Route path='/About' element={<AboutMePage/>} />
