@@ -22,13 +22,6 @@ const WeeklyStatsPage = () => {
     labels: daysOfWeek,
     datasets: [
       {
-        label: '運動 (分鐘)',
-        data: weeklyData.exercise,
-        borderColor: '#4caf50',
-        backgroundColor: 'rgba(76, 175, 80, 0.2)',
-        fill: true,
-      },
-      {
         label: '水分攝取 (ml)',
         data: weeklyData.water,
         borderColor: '#2196f3',
