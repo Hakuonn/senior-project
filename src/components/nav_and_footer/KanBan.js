@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { Container, Nav, Navbar, Overlay, Tooltip, Button } from 'react-bootstrap';
 import { VscAccount } from 'react-icons/vsc';
 import { Link, useNavigate } from 'react-router-dom';
@@ -17,17 +17,20 @@ function KanBan() {
 
   const isValid = (url) => {
     const action = 'api/token/verify/';
-    Axios().post(action, JSON.stringify({ token: jwtToken }))
+    const jwtToken = window.localStorage.getItem('jwt'); // 從 localStorage 中取出 token
+
+    Axios().post(action, { token: jwtToken })
       .then((res) => {
-        if (res.status === 200) {
-          handleNavigate(url);
-        }
+          if (res.status === 200) {
+              handleNavigate(url);
+          }
       })
       .catch((err) => {
-        alert('請先登入喔～');
-        navigate('/LoginPage');
+          console.error('Token verification failed:', err);
+          alert('請先登入喔～');
+          navigate('/LoginPage');
       });
-  }
+}
 
   const LogIn = () => {
     const w = window.open("/LoginPage", '_self');
@@ -45,9 +48,7 @@ function KanBan() {
 
   return (
     <div>
-      <Navbar expand="lg" className="bg-body-tertiary" 
-      bg="light" data-bs-theme="light" fixed='top'
-      >
+      <Navbar expand="lg" className="bg-body-tertiary" bg="light" data-bs-theme="light" fixed='top'>
         <Container>
           <Navbar.Brand href="/" className='nav-brand'>
             <img
@@ -67,7 +68,7 @@ function KanBan() {
               <Nav.Link href='/Activity'>活動專區</Nav.Link>
               <Nav.Link href='/About'>關於我們</Nav.Link>
               <Nav.Link href="/CommonQA">常見問題</Nav.Link>
-              <Nav.Link href="/Recipe/search">美味食譜</Nav.Link>
+              <Nav.Link href="/recipe">美味食譜</Nav.Link>
               <Nav.Link href="/Menu">查看美食</Nav.Link>
               <Nav.Link onClick={() => isValid("/cart")}>購物車</Nav.Link>
               <Button variant="outline-success" ref={target} onClick={() => setShow(!show)}><VscAccount size={30} /></Button>
@@ -82,16 +83,6 @@ function KanBan() {
                     <br />
                     <Link className='nav-to-profile' onClick={() => isValid("/UserProfile")}>
                       我的主頁
-                    </Link>
-                    <br />
-                    <br />
-                    <Link className='nav-to-profile' onClick={() => isValid("/RecipeFavorite")}>
-                      食譜收藏
-                    </Link>
-                    <br />
-                    <br />
-                    <Link className='nav-to-profile' onClick={() => isValid("/weekly-stats")}>
-                      每週健康追蹤
                     </Link>
                     <br />
                     <br />

@@ -36,19 +36,24 @@ function LoginCard({isConsumer}) {
     }
 
     // 使用者切換商家身份
-    const changeStoreHandler = () =>{
-      Axios().get('Store/check/')
-      .then((res)=>{
-        if (res.status === 200) {
-          window.open("/StoreProduct",'_self')
-        }
-      })
-      .catch((err)=>{
-        console.log(err)
-        alert('尚未登入/註冊ㄛ～')
-        window.location.reload()
-      })
-    }
+    const changeStoreHandler = () => {
+      Axios().get('store/info/check/')
+          .then((res) => {
+              if (res.status === 200) {
+                  window.open("/StoreProduct", '_self');
+              }
+          })
+          .catch((err) => {
+              console.log(err);
+              if (err.response && err.response.status === 403) {
+                  alert('你沒有權限訪問這個資源，請確認你是否已登入並擁有必要的權限');
+              } else {
+                  alert('尚未登入/註冊ㄛ～');
+              }
+              window.location.reload();
+          });
+  }
+  
 
     const store = () =>{
       return(

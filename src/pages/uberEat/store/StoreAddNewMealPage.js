@@ -1,94 +1,96 @@
-import React, { useState } from 'react';
-import StoreKanBan from '../../../components/nav_and_footer/StoreKanBan';
-import { Button, Col, Form, Row, Container } from 'react-bootstrap';
+import React, { useState } from 'react'
+import StoreKanBan from '../../../components/nav_and_footer/StoreKanBan'
+import { Button, Col, Form, Row, Container } from 'react-bootstrap'
 import * as formik from 'formik';
 import * as yup from 'yup';
 import Axios from '../../../components/Axios';
-import '../../../css/uberEat_store.css';
+import '../../../css/uberEat_store.css'
 
-/*** 
+const allergenList = [
+  { id: "eggs", label: "蛋" },
+  { id: "milk", label: "奶" },
+  { id: "gluten", label: "麩質" },
+  { id: "Glycine-max", label: "大豆" },
+  { id: "peanut", label: "花生" },
+  { id: "almond", label: "杏仁" },
+  { id: "crustaceans", label: "甲殼類" },
+  { id: "fish", label: "魚" },
+  { id: "mango", label: "芒果" },
+  { id: "sesame", label: "芝麻" },
+  { id: "pecan", label: "胡桃" },
+  { id: "walnut", label: "核桃" },
+  { id: "cashew", label: "腰果" },
+  { id: "hazelnut", label: "榛果" },
+  { id: "SO2", label: "二氧化硫（亞硫酸鹽）" },
+  { id: "no", label: "無" }
+];
+
+/***
  * 商家新增產品頁面 allergen要修改，因為我已經把json-server關了
  ***/
 function StoreAddNewMealPage() {
   const { Formik } = formik;
 
-  const [image, setImage] = useState(null);
-
+  const [image, setImage] = useState(null)
+  
   const datatoback = (values) => {
-    Axios().post('/store_data/goods/upload/', JSON.stringify({
-      status: false,
-      type: values.type,
-      name: values.name,
-      intro: values.intro,
-      quantity: values.quantity,
-      food_pic: image,
-      price: values.price,
-      ingredient: values.ingredient,
-      allergen: values.allergen
-    }))
+    Axios().post('goods/store/create_new/', JSON.stringify(
+      {
+        status: false,
+        type: values.type,
+        name: values.name,
+        intro: values.intro,
+        quantity: values.quantity,
+        food_pic: image,
+        price: values.price,
+        ingredient: values.ingredient,
+        allergen: values.allergen.toString()  // 將過敏原陣列轉換為字串
+      }
+    ))
     .then((res) => {
-      console.log(res.data);
-      alert('餐點已上傳，記得去商品管理頁面進行上架喔～');
-      window.location.reload();
+      console.log(res.data)
+      alert('餐點已上傳，記得去商品管理頁面進行上架喔～')
+      window.location.reload()
     })
     .catch((err) => {
-      console.log(err);
-    });
-  };
-
-  const allergen = [
-    { id: 'eggs', label: '蛋' },
-    { id: 'milk', label: '奶' },
-    { id: 'gluten', label: '麩質' },
-    { id: 'Glycine-max', label: '大豆' },
-    { id: 'peanut', label: '花生' },
-    { id: 'almond', label: '杏仁' },
-    { id: 'crustaceans', label: '甲殼類' },
-    { id: 'fish', label: '魚' },
-    { id: 'mango', label: '芒果' },
-    { id: 'sesame', label: '芝麻' },
-    { id: 'pecan', label: '胡桃' },
-    { id: 'walnut', label: '核桃' },
-    { id: 'cashew', label: '腰果' },
-    { id: 'hazelnut', label: '榛果' },
-    { id: 'SO2', label: '二氧化硫（亞硫酸鹽）' }
-  ];
+      console.log(err)
+    })
+  }
 
   const handlePicUpload = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
+    const file = event.target.files[0]
+    const reader = new FileReader()
     reader.onloadend = function () {
-      setImage(reader.result);
+      setImage(reader.result)
     };
     if (file) {
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(file)
     }
-  };
+  }
 
   return (
     <>
       <StoreKanBan />
       <Container className='store-add-new-product'>
         <Row>
-          <Col>
+          <Col xs={12} sm={6} lg={8}>
             <h1>新增產品</h1>
           </Col>
         </Row>
         <Row>
-          <Col>
+          <Col xs={12} sm={6} lg={8}>
             <Formik
-              // validationSchema={schema}
               initialValues={{
                 name: '',
                 type: '',
                 intro: '',
                 quantity: '',
                 price: '',
-                allergen: [],
+                allergen: [],  // 初始化過敏原為空陣列
                 ingredient: '',
               }}
               onSubmit={(values) => {
-                datatoback(values);
+                datatoback(values)
               }}
             >
               {({ handleSubmit, handleChange, values, touched, errors }) => (
@@ -122,8 +124,7 @@ function StoreAddNewMealPage() {
                   </Form.Group>
                   <Form.Group controlId="form-food-type" className="mt-3">
                     <Form.Label>選擇您的產品類型*</Form.Label>
-                    <Form.Select
-                      aria-label="Default select example"
+                    <Form.Select aria-label="Default select example"
                       name='type'
                       value={values.type}
                       onChange={handleChange}
@@ -158,8 +159,7 @@ function StoreAddNewMealPage() {
                   </Form.Group>
                   <Form.Group className='mt-3'>
                     <Form.Label>選擇產品數量*</Form.Label>
-                    <Form.Select
-                      aria-label="Default select example"
+                    <Form.Select aria-label="Default select example"
                       name='quantity'
                       value={values.quantity}
                       onChange={handleChange}
@@ -207,15 +207,15 @@ function StoreAddNewMealPage() {
                   <Form.Group className='mt-3'>
                     <Form.Label>過敏原（選填）</Form.Label>
                     <div key='allergen'>
-                      {allergen.map((allergen) => (
-                        <Form.Check 
+                      {allergenList.map((allergen) => (
+                        <Form.Check
                           key={allergen.id}
                           type="checkbox"
                           label={allergen.label}
-                          name="allergen"
                           value={allergen.id}
                           checked={values.allergen.includes(allergen.id)}
                           onChange={handleChange}
+                          name="allergen"
                         />
                       ))}
                     </div>
@@ -232,7 +232,7 @@ function StoreAddNewMealPage() {
         </Row>
       </Container>
     </>
-  );
+  )
 }
 
 export default StoreAddNewMealPage;

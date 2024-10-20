@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Modal, Button, Form, Row, Col, Image } from 'react-bootstrap';
 import Axios from '../../../components/Axios';
 
+
 /*** 
  * 商家編輯餐點的彈出視窗 img要修改
  ***/
 function StoreMealEdit(props) {
     const [name, setName] = useState(null);
-    const [gid, setGid] = useState(null);
+    const [id, setId] = useState(null);
     const [price, setPrice] = useState(null);
     const [ingredient, setIngredient] = useState(null);
     const [type, setType] = useState(null);
@@ -23,29 +24,57 @@ function StoreMealEdit(props) {
         }
     }
 
-    const submitHandler = () =>{
-        Axios().post('/store_data/goods/change/', JSON.stringify({
-            gid: gid,
-            name: name,
-            type: type,
-            quantity: quantity,
-            food_pic: pic,
-            price: price,
-            ingredient: ingredient,
+    const submitHandler = () => {
+        // 初始化一個空物件來保存被修改過的欄位
+        const updatedFields = {};
+    
+        // 比較每個欄位，如果有改變，則將它加入 updatedFields
+        if (name !== props.data.name) {
+            updatedFields.name = name;
+        }
+        if (type !== props.data.type) {
+            updatedFields.type = type;
+        }
+        if (quantity !== parseInt(props.data.quantity)) {
+            updatedFields.quantity = quantity;
+        }
+        if (price !== props.data.price) {
+            updatedFields.price = price;
+        }
+        if (ingredient !== props.data.ingredient) {
+            updatedFields.ingredient = ingredient;
+        }
+        if (pic !== props.data.food_pic) {
+            updatedFields.food_pic = pic;
+        }
+        if (intro !== props.data.intro) {
+            updatedFields.intro = intro;
+        }
+    
+        // 如果沒有欄位被修改，不執行提交操作
+        if (Object.keys(updatedFields).length === 0) {
+            console.log('沒有任何修改');
+            return;
+        }
+    
+        // 傳遞被修改過的欄位和 id
+        Axios().patch(`goods/store/update_goods/?id=${id}`, JSON.stringify({
+            ...updatedFields,
         }))
         .then((res) => {
             console.log(res);
-            props.onSave();
+            props.onSave(); // 呼叫父元件的 onSave 函式來更新資料
         })
         .catch((err) => {
             console.log('failure');
         });
     }
+    
 
     useEffect(()=>{
         if(props.data){
             let data = props.data;
-            setGid(data.gid);
+            setId(data.id);
             setName(data.name);
             setPrice(data.price);
             setIngredient(data.ingredient);

@@ -1,32 +1,43 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Carousel } from 'react-bootstrap';
+import slider1 from '../../imgs/sliders/slider1.png'
+import slider2 from '../../imgs/sliders/slider2.png'
+import slider3 from '../../imgs/sliders/slider3.png'
+import slider4 from '../../imgs/sliders/slider4.png'
 
-import Axios from '../Axios';
-import Item from 'antd/es/list/Item';
 
-function SimpleSlider({baseUrl}) {
-  const [slideData,setSlideData] = useState(null)
-  // 已將slide照片由後端提供：Ｄ
-  useEffect(()=>{
-    Axios().get('common/slidePic/')
-    .then((res) => {
-      setSlideData(res.data)
-    })
-    .catch((err) => {
-      console.log("開發人員：無法正確導入照片，伺服器是否斷線，還是網址打錯呢？")
-    })
-  },[])
-
+function SimpleSlider() {
+  
   return (
       <Carousel>
-        {slideData && slideData.map((backend_url) =>(
-          <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src={baseUrl+backend_url}
-          />
-        </Carousel.Item>
-        ))}
+        <Carousel.Item>
+        <img
+          className="d-block w-100"
+          src={slider1}
+          alt="我們的健康食譜功能"
+        />
+      </Carousel.Item>
+      <Carousel.Item>
+        <img
+          className="d-block w-100"
+          src={slider2}
+          alt="剩食對環境影響"
+        />
+      </Carousel.Item>
+      <Carousel.Item>
+        <img
+          className="d-block w-100"
+          src={slider3}
+          alt="什麼是剩食"
+        />
+      </Carousel.Item>
+      <Carousel.Item>
+        <img
+          className="d-block w-100"
+          src={slider4}
+          alt="我們的飲食控管功能"
+        />
+      </Carousel.Item>
       </Carousel>
   )
 }

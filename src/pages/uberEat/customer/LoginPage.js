@@ -1,43 +1,42 @@
 import React, { useState } from 'react'
 import { Container, Form, Button, Image, Row, Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import KanBan from 'components/nav_and_footer/KanBan'
-import Axios from 'components/Axios'
-// import { stringify } from 'qs'
-
+import KanBan from '../../../components/nav_and_footer/KanBan'
+import Axios from '../../../components/Axios'
 
 function LoginPage() {
-    const [account, setAccount] = useState('')
-    const [passwd, setPasswd] = useState('')
-    
-    // 登入後回到商店選擇頁面
-    const AfterofLoginClickHandler = () =>{
-        window.open("/menu",'_self')
+    const [account, setAccount] = useState('');
+    const [passwd, setPasswd] = useState('');
+
+    const AfterofLoginClickHandler = () => {
+        window.open("/menu", "_self");
         // window.location.href="/menu"
-    }
-    // 回傳登入資料
-    const action = 'member/basic/login/'
-    const handleSubmit = (e) =>{
+    };
+
+    const action = 'member/basic/login/';
+    const handleSubmit = (e) => {
+        e.preventDefault();
         Axios().post(action, JSON.stringify({
             account: account,
             password: passwd
         }))
-        .then((res)=>{
-            if (res.status === 200){
-                alert("登入成功")
-                window.localStorage.setItem('jwt',res.data['token'])
-                AfterofLoginClickHandler()
+        .then((res) => {
+            console.log('Response:', res); // 檢查回應內容
+            if (res.status === 200) {
+                window.localStorage.setItem('jwt', res.data.token);
+                alert("登入成功");
+                AfterofLoginClickHandler();
             }
         })
-        .catch((err)=>{
-            // 若出現Axios錯誤
-            let error = err.response
-            if (error.status === 401){
-                alert('帳號或密碼錯誤')
-                //警示錯誤，請使用者重新輸入
+        .catch((err) => {
+            let error = err.response;
+            if (error.status === 401) {
+                alert("帳號或密碼錯誤");
             }
-        })
-    }
+        });
+    };
+    
+    
   return (
     <>
     <KanBan/>
