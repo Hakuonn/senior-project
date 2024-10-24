@@ -4,11 +4,7 @@ import Form from 'react-bootstrap/Form'
 import { BiLogoVisa } from 'react-icons/bi'
 import { BiLogoMastercard } from 'react-icons/bi'
 import { FaRegMoneyBill1 } from 'react-icons/fa6'
-<<<<<<< HEAD
 import Axios from '../../Axios'
-=======
-import Axios from 'components/Axios'
->>>>>>> origin/main
 
 function Pay({setPayment , setTime , setOrderNote }) {
   const [payMethod, setPayMethod] = useState('到店取付')

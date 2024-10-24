@@ -78,14 +78,6 @@ function RecipeNav() {
                     </Link>
                     <br />
                     <br />
-<<<<<<< HEAD
-=======
-                    <Link className='nav-to-profile' onClick={() => isValid("/RecipeFavorite")}>
-                      食譜收藏
-                    </Link>
-                    <br />
-                    <br />
->>>>>>> origin/main
                     <Link className='nav-to-profile' onClick={() => isValid("/orders")}>
                       我的訂單
                     </Link>

@@ -4,22 +4,13 @@ import Axios from '../../components/Axios';
 import TagSelector from '../../components/recipe_C/TagSelector';
 import SearchResult from '../../components/recipe_C/SearchResult';
 import RecipeNav from '../../components/nav_and_footer/RecipeNav';
-<<<<<<< HEAD
 import '../../css/recipe_search.css'
-=======
-import '../../css/recipe_search.css';
->>>>>>> origin/main
 
 function RecipeSearchPage() {
   const [inputValue, setInputValue] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
-<<<<<<< HEAD
   const [isLoading, setIsLoading] = useState(false); 
-=======
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasSearched, setHasSearched] = useState(false); // 用來追蹤是否已經進行過搜索
->>>>>>> origin/main
 
   const handleInputChange = e => {
     setInputValue(e.target.value);
@@ -39,18 +30,10 @@ function RecipeSearchPage() {
     };
     console.log('Search Data:', searchData);
 
-<<<<<<< HEAD
     setIsLoading(true); 
 
     try {
       const response = await Axios().post('Recipe/get/', searchData);
-=======
-    setIsLoading(true);
-    setHasSearched(true); // 設置為已經進行過搜索
-
-    try {
-      const response = await Axios().post('/recipe/search/analyze/', searchData);
->>>>>>> origin/main
       console.log('GET request successful:', response.data);
       setSearchResults(response.data);
     } catch (error) {
@@ -60,7 +43,6 @@ function RecipeSearchPage() {
     }
   };
 
-<<<<<<< HEAD
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -79,8 +61,6 @@ function RecipeSearchPage() {
     fetchData();
   }, []);
 
-=======
->>>>>>> origin/main
   const timeTags = ['15分鐘或更少', '30分鐘或更少', '60分鐘或更少', '60分鐘以上'];
   const cuisineTags = ['日式', '中式', '韓式', '西班牙', '義式', '德式', '墨西哥'];
   const healthTags = ['不含酒精', '低卡路里', '低蛋白', '高蛋白', '無麩質', '低鈉', '低膽固醇'];
@@ -96,15 +76,9 @@ function RecipeSearchPage() {
   return (
     <>
       <RecipeNav />
-<<<<<<< HEAD
       <Container className="searchpage-container">
         <div className="search-content">
           <Form.Group controlId="searchInput" className="mb-3">
-=======
-      <Container className="searchpage-container mt-5">
-        <div className="search-content mt-5">
-          <Form.Group controlId="searchInput" className="mb-3 mt-5">
->>>>>>> origin/main
             <Form.Control
               type="text"
               placeholder="輸入你想吃的類型或是食物名稱"
@@ -149,13 +123,6 @@ function RecipeSearchPage() {
               <Spinner animation="border" />
               <p>正在搜尋食譜，請稍候...</p>
             </div>
-<<<<<<< HEAD
-=======
-          ) : hasSearched && searchResults.length === 0 ? (
-            <div className="text-center mt-3">
-              <p>查無任何食譜</p>
-            </div>
->>>>>>> origin/main
           ) : (
             <SearchResult searchResults={searchResults} />
           )}

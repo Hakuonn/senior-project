@@ -1,24 +1,13 @@
 import React, { useEffect, useState } from 'react';
-<<<<<<< HEAD
 import KanBan from '../../../components/nav_and_footer/KanBan';
-=======
-import KanBan from 'components/nav_and_footer/KanBan';
->>>>>>> origin/main
 import { Button, Container, Modal } from 'react-bootstrap'; // 引入 react-bootstrap 的 Modal
 import { message, Steps } from 'antd';
 
 // components
-<<<<<<< HEAD
 import Bill from '../../../components/uberEat_C_C/CheckOut/Bill';
 import Pay from '../../../components/uberEat_C_C/CheckOut/Pay';
 import Almost from '../../../components/uberEat_C_C/CheckOut/Almost';
 import Axios from '../../../components/Axios';
-=======
-import Bill from 'components/uberEat_C_C/CheckOut/Bill';
-import Pay from 'components/uberEat_C_C/CheckOut/Pay';
-import Almost from 'components/uberEat_C_C/CheckOut/Almost';
-import Axios from 'components/Axios';
->>>>>>> origin/main
 
 import { ExclamationCircleFilled } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -59,7 +48,6 @@ function CheckOutPage() {
     // }
 
     Axios()
-<<<<<<< HEAD
   .post('order/member/create-from-cart/', JSON.stringify({
     cart_item_ids: cartIds,
     delivery_address: '無',
@@ -88,29 +76,6 @@ function CheckOutPage() {
       alert("發生錯誤，請稍後再試！");
     }
   });
-=======
-      .post('order/member/create-from-cart/', JSON.stringify({
-        cart_item_ids: cartIds,
-        delivery_address:'無',
-        payment_method: payment,
-        delivery_notes:orderNote,
-        scheduled_time:time
-      }))
-      .then((res) => {
-          setShowModal(false);
-          alert("訂購成功，請靜待賣家回覆，將會以信件通知您！")
-          navigate('/orders');
-      })
-      .catch((error) => {
-        if(error.response.status === 400){
-          alert("購物車中產品已被購買完畢！請重新下單～")
-          navigate('/Cart')
-        } else if (error.response.state === 404){ 
-          alert("產品可能已經下架，請重新下單～")
-          navigate('/Cart')
-        }
-      });
->>>>>>> origin/main
   };
   
   useEffect(() => {

@@ -3,19 +3,11 @@ import { Col, Container, Image, Row, Card, Button } from 'react-bootstrap'
 import { FaInstagram, FaSquareFacebook } from "react-icons/fa6"
 import { Link, useLocation , useParams } from "react-router-dom";
 import { Divider, Space, Tag } from 'antd';
-<<<<<<< HEAD
 import Meal from '../../../components/uberEat_C_C/StoreDetail/Product';
 import KanBan from '../../../components/nav_and_footer/KanBan';
 import Axios from '../../../components/Axios';
 import Comment from '../../../components/uberEat_C_C/StoreDetail/Comment';
 import StoreInfo from '../../../components/uberEat_C_C/StoreDetail/StoreInfo';
-=======
-import Meal from 'components/uberEat_C_C/StoreDetail/Product';
-import KanBan from 'components/nav_and_footer/KanBan';
-import Axios from 'components/Axios';
-import Comment from 'components/uberEat_C_C/StoreDetail/Comment';
-import StoreInfo from 'components/uberEat_C_C/StoreDetail/StoreInfo';
->>>>>>> origin/main
 ;
 
 
@@ -142,17 +134,10 @@ function Store({baseUrl}) {
 
   return (
     <>
-<<<<<<< HEAD
     <KanBan />
       <Container className='storedetail-page'>
         <div className='store'>
           <Container fluid>
-=======
-    <KanBan/>
-    <Container className='storedetail-page d-flex'>
-    <div className='store'>
-        <Container fluid>
->>>>>>> origin/main
             <StoreInfo id={parts} baseUrl={baseUrl} />
             <Row>
                 <Col>

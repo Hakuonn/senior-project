@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Table, Button, Spinner, Row, Col, Form, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-<<<<<<< HEAD
 import KanBan from '../../../components/nav_and_footer/KanBan';
 import Axios from '../../../components/Axios';
-=======
-import KanBan from 'components/nav_and_footer/KanBan';
-import Axios from 'components/Axios';
->>>>>>> origin/main
 
 
 /**
@@ -110,11 +105,7 @@ const ShoppingCart = () => {
   }
 
   return (
-<<<<<<< HEAD
     <Container fluid className="mt-5 pt-5">
-=======
-    <Container className="mt-5">
->>>>>>> origin/main
       <KanBan></KanBan>
       <h2 className="mb-4 text-left">購物車</h2>
       {Object.keys(groupedItems).map(storeName => (

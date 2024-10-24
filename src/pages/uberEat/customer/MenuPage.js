@@ -1,6 +1,5 @@
 import React, { useState , useEffect } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
-<<<<<<< HEAD
 import FoodTypeSelect from '../../../components/uberEat_C_C/menu/FoodTypeSelect';
 import Search from '../../../components/uberEat_C_C/menu/Search';
 import KanBan from '../../../components/nav_and_footer/KanBan';
@@ -9,16 +8,6 @@ import Axios from '../../../components/Axios';
 import MenuStoreList from '../../../components/uberEat_C_C/menu/MenuStoreList';
 import EmptyState from '../../../components/uberEat_C_C/menu/EmptyState';
 import RecommendStore from '../../../components/uberEat_C_C/menu/RecommendStore';
-=======
-import FoodTypeSelect from 'components/uberEat_C_C/menu/FoodTypeSelect';
-import Search from 'components/uberEat_C_C/menu/Search';
-import KanBan from 'components/nav_and_footer/KanBan';
-import Map from 'components/uberEat_C_C/menu/Map';
-import Axios from 'components/Axios';
-import MenuStoreList from 'components/uberEat_C_C/menu/MenuStoreList';
-import EmptyState from 'components/uberEat_C_C/menu/EmptyState';
-import RecommendStore from 'components/uberEat_C_C/menu/RecommendStore';
->>>>>>> origin/main
 
 /**
  * 買家端＿店家搜尋頁面

@@ -1,19 +1,11 @@
 import React from 'react'
 import { Col, Container, ListGroup, Row, Tab } from 'react-bootstrap'
 
-<<<<<<< HEAD
 import AboutVision from '../../../components/uberEat_C_C/aboutPages/AboutVision.js'
 import AboutEcobao from '../../../components/uberEat_C_C/aboutPages/AboutEcobao.js'
 import AboutSd from '../../../components/uberEat_C_C/aboutPages/AboutSd.js'
 
 import KanBan from '../../../components/nav_and_footer/KanBan'
-=======
-import AboutVision from 'components/uberEat_C_C/aboutPages/AboutVision.js'
-import AboutEcobao from 'components/uberEat_C_C/aboutPages/AboutEcobao.js'
-import AboutSd from 'components/uberEat_C_C/aboutPages/AboutSd.js'
-
-import KanBan from 'components/nav_and_footer/KanBan'
->>>>>>> origin/main
   
 
 function AboutMePage() {
