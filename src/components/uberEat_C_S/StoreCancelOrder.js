@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+// StoreCancelOrder.js
+import React, { useState } from 'react';
 import { Modal, Checkbox, Input } from 'antd';
 import Axios from '../Axios';
 
@@ -35,13 +36,6 @@ function StoreCancelOrder({ visible, onCancel, orderId, onOrderCancelled }) {
   const handleCancel = () => {
     onCancel();
   };
-
-  useEffect(() => {
-    if (!visible) {
-      setCancelReason([]);
-      setOtherReason("");
-    }
-  }, [visible]);
 
   return (
     <Modal

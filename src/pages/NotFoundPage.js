@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import KanBan from 'components/nav_and_footer/KanBan'
+import KanBan from '../components/nav_and_footer/KanBan'
 
 function NotFund() {
   return (

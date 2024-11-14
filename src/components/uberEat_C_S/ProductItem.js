@@ -12,7 +12,7 @@ function ProductItem({ item, onEdit, onAvailable, onUnavailable, onDelete }) {
 
   return (
     <Col>
-      <Card key={item.gid}>
+      <Card key={item.id}>
         <Card.Img variant="top" src={``} className='store-product-card-img' />
         <Card.Body>
           <Card.Title>{item.name}</Card.Title>
@@ -37,15 +37,15 @@ function ProductItem({ item, onEdit, onAvailable, onUnavailable, onDelete }) {
               </Col>
               <Col>
                 {status === true ? (
-                  <Button variant='outline-warning' className='store-product-buttons' onClick={() => onUnavailable(item.gid)}>下架</Button>
+                  <Button variant='outline-warning' className='store-product-buttons' onClick={() => onUnavailable(item.id)}>下架</Button>
                 ) 
                 : 
                 (
-                  <Button variant='outline-success' className='store-product-buttons' onClick={() => onAvailable(item.gid)}>上架</Button>
+                  <Button variant='outline-success' className='store-product-buttons' onClick={() => onAvailable(item.id)}>上架</Button>
                 )}
               </Col>
               <Col>
-                <Button variant="outline-danger" className='store-product-buttons' onClick={() => onDelete(item.gid)}>刪除</Button>
+                <Button variant="outline-danger" className='store-product-buttons' onClick={() => onDelete(item.id)}>刪除</Button>
               </Col>
             </Row>
           </Container>

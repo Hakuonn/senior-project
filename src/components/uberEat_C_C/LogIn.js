@@ -8,7 +8,7 @@ import LoginCard from './LoginCard'
 function LogIn() {
 
   return (
-    <Container className='login-div mb-4' style={{marginTop: '5vh'}}>
+    <Container className='login-div mb-4'>
         <h1 className='home-login-title' style={{textAlign:'center'}}>讓我們即刻開始吧！</h1>
         <CardGroup>
             {/* 使用者登入註冊 */}
