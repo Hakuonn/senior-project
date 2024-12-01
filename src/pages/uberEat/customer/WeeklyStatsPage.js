@@ -3,23 +3,42 @@ import { Line } from 'react-chartjs-2';
 import { Chart, CategoryScale, LinearScale, LineElement, PointElement, Tooltip, Legend, Title } from 'chart.js';
 import KanBan from 'components/nav_and_footer/KanBan';
 import { Container } from 'react-bootstrap';
+import HealthBubble from '../../../components/HealthBubble.js';
+import Axios from 'components/Axios.js';
 
 // 註冊需要的組件
 Chart.register(CategoryScale, LinearScale, LineElement, PointElement, Tooltip, Legend, Title);
 
 const WeeklyStatsPage = () => {
   const [weeklyData, setWeeklyData] = useState({
-    exercise: [30, 60, 45, 50, 90, 70, 80], // 每天的運動數據
-    water: [2000, 1800, 2200, 2500, 2300, 2400, 2100], // 每天的水分攝取數據
-    calories: [1800, 2000, 2100, 1900, 2000, 2200, 2100], // 每天的卡路里數據
+    water: [],
+    calories: [],
+    exercise: [],
+    days: [],
   });
 
-  // X 軸為每週的 7 天
-  const daysOfWeek = ['週一', '週二', '週三', '週四', '週五', '週六', '週日'];
+  useEffect(() => {
+    // 從 API 獲取每週數據
+    Axios()
+      .get("HM/daily/week_record/")
+      .then((response) => {
+        const data = response.data.data;
+        const formattedData = {
+          days: data.map((item) => item.date.slice(5)), // 提取日期 MM-DD
+          water: data.map((item) => item.total_water || 0), // 預設為 0
+          calories: data.map((item) => item.total_calories || 0),
+          exercise: data.map((item) => item.total_exercise_time || 0),
+        };
+        setWeeklyData(formattedData);
+      })
+      .catch((error) => {
+        console.error("獲取每週數據失敗：", error);
+      });
+  }, []);
 
-  // 使用者的每週健康數據
-  const chartData = {
-    labels: daysOfWeek,
+  // 水與卡路里的圖表數據
+  const waterCaloriesChartData = {
+    labels: weeklyData.days,
     datasets: [
       {
         label: '水分攝取 (ml)',
@@ -33,6 +52,20 @@ const WeeklyStatsPage = () => {
         data: weeklyData.calories,
         borderColor: '#ff9800',
         backgroundColor: 'rgba(255, 152, 0, 0.2)',
+        fill: true,
+      },
+    ],
+  };
+
+  // 運動時間的圖表數據
+  const exerciseChartData = {
+    labels: weeklyData.days,
+    datasets: [
+      {
+        label: '運動時間 (分鐘)',
+        data: weeklyData.exercise,
+        borderColor: '#4caf50',
+        backgroundColor: 'rgba(76, 175, 80, 0.2)',
         fill: true,
       },
     ],
@@ -59,11 +92,17 @@ const WeeklyStatsPage = () => {
 
   return (
     <div>
-    <KanBan/>
-        <Container>
-            <h2>本週健康狀況</h2>
-            <Line data={chartData} options={chartOptions} />
-        </Container>
+      <KanBan />
+      <Container>
+        <h2>本週健康狀況</h2>
+        {/* 水與卡路里的圖表 */}
+        <h3>水與卡路里趨勢</h3>
+        <Line data={waterCaloriesChartData} options={chartOptions} />
+        {/* 運動時間的圖表 */}
+        <h3>運動時間趨勢</h3>
+        <Line data={exerciseChartData} options={chartOptions} />
+        <HealthBubble /> {/* 確保 HealthBubble 元件存在，支援每日更新 */}
+      </Container>
     </div>
   );
 };

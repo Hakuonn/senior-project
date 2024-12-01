@@ -5,9 +5,9 @@ function Axios() {
         window.localStorage.setItem('jwt', 'None');
     }
     let jwt = `Bearer ${window.localStorage.getItem('jwt')}`;
-    console.log('JWT:', jwt); // 調試資訊
+
     const res = axios.create({
-        baseURL: 'http://140.133.74.162:12345/',
+        baseURL: process.env.REACT_APP_TEST_IP,
         timeout: 10000,
         headers: {
             'Authorization': jwt,
